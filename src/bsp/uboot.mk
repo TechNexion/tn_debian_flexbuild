@@ -43,7 +43,7 @@ define build-uboot-target
 	$(MAKE) -C $(BSPDIR)/uboot -j$(JOBS) O=$$opdir $(LOG_MUTE) && \
 	\
 	case "$1" in \
-		imx95*) \
+		*imx95*) \
 			if [ ! -d /usr/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi/bin ]; then \
 				bld host-dep -m "$(MACHINE)"; \
 			fi; \
@@ -52,7 +52,7 @@ define build-uboot-target
 			bld atf -m "$(MACHINE)" -b sd; \
 			$(call imx_mkimage_target, "$1") \
 			;; \
-		imx8*|imx91*|imx93*) \
+		*imx8*|*imx91*|*imx93*) \
 			bld atf -m "$(MACHINE)" -b sd; \
 			$(call imx_mkimage_target, "$1") \
 			;; \
