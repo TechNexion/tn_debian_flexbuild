@@ -71,7 +71,7 @@ define build-uboot-target
 	if echo $1 | grep -q ^ls1021a && [ ! -d $(FBOUTDIR)/bsp/rcw/$(MACHINE) ]; then \
 	    bld rcw -m $(MACHINE); \
 	fi && \
-	if echo $1 | grep -qE '^imx8|^imx9'; then \
+	if echo $1 | grep -qE 'imx8|imx9'; then \
 	    bld atf -m $(MACHINE) -b sd && \
 	    $(call imx_mkimage_target, $1) \
 	elif echo $1 | grep -qiE "mx6|mx7"; then \
