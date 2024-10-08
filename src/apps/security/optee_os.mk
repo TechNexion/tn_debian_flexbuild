@@ -24,6 +24,8 @@ ifeq ($(CONFIG_OPTEE),y)
 		 fi; \
 	elif [ $(SOCFAMILY) = IMX ]; then \
 		case $(MACHINE) in \
+			imx8mm*) brd=mx8mmevk; \
+				;; \
 			imx8mp*) brd=mx8mpevk; \
 				;; \
 			imx91*) brd=mx91evk; \
