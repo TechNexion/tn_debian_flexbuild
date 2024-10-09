@@ -45,6 +45,9 @@ define imx_mkimage_target
     \
     bl32=$(PKGDIR)/apps/security/optee_os/out/arm-plat-imx/core/tee_$(MACHINE).bin && \
     \
+    if cat $$opdir/.config | grep -qE CONFIG_OF_LIST;then \
+	DTBS=$$(grep -r "CONFIG_OF_LIST" $$opdir/.config | cut -d '=' -f2| sed 's|"||' | sed 's| | .dtb|g'| sed 's|"|.dtb|'); \
+    fi && \
 	case $(MACHINE) in \
 		imx8mpfrdm) \
 			SOC_FAMILY=iMX8M; \
@@ -65,7 +68,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-			$(MAKE) SOC=iMX8MP flash_evk $(LOG_MUTE); \
+			$(MAKE) SOC=iMX8MP dtbs="$${DTBS}" flash_evk $(LOG_MUTE); \
 			;; \
 		imx8mp-*) \
 			SOC_FAMILY=iMX8M; \
@@ -85,7 +88,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-			$(MAKE) SOC=iMX8MP flash_evk $(LOG_MUTE); \
+			$(MAKE) SOC=iMX8MP dtbs="$${DTBS}" flash_evk $(LOG_MUTE); \
 			;; \
 		imx8mp*) \
 			SOC_FAMILY=iMX8M; \
@@ -105,7 +108,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-			$(MAKE) SOC=iMX8MP flash_evk $(LOG_MUTE); \
+			$(MAKE) SOC=iMX8MP dtbs="$${DTBS}" flash_evk $(LOG_MUTE); \
 			;; \
 		imx8mm*) \
 			SOC_FAMILY=iMX8M; \
@@ -125,7 +128,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-			$(MAKE) SOC=iMX8MM flash_evk $(LOG_MUTE); \
+			$(MAKE) SOC=iMX8MM dtbs="$${DTBS}" flash_evk $(LOG_MUTE); \
 			;; \
 		imx8mn*) \
 			SOC_FAMILY=iMX8M; \
@@ -145,7 +148,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-			$(MAKE) SOC=iMX8MN flash_evk $(LOG_MUTE); \
+			$(MAKE) SOC=iMX8MN dtbs="$${DTBS}" flash_evk $(LOG_MUTE); \
 			;; \
 		imx8mq*) \
 			SOC_FAMILY=iMX8M; \
@@ -165,7 +168,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-			$(MAKE) SOC=iMX8M flash_evk $(LOG_MUTE); \
+			$(MAKE) SOC=iMX8M dtbs="$${DTBS}" flash_evk $(LOG_MUTE); \
 			;; \
         imx8qm*) \
 			SOC_FAMILY=iMX8QM; \
@@ -189,7 +192,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-			$(MAKE) SOC=iMX8QM flash $(LOG_MUTE); \
+			$(MAKE) SOC=iMX8QM dtbs="$${DTBS}" flash $(LOG_MUTE); \
             ;; \
         imx8qx*) \
 			SOC_FAMILY=iMX8QX; \
@@ -213,7 +216,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-            $(MAKE) SOC=iMX8QX flash $(LOG_MUTE); \
+            $(MAKE) SOC=iMX8QX dtbs="$${DTBS}" flash $(LOG_MUTE); \
             ;; \
 		imx8ulp*) \
 			SOC_FAMILY=iMX8ULP; \
@@ -240,7 +243,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-			$(MAKE) SOC=iMX8ULP flash_singleboot_m33 $(LOG_MUTE); \
+			$(MAKE) SOC=iMX8ULP dtbs="$${DTBS}" flash_singleboot_m33 $(LOG_MUTE); \
 			;; \
         imx91s*) \
 			SOC_FAMILY=iMX91; \
@@ -264,7 +267,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-            $(MAKE) SOC=iMX91 flash_singleboot $(LOG_MUTE) ; \
+            $(MAKE) SOC=iMX91 dtbs="$${DTBS}" flash_singleboot $(LOG_MUTE) ; \
             ;; \
         imx91frdm) \
 			SOC_FAMILY=iMX91; \
@@ -288,7 +291,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-            $(MAKE) SOC=iMX91 flash_singleboot $(LOG_MUTE) ; \
+            $(MAKE) SOC=iMX91 dtbs="$${DTBS}" flash_singleboot $(LOG_MUTE) ; \
             ;; \
         imx91evk) \
 			SOC_FAMILY=iMX91; \
@@ -312,7 +315,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-            $(MAKE) SOC=iMX91 flash_singleboot $(LOG_MUTE) ; \
+            $(MAKE) SOC=iMX91 dtbs="$${DTBS}" flash_singleboot $(LOG_MUTE) ; \
             ;; \
         imx93frdm) \
 			SOC_FAMILY=iMX93; \
@@ -339,7 +342,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-            $(MAKE) SOC=iMX93 flash_singleboot $(LOG_MUTE) ; \
+            $(MAKE) SOC=iMX93 dtbs="$${DTBS}" flash_singleboot $(LOG_MUTE) ; \
             ;; \
         imx93evk) \
 			SOC_FAMILY=iMX93; \
@@ -366,7 +369,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-            $(MAKE) SOC=iMX93 flash_singleboot $(LOG_MUTE) ; \
+            $(MAKE) SOC=iMX93 dtbs="$${DTBS}" flash_singleboot $(LOG_MUTE) ; \
             ;; \
         imx95evk) \
 			SOC_FAMILY=iMX95; \
@@ -392,7 +395,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-			$(MAKE) SOC=iMX95 REV=B0 OEI=YES LPDDR_TYPE=lpddr4x flash_all $(LOG_MUTE); \
+			$(MAKE) SOC=iMX95 dtbs="$${DTBS}" REV=B0 OEI=YES LPDDR_TYPE=lpddr4x flash_all $(LOG_MUTE); \
             ;; \
         imx95frdm) \
 			SOC_FAMILY=iMX95; \
@@ -418,7 +421,7 @@ define imx_mkimage_target
 				fi; \
 			fi;  \
 			cd $(BSPDIR)/imx_mkimage; \
-			$(MAKE) SOC=iMX95 REV=B0 OEI=YES LPDDR_TYPE=lpddr4x flash_all $(LOG_MUTE); \
+			$(MAKE) SOC=iMX95 dtbs="$${DTBS}" REV=B0 OEI=YES LPDDR_TYPE=lpddr4x flash_all $(LOG_MUTE); \
             ;; \
     esac && \
     cp $$SOC_FAMILY/flash.bin $(FBOUTDIR)/bsp/imx-mkimage/$(MACHINE)/flash.bin;
