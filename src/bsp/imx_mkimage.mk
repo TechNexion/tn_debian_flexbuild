@@ -86,17 +86,20 @@ define imx_mkimage_target
     fi && \
     cp -f $$opdir/tools/mkimage $(BSPDIR)/imx_mkimage/$$SOC_FAMILY/mkimage_uboot && \
     cp -f $(BSPDIR)/atf/build/$$plat/release/bl31.bin $(BSPDIR)/imx_mkimage/$$SOC_FAMILY/ && \
+    if cat $$opdir/.config | grep -qE CONFIG_OF_LIST;then \
+	DTBS=$$(grep -r "CONFIG_OF_LIST" $$opdir/.config | cut -d '=' -f2| sed 's|"||' | sed 's| | .dtb|g'| sed 's|"|.dtb|'); \
+    fi && \
     \
     if [ $${MACHINE:0:6} = imx8qm ];  then \
-	$(MAKE) SOC=iMX8QM -C iMX8QM -f soc.mak $$target; \
+	$(MAKE) SOC=iMX8QM dtbs="$${DTBS}" -C iMX8QM -f soc.mak $$target; \
     elif [ $${MACHINE:0:6} = imx8qx ]; then \
-	$(MAKE) SOC=iMX8QX REV=B0 -C iMX8QX -f soc.mak $$target; \
+	$(MAKE) SOC=iMX8QX dtbs="$${DTBS}" REV=B0 -C iMX8QX -f soc.mak $$target; \
     elif [ $${MACHINE:0:5} = imx91 ]; then \
-        $(MAKE) SOC=iMX91 REV=A0 -C iMX91 -f soc.mak $$target; \
+        $(MAKE) SOC=iMX91 dtbs="$${DTBS}" REV=A0 -C iMX91 -f soc.mak $$target; \
     elif [ $${MACHINE:0:5} = imx93 ]; then \
-	$(MAKE) SOC=iMX93 REV=A1 -C iMX93 -f soc.mak $$target; \
+	$(MAKE) SOC=iMX93 dtbs="$${DTBS}" REV=A1 -C iMX93 -f soc.mak $$target; \
     fi && \
-    $(MAKE) SOC=$$SOC $(REV_OPTION) $$target; \
+    $(MAKE) SOC=$$SOC dtbs="$${DTBS}" $(REV_OPTION) $$target; \
     mkdir -p $(FBOUTDIR)/bsp/imx-mkimage/$$brd && \
     cp $$SOC_FAMILY/flash.bin $(FBOUTDIR)/bsp/imx-mkimage/$$brd/flash.bin;
 endef
