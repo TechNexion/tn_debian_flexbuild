@@ -67,6 +67,26 @@ define imx_mkimage_target
 			cd $(BSPDIR)/imx_mkimage; \
 			$(MAKE) SOC=iMX8MP flash_evk $(LOG_MUTE); \
 			;; \
+		imx8mp-*) \
+			SOC_FAMILY=iMX8M; \
+			cp -f $(UTILSDIR)/firmware_imx/firmware/ddr/synopsys/*.bin $(BSPDIR)/imx_mkimage/$$SOC_FAMILY; \
+			cp -f $$opdir/arch/arm/dts/$(MACHINE)*.dtb $(BSPDIR)/imx_mkimage/$$SOC_FAMILY; \
+			cp -f $$opdir/tools/mkimage $(BSPDIR)/imx_mkimage/$$SOC_FAMILY/mkimage_uboot; \
+			cp -f $(BSPDIR)/atf/build/imx8mp/release/bl31.bin $(BSPDIR)/imx_mkimage/$$SOC_FAMILY/; \
+			cp -t $(BSPDIR)/imx_mkimage/$$SOC_FAMILY \
+				$(UTILSDIR)/firmware_imx/firmware/hdmi/cadence/signed*_imx8m.bin \
+				$$opdir/spl/u-boot-spl.bin $$opdir/u-boot.bin \
+				$$opdir/u-boot-nodtb.bin; \
+			if [ "$(CONFIG_OPTEE)" = "y" ]; then \
+				if [ ! -f "$$bl32" ]; then \
+					echo "$$bl32 does not exist, OPTEE was disabled automatically."; \
+				else \
+					cp -f $$bl32 $(BSPDIR)/imx_mkimage/$$SOC_FAMILY/tee.bin; \
+				fi; \
+			fi;  \
+			cd $(BSPDIR)/imx_mkimage; \
+			$(MAKE) SOC=iMX8MP flash_evk $(LOG_MUTE); \
+			;; \
 		imx8mp*) \
 			SOC_FAMILY=iMX8M; \
 			cp -f $(UTILSDIR)/firmware_imx/firmware/ddr/synopsys/*.bin $(BSPDIR)/imx_mkimage/$$SOC_FAMILY; \
