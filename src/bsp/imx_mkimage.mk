@@ -35,7 +35,7 @@ define imx_mkimage_target
 	bld mcore_demo; \
     fi && \
     \
-    if echo $1 | grep -qE ^imx8mp; then \
+    if echo $1 | grep -qE imx8mp; then \
 	SOC=iMX8MP; SOC_FAMILY=iMX8M; target=flash_evk; \
     elif echo $1 | grep -qE ^imx8mm; then \
 	SOC=iMX8MM; SOC_FAMILY=iMX8M; target=flash_evk; \
