@@ -51,6 +51,7 @@ linux:
 	$(MAKE) -j$(JOBS) modules -C $(KERNEL_PATH) O=$$opdir $(LOG_MUTE) && \
 	$(MAKE) -j$(JOBS)  modules_install INSTALL_MOD_PATH=$$opdir/tmp -C $(KERNEL_PATH) O=$$opdir $(LOG_MUTE) && \
 	ls $$opdir/arch/$$locarch/boot/dts/$$dtbstr | xargs -I {} cp {} $(FBOUTDIR)/linux/$(KERNEL_TREE)/$(DESTARCH)/$(SOCFAMILY) && \
+	ls $$opdir/arch/$$locarch/boot/dts/freescale/overlays/*imx*.dtbo | xargs -I {} cp {} $(FBOUTDIR)/linux/$(KERNEL_TREE)/$(DESTARCH)/$(SOCFAMILY) && \
 	ls -l $(FBOUTDIR)/linux/$(KERNEL_TREE)/$(DESTARCH)/$(SOCFAMILY) $(LOG_MUTE) && \
 	$(call fbprint_d,"$(KERNEL_TREE) $(KERNEL_BRANCH) in $(FBOUTDIR)/linux/$(KERNEL_TREE)/$(DESTARCH)/$(SOCFAMILY)")
 

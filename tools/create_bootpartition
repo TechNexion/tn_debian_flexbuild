@@ -26,7 +26,7 @@ generate_bootpartition_tarball() {
     [ -f $base_itb ] && cp -f $base_itb $bootpartdir
     kernelrelease=$(cat $KERNEL_OUTPUT_PATH/$KERNEL_BRANCH/include/config/kernel.release)
     [ $DESTARCH = arm64 ] && kernelimg=Image* || kernelimg=zImage*
-    cp -f $FBOUTDIR/linux/kernel/$DESTARCH/$SOCFAMILY/{*.dtb,$kernelimg,config-$kernelrelease} $bootpartdir
+    cp -f $FBOUTDIR/linux/kernel/$DESTARCH/$SOCFAMILY/{*.dtb*,$kernelimg,config-$kernelrelease} $bootpartdir
     if [ $DESTARCH = arm64 ]; then
         cp -f $FBOUTDIR/linux/kernel/$DESTARCH/$SOCFAMILY/vmlinuz-$kernelrelease $bootpartdir
     elif [ $DESTARCH = arm32 ]; then
