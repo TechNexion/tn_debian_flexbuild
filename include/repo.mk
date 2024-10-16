@@ -15,7 +15,7 @@ define repo-mngr
 	    commit=`grep -rE "^repo_$${tree}_commit" $(FBDIR)/configs/$(CONFIGLIST) $(FBDIR)/src/*/*/*.mk | cut -d= -f2` && commit=`echo $$commit | sed 's/\"//g'`; \
 	    tag=`grep -rE "^repo_$${tree}_tag" $(FBDIR)/configs/$(CONFIGLIST) $(FBDIR)/src/*/*/*.mk | cut -d= -f2` && tag=`echo $$tag | sed 's/\"//g'`; \
 	    repourl=`grep -rE "^repo_$${tree}_url" $(FBDIR)/configs/$(CONFIGLIST) $(FBDIR)/src/*/*/*.mk | cut -d= -f2` && repourl=`echo $$repourl | sed 's/\"//g'` && \
-	    if [ -z "$$tag" -a -z "$$commit" -a $(UPDATE_REPO_PER_TAG) = y ]; then tag=$(DEFAULT_REPO_TAG); fi; \
+	    if [ -z "$$tag" -a -z "$$commit" -a -z "$$branch" -a $(UPDATE_REPO_PER_TAG) = y ]; then tag=$(DEFAULT_REPO_TAG); fi; \
 	    repo_en=`grep -iE "^CONFIG_BUILD_$${tree}" $(FBDIR)/configs/$(CONFIGLIST) | cut -d= -f2`; \
 	    if [ $$tree = linux ]; then tree=$(KERNEL_TREE); fi; \
 	    tree=$(PKGDIR)/$3/$$tree && \
@@ -44,7 +44,7 @@ define repo-mngr
 		    git clone --recurse-submodules $$repourl $$tree $(LOG_MUTE) && cd $$tree && git checkout -f $$tag -b $$tag $(LOG_MUTE) && cd - $(LOG_MUTE); \
 		elif [ -n "$$commit" -a $(UPDATE_REPO_PER_COMMIT) = y ] || [ -n "$$commit" -a -z "$$branch" -a -z "$$tag" ]; then \
 		    git clone --recurse-submodules $$repourl $$tree $(LOG_MUTE) && cd $$tree && git checkout -f $$commit -b $$commit $(LOG_MUTE) && cd - $(LOG_MUTE); \
-		elif [ -n "$$branch" -a $(UPDATE_REPO_PER_BRANCH) = y ] || [ -z "$$tag" -a -n "$$branch" -a $(UPDATE_REPO_PER_TAG) = y ]; then \
+		elif [ -n "$$branch" -a $(UPDATE_REPO_PER_BRANCH) = y ] || [ -z "$$tag" -a -n "$$branch" -a -z "$$commit" ]; then \
 		    git clone --recurse-submodules $$repourl $$tree -b $$branch $(LOG_MUTE); \
 		else \
 		    $(call fbprint_w,"`basename $$tree`: missing repo branch/tag info in configs/$(CFGLISTYML)"); \
