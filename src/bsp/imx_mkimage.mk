@@ -53,11 +53,11 @@ define imx_mkimage_target
 	cp $(BSPDIR)/fw_ele/mx8ulpa2-ahab-container.img $(BSPDIR)/imx_mkimage/iMX8ULP; \
 	cp $(BSPDIR)/fw_upower/upower_a1.bin $(BSPDIR)/imx_mkimage/iMX8ULP/upower.bin; \
 	cp $(BSPDIR)/imx_mcore_demos/imx8ulp-m33-demo/imx8ulp_m33_TCM_rpmsg_lite_str_echo_rtos.bin $(BSPDIR)/imx_mkimage/iMX8ULP/m33_image.bin; \
-    elif echo $1 | grep -qE ^imx91; then \
+    elif echo $1 | grep -qE imx91; then \
 	SOC=iMX91; SOC_FAMILY=iMX91; target=flash_singleboot; \
 	cp $(BSPDIR)/fw_ele/mx91a*-ahab-container.img $(BSPDIR)/imx_mkimage/iMX91; \
 	cp $(BSPDIR)/fw_upower/upower_a*.bin $(BSPDIR)/imx_mkimage/iMX91/; \
-    elif echo $1 | grep -qE ^imx93; then \
+    elif echo $1 | grep -qE imx93; then \
 	SOC=iMX93; SOC_FAMILY=iMX93; target=flash_singleboot; \
 	cp $(BSPDIR)/fw_ele/mx93a*-ahab-container.img $(BSPDIR)/imx_mkimage/iMX93; \
 	cp $(BSPDIR)/fw_upower/upower_a*.bin $(BSPDIR)/imx_mkimage/iMX93/; \
