@@ -359,7 +359,7 @@ flex_install_distro() {
 
     if [ $instruction = auto -o $instruction = install -o $instruction = null ]; then
 	if [ $bootpartnum != 0 ]; then
-	    uuid_boot=$(lsblk -l --output UUID $bootdev | grep -)
+	    uuid_boot=$(blkid | grep $bootdev | sed 's| |\n|g'| grep ^UUID | cut -d '"' -f 2)
 	    [ -z "$uuid_boot" ] && print_e "Failed to get PARTUUID on $bootdev, please partition and format /dev/$devname" && exit
 	    bootmountfile=$rootpartition/lib/systemd/system/boot.mount
 	    if [ -f $bootmountfile ] && grep -q '^What=UUID=' $bootmountfile; then
@@ -386,8 +386,8 @@ flex_install_distro() {
     if [ "$enable_efi" = y ]; then
 	# configure grub.cfg for UEFI
 	if [ -f $bootpartition/grub/${machine}_grub.cfg ]; then
-	    partuuid_boot=`lsblk -l --output PARTUUID $bootdev | grep -`
-	    partuuid_root=`lsblk -l --output PARTUUID $rootdev | grep -`
+	    partuuid_boot=`blkid | grep $bootdev | sed 's| |\n|g'| grep ^PARTUUID | cut -d '"' -f 2`
+	    partuuid_root=`blkid | grep $rootdev | sed 's| |\n|g'| grep ^PARTUUID | cut -d '"' -f 2`
 	    sudo touch $bootpartition/$partuuid_boot
 	    sudo sed -i -e "s/partuuid_boot/$partuuid_boot/" -e "s/partuuid_root/$partuuid_root/" $bootpartition/grub/${machine}_grub.cfg
 	    if [ "$enable_acpi" = "y" ]; then
