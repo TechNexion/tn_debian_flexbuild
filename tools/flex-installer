@@ -361,7 +361,7 @@ flex_install_distro() {
 
     if [ $instruction = auto -o $instruction = install -o $instruction = null ]; then
 	if [ $bootpartnum != 0 ]; then
-	    uuid_boot=$(lsblk -l --output UUID $bootdev | grep -)
+	    uuid_boot=$(blkid | grep $bootdev | sed 's| |\n|g'| grep ^UUID | cut -d '"' -f 2)
 	    [ -z "$uuid_boot" ] && print_e "Failed to get PARTUUID on $bootdev, please partition and format /dev/$devname" && exit
 	    bootmountfile=$rootpartition/lib/systemd/system/boot.mount
 	    if [ -f $bootmountfile ] && grep -q '^What=UUID=' $bootmountfile; then
