@@ -27,4 +27,24 @@ imx_firmware:
 	     ./firmware_imx.bin --auto-accept && mv firmware-imx* firmware-imx && rm -f firmware_imx.bin; \
 	 fi && \
 	 cp -Prf $(BSPDIR)/firmware-imx/firmware/* $(FBOUTDIR)/bsp/imx_firmware/lib/firmware/imx/ && \
+	 \
+	 echo Installing bt/wifi firmware qca9377 && \
+	 cd $(BSPDIR) && \
+	 if [ ! -d $(BSPDIR)/QCA9377_FIRMWARE ]; then \
+	     cd $(BSPDIR) && \
+	     git clone https://oauth2:SbtQ_mC4fvJRA88_9jB7@gitlab.com/technexion-imx/qca_firmware.git QCA9377_FIRMWARE ; \
+	 fi && \
+	 cp -Prf $(BSPDIR)/QCA9377_FIRMWARE/* $(FBOUTDIR)/bsp/imx_firmware/lib/firmware/ && \
+	 \
+	 echo Installing bt/wifi firmware qca9377 of pcie card && \
+	 if [ ! -d $(BSPDIR)/ATH10K_FIRMWARE ]; then \
+	     cd $(BSPDIR) && \
+	     git clone  https://git.codelinaro.org/clo/ath-firmware/ath10k-firmware.git ATH10K_FIRMWARE ; \
+	 fi && \
+	 mkdir -p $(FBOUTDIR)/bsp/imx_firmware/lib/firmware/ath10k && \
+	 mkdir -p $(FBOUTDIR)/bsp/imx_firmware/lib/firmware/ath10k/QCA9377 && \
+	 mkdir -p $(FBOUTDIR)/bsp/imx_firmware/lib/firmware/ath10k/QCA9377/hw1.0 && \
+	 cp -Prf $(BSPDIR)/ATH10K_FIRMWARE/QCA9377/hw1.0/*.bin $(FBOUTDIR)/bsp/imx_firmware/lib/firmware/ath10k/QCA9377/hw1.0/ && \
+	 cp -Prf $(BSPDIR)/ATH10K_FIRMWARE/LICENSE.qca_firmware $(FBOUTDIR)/bsp/imx_firmware/lib/firmware/ath10k/QCA9377/hw1.0/ && \
+	 cp -Prf $(BSPDIR)/ATH10K_FIRMWARE/QCA9377/hw1.0/CNSS.TF.1.0/firmware-5.bin_CNSS.TF.1.0-00267-QCATFSWPZ-1 $(FBOUTDIR)/bsp/imx_firmware/lib/firmware/ath10k/QCA9377/hw1.0/firmware-5.bin && \
 	 $(call fbprint_d,"imx_firmware")
