@@ -1,0 +1,46 @@
+From 8cd06724ca003580a1d0f2e97744436b29fe290b Mon Sep 17 00:00:00 2001
+From: Joe Zhang <joe.zhang@technexion.com>
+Date: Fri, 8 Nov 2024 13:35:55 +0800
+Subject: [PATCH] clean error: unused variable 'buf' on debian compiler
+
+---
+ CORE/SERVICES/COMMON/adf/adf_trace.c | 9 ---------
+ 1 file changed, 9 deletions(-)
+
+diff --git a/CORE/SERVICES/COMMON/adf/adf_trace.c b/CORE/SERVICES/COMMON/adf/adf_trace.c
+index aef07fdbf..4f68f2a87 100644
+--- a/CORE/SERVICES/COMMON/adf/adf_trace.c
++++ b/CORE/SERVICES/COMMON/adf/adf_trace.c
+@@ -601,9 +601,6 @@ void adf_dp_trace_log_pkt(uint8_t session_id, struct sk_buff *skb,
+ void adf_dp_display_proto_pkt(struct adf_dp_trace_record_s *record,
+ 			      uint16_t index)
+ {
+-	struct adf_dp_trace_proto_buf *buf =
+-		(struct adf_dp_trace_proto_buf *)record->data;
+-
+ 	DPTRACE_PRINT("DPT: %04d: %s: %s vdev_id %d\n", index,
+ 		record->time, adf_dp_code_to_string(record->code),
+ 		buf->vdev_id);
+@@ -651,9 +648,6 @@ void adf_dp_trace_proto_pkt(enum ADF_DP_TRACE_ID code, uint8_t vdev_id,
+ void adf_dp_display_mgmt_pkt(struct adf_dp_trace_record_s *record,
+ 			      uint16_t index)
+ {
+-	struct adf_dp_trace_mgmt_buf *buf =
+-		(struct adf_dp_trace_mgmt_buf *)record->data;
+-
+ 	DPTRACE_PRINT("DPT: %04d: %s: %s vdev_id %d", index,
+ 		record->time, adf_dp_code_to_string(record->code),
+ 		buf->vdev_id);
+@@ -682,9 +676,6 @@ void adf_dp_trace_mgmt_pkt(enum ADF_DP_TRACE_ID code, uint8_t vdev_id,
+ void adf_dp_display_event_record(struct adf_dp_trace_record_s *record,
+ 			      uint16_t index)
+ {
+-	struct adf_dp_trace_event_buf *buf =
+-		(struct adf_dp_trace_event_buf *)record->data;
+-
+ 	DPTRACE_PRINT("DPT: %04d: %s: %s vdev_id %d", index,
+ 		record->time, adf_dp_code_to_string(record->code),
+ 		buf->vdev_id);
+-- 
+2.39.5
+

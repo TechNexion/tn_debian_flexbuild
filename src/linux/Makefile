@@ -11,6 +11,7 @@ include $(FBDIR)/configs/$(CONFIGLIST)
 include $(FBDIR)/include/repo.mk
 include $(FBDIR)/include/repo_update.inc
 include $(FBDIR)/src/apps/connectivity/nxp_wlan_bt.mk
+include $(FBDIR)/src/apps/connectivity/nxp_qca9377.mk
 
 include linux.mk
 include perf.mk
