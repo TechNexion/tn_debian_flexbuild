@@ -146,11 +146,11 @@ repo:
   cryptodev_linux:
     url:  https://github.com/cryptodev-linux/cryptodev-linux.git
     commit: bb8bc7cf60d
-    
+
   lttng_modules:
     url:  https://git.lttng.org/lttng-modules.git
     tag:  v2.13.9
-     
+
   mdio_proxy_module:
     url:  https://github.com/nxp-qoriq/mdio-proxy-module.git
 
@@ -187,7 +187,7 @@ repo:
   mtcp_dpdk:
     url:  https://github.com/nxpmicro/mtcp.git
 
-  aiopsl: 
+  aiopsl:
     url:  https://github.com/nxp-qoriq/aiopsl.git
 
   ceetm:
@@ -383,6 +383,9 @@ repo:
   nxp_wlan_bt:
     url:  https://github.com/nxp-imx/mwifiex.git
 
+  tn_qca9377:
+    url:  https://github.com/TechNexion/qcacld-2.0.git
+    commit: df70dfb7b50a496aa0a34cc2981002694adbc841
 
 # generic component repositories
   imx_test:
