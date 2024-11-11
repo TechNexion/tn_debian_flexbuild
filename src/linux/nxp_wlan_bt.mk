@@ -21,6 +21,11 @@ nxp_wlan_bt:
 	     git am $(FBDIR)/patch/nxp_wlan_bt/*.patch && touch .patchdone; \
 	 fi && \
 	 \
+	 mkdir -p $(DESTDIR)/lib && \
+	 mkdir -p $(DESTDIR)/lib/modprobe.d && \
+	 mkdir -p $(DESTDIR)/lib/modules-load.d && \
+	 echo "options moal mod_para=nxp/wifi_mod_para.conf" > $(DESTDIR)/lib/modprobe.d/moal.conf && \
+	 echo "moal" > $(DESTDIR)/lib/modules-load.d/moal.conf && \
 	 $(MAKE) build KERNELDIR=$(KERNEL_PATH) O=$$kerneloutdir -j$(JOBS) $(LOG_MUTE) && \
 	 kernelrelease=`cat $(KERNEL_OUTPUT_PATH)/$$curbrch/include/config/kernel.release` && \
 	 mkdir -p $(DESTDIR)/usr/share/nxp_wireless && \
