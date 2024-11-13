@@ -1,0 +1,11 @@
+[Unit]
+Description=setting uart bus for Bluetooth attach service
+ConditionPathIsDirectory=/sys/bus/platform/drivers/imx-sdma
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/setup_serial_btattach.sh
+ExecStartPost=/bin/systemctl disable setup-serial-btattach.service
+
+[Install]
+WantedBy=multi-user.target

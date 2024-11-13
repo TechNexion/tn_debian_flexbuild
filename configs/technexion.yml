@@ -387,6 +387,10 @@ repo:
     url:  https://github.com/TechNexion/qcacld-2.0.git
     commit: df70dfb7b50a496aa0a34cc2981002694adbc841
 
+  tn_bluez:
+    url: https://github.com/TechNexion/meta-tn-wifi.git
+    branch:  scarthgap_6.6.y
+
 # generic component repositories
   imx_test:
     url:  https://github.com/nxp-imx/imx-test.git
