@@ -31,4 +31,5 @@ RUN apt-get update && apt-get install -y \
 	chrpath diffstat scons libgflags-dev libhdf5-serial-dev python3-numpy python3-wheel \
 	python3-h5py kpartx bmap-tools python3-cryptography python3-paramiko python3-pyelftools \
 	zstd fdisk systemtap-sdt-dev libslang2-dev libcap-dev meson libglib2.0-dev gettext \
-	liborc-0.4-dev gtk-doc-tools valac pbzip2 libgnutls28-dev libcanberra-gtk3-dev
+	liborc-0.4-dev gtk-doc-tools valac pbzip2 libgnutls28-dev libcanberra-gtk3-dev \
+	libical-dev libreadline-dev python3-docutils
