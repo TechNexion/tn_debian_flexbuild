@@ -26,7 +26,7 @@ generate_bootpartition_tarball() {
     [ -f $base_itb ] && cp -f $base_itb $bootpartdir
     kernelrelease=$(cat $KERNEL_OUTPUT_PATH/$KERNEL_BRANCH/include/config/kernel.release)
     [ $DESTARCH = arm64 ] && kernelimg=Image* || kernelimg=zImage*
-    cp -f $FBOUTDIR/linux/kernel/$DESTARCH/$SOCFAMILY/{*.dtb*,$kernelimg,config-$kernelrelease} $bootpartdir
+    cp -f $FBOUTDIR/linux/kernel/$DESTARCH/$SOCFAMILY/{$kernelimg,config-$kernelrelease} $bootpartdir
     if [ $DESTARCH = arm64 ]; then
         cp -f $FBOUTDIR/linux/kernel/$DESTARCH/$SOCFAMILY/vmlinuz-$kernelrelease $bootpartdir
     elif [ $DESTARCH = arm32 ]; then
@@ -91,12 +91,33 @@ generate_bootpartition_tarball() {
     patchlevel=`grep "^PATCHLEVEL =" $KERNEL_PATH/Makefile | cut -d' ' -f3`
     sublevel=`grep "^SUBLEVEL =" $KERNEL_PATH/Makefile | cut -d' ' -f3`
     kernelver=$majorver.$patchlevel.$sublevel
-    boottarball=${bootpartname}_lts_${kernelver}${imaevmopt}_`date +%Y%m%d%H%M`
-    echo $boottarball > $bootpartdir/buildinfo
-    cd $bootpartdir && tar --zstd -cf ../$boottarball.tar.zst *
-    cd $FBOUTDIR/images && rm -rf ${bootpartname}_lts_${kernelver}${imaevmopt}
-    mv $bootpartname ${bootpartname}_lts_${kernelver}${imaevmopt}
-    ln -sf $boottarball.tar.zst ${bootpartname}_lts_${kernelver}${imaevmopt}.tar.zst
+    timestamp=`date +%Y%m%d%H%M`
+    [ $MACHINE = all ] && brdlist=$machinelist || brdlist=$MACHINE
+    for brd in $brdlist; do
+        if ( echo $brd | grep -qE $scrmask ); then
+            if ( echo $brd | grep -qE "evk" ); then
+                dtb=$(echo ${brd} | sed 's/\(.*\)\(evk\)/\1*\2*.dtb*/')
+            elif ( echo $brd | grep -qE "mek" ); then
+                dtb=$(echo ${brd} | sed 's/\(.*\)\(mek\)/\1*\2*.dtb*/')
+            elif ( echo $brd | grep -qE "frdm" ); then
+		dtb=$(echo ${brd} | sed 's/\(.*\)\(frdm\)/\1*\2*.dtb*/')
+            elif ( echo $brd | grep -qE "sabresd" ); then
+                dtb=$(echo ${brd} | sed 's/\(.*\)\(sabresd\)/\1*\2*.dtb*/')
+            else
+                dtb=${brd}*.dtb*
+            fi
+            ls $FBOUTDIR/bsp/u-boot/$socseries*/${brd}*_boot.scr | xargs -I {} cp -v {} $bootpartdir
+            cp -f $FBOUTDIR/linux/kernel/$DESTARCH/$SOCFAMILY/${dtb} $bootpartdir
+            boottarball=${bootpartname}_${brd}_lts_${kernelver}${imaevmopt}_${timestamp}
+            echo $boottarball > $bootpartdir/buildinfo
+            cd $bootpartdir && tar --zstd -cf ../$boottarball.tar.zst *
+            cd $FBOUTDIR/images && rm -rf ${bootpartname}_${brd}_lts_${kernelver}${imaevmopt}
+            cp -r $bootpartname ${bootpartname}_${brd}_lts_${kernelver}${imaevmopt}
+            rm $bootpartdir/*.dtb*
+            rm $bootpartdir/*boot.scr
+            ln -sf $boottarball.tar.zst ${bootpartname}_${brd}_lts_${kernelver}${imaevmopt}.tar.zst
 
-    fbprint_d $FBOUTDIR/images/$boottarball.tar.zst
+            fbprint_d $FBOUTDIR/images/$boottarball.tar.zst
+        fi
+    done
 }
