@@ -42,6 +42,17 @@ build_distro_rfs_debian() {
     sed -i '7d' ${PROFILE}
     sed -i '7i \ \ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"' ${PROFILE}
 
+    # add packages.technexion.gpg to rootfs
+    KEYRINGS=$PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/etc/apt/keyrings
+    SOURCES_LIST=$PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/etc/apt/sources.list.d
+    if [[ ! -f ${SOURCES_LIST}/vizionsdk.list ]];then
+        wget -qO- https://download.technexion.com/apt/technexion.asc | gpg --dearmor > packages.technexion.gpg
+        sudo install -D -o root -g root -m 644 packages.technexion.gpg $KEYRINGS/packages.technexion.gpg
+        sudo echo "deb [arch=arm64 signed-by=/etc/apt/keyrings/packages.technexion.gpg] https://download.technexion.com/apt/vizionsdk/ stable main" > $SOURCES_LIST/vizionsdk.list
+        sudo echo "deb [arch=arm64 signed-by=/etc/apt/keyrings/packages.technexion.gpg] https://download.technexion.com/apt/vizionviewer/ stable main" >> $SOURCES_LIST/vizionsdk.list
+        rm packages.technexion.gpg
+    fi
+
     [ -f $RFSDIR/etc/buildinfo ] || $sudopt rsync -aHAX $PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/* $RFSDIR
 
     if [ $DISTROVARIANT = server -o $DISTROVARIANT = desktop ]; then
