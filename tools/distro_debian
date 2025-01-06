@@ -42,6 +42,13 @@ build_distro_rfs_debian() {
     sed -i '7d' ${PROFILE}
     sed -i '7i \ \ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"' ${PROFILE}
 
+    # tweak: Let gdm3 depends on dbus and add more delay
+    GDM3_SERVICE=$PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/lib/systemd/system/gdm3.service
+    if (! grep -q "dbus" ${GDM3_SERVICE});then
+        sed -i '23i ExecStartPre=/bin/sleep\ 5' ${GDM3_SERVICE}
+        sed -i '4i After=dbus.service' ${GDM3_SERVICE}
+    fi
+
     # add packages.technexion.gpg to rootfs
     KEYRINGS=$PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/etc/apt/keyrings
     SOURCES_LIST=$PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/etc/apt/sources.list.d
