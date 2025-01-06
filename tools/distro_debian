@@ -35,6 +35,13 @@ build_distro_rfs_debian() {
 	     $PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH $mirroropt -f
     fi
 
+    # change merge all PATH to the same
+    PROFILE=$PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/etc/profile
+    sed -i '5d' ${PROFILE}
+    sed -i '5i \ \ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"' ${PROFILE}
+    sed -i '7d' ${PROFILE}
+    sed -i '7i \ \ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"' ${PROFILE}
+
     [ -f $RFSDIR/etc/buildinfo ] || $sudopt rsync -aHAX $PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/* $RFSDIR
 
     if [ $DISTROVARIANT = server -o $DISTROVARIANT = desktop ]; then
