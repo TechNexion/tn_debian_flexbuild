@@ -58,6 +58,7 @@ ls_pkgs=(
     python3-lxml libwaffle-dev libpciaccess-dev clinfo libcogl-pango-dev
     liborc-0.4-dev libbluetooth-dev libpangocairo-1.0-0 libvorbis-dev
     libjpeg62-turbo-dev libjsoncpp-dev dbus-user-session hostapd
+    gpiod picocom minicom evtest git iperf3 udhcpc bc can-utils
 )
 
 
