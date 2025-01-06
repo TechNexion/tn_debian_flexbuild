@@ -95,6 +95,15 @@ extra_server_devel_packages=" \
     libvorbis-dev \
     libjpeg62-turbo-dev \
     libjsoncpp-dev \
+    gpiod \
+    picocom \
+    minicom \
+    evtest \
+    git \
+    iperf3 \
+    udhcpc \
+    bc \
+    can-utils \
 "
 
 extra_desktop_devel_packages=" \
