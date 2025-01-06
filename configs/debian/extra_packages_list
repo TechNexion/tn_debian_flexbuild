@@ -104,6 +104,8 @@ extra_server_devel_packages=" \
     udhcpc \
     bc \
     can-utils \
+    pkexec \
+    vizionsdk vizionviewer \
 "
 
 extra_desktop_devel_packages=" \
