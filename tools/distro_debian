@@ -76,6 +76,15 @@ build_distro_rfs_debian() {
 		$sudopt bash $RFSCMD "$NEWRFSDIR" "${PKGS[@]}"
 	fi
 
+    # change merge all PATH to the same
+    PROFILE=$NEWRFSDIR/etc/profile
+    if [ -f ${PROFILE} ]; then
+        sed -i '5d' ${PROFILE}
+        sed -i '5i \ \ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"' ${PROFILE}
+        sed -i '7d' ${PROFILE}
+        sed -i '7i \ \ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"' ${PROFILE}
+    fi
+
     $sudopt bash $FBDIR/configs/debian/debian_post_config.sh "$NEWRFSDIR"
 
     if [ -z "$DISTROVARIANT" ] || [ "$DISTROVARIANT" != "base" ]; then
