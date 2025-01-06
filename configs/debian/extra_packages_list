@@ -90,3 +90,6 @@ gnome_pkgs=(
     gnome-sound-recorder rhythmbox
 )
 
+tn_pkgs=(
+    pkexec vizionsdk vizionviewer
+)
