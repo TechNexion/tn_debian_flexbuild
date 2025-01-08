@@ -1,0 +1,13 @@
+[Unit]
+Description=Disable Gnome Desktop auto suspend service
+
+After=dbus.service graphical.target gdm3.service
+
+[Service]
+ExecStart=/usr/bin/sudo -u debian /usr/sbin/disable_auto_suspend.sh
+ExecStartPost=/bin/systemctl disable disable_auto_suspend.service
+EnvironmentFile=-/etc/default/locale
+Type=oneshot
+
+[Install]
+WantedBy=graphical.target
