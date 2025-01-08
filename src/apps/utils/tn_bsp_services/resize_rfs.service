@@ -1,0 +1,14 @@
+[Unit]
+Description=Resize root filesystem to fit available disk space
+After=systemd-remount-fs.service
+DefaultDependencies=no
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+StandardOutput=journal+console
+ExecStart=-/usr/sbin/resize_rfs.sh
+ExecStartPost=/bin/systemctl disable resize_rfs.service
+
+[Install]
+WantedBy=multi-user.target
