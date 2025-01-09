@@ -1,0 +1,68 @@
+From c2673bdf6917cd25f00a578e61c6232c3715e95f Mon Sep 17 00:00:00 2001
+From: Joe Zhang <joe.zhang@technexion.com>
+Date: Thu, 9 Jan 2025 15:26:31 +0800
+Subject: [PATCH 2/2] ARM64: wizard board: change KEY_SUSPEND to KEY_POWER for
+ debian OS
+
+---
+ arch/arm64/boot/dts/freescale/imx8mm-edm-g-wizard.dts | 2 +-
+ arch/arm64/boot/dts/freescale/imx8mn-edm-g-wizard.dts | 2 +-
+ arch/arm64/boot/dts/freescale/imx8mp-axon-wizard.dts  | 2 +-
+ arch/arm64/boot/dts/freescale/imx8mp-edm-g-wizard.dts | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/freescale/imx8mm-edm-g-wizard.dts b/arch/arm64/boot/dts/freescale/imx8mm-edm-g-wizard.dts
+index 3c30f09ec52e..3b3bf2383541 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mm-edm-g-wizard.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mm-edm-g-wizard.dts
+@@ -256,7 +256,7 @@ MX8MM_IOMUXC_SAI5_MCLK_GPIO3_IO25		0x41 /* TOUCH_nRST, LVDS1_VDDEN */
+ };
+ 
+ &snvs_pwrkey {
+-	linux,keycode = <KEY_SUSPEND>;
++	linux,keycode = <KEY_POWER>;
+ 	status = "okay";
+ };
+ 
+diff --git a/arch/arm64/boot/dts/freescale/imx8mn-edm-g-wizard.dts b/arch/arm64/boot/dts/freescale/imx8mn-edm-g-wizard.dts
+index f0ff4669a213..5069e2fb3eb2 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mn-edm-g-wizard.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mn-edm-g-wizard.dts
+@@ -153,7 +153,7 @@ &usdhc2 {
+ };
+ 
+ &snvs_pwrkey {
+-	linux,keycode = <KEY_SUSPEND>;
++	linux,keycode = <KEY_POWER>;
+ 	status = "okay";
+ };
+ 
+diff --git a/arch/arm64/boot/dts/freescale/imx8mp-axon-wizard.dts b/arch/arm64/boot/dts/freescale/imx8mp-axon-wizard.dts
+index 06bb9624f809..210b77a75ee4 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mp-axon-wizard.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mp-axon-wizard.dts
+@@ -190,7 +190,7 @@ &gpio4 {
+ };
+ 
+ &snvs_pwrkey {
+-	linux,keycode = <KEY_SUSPEND>;
++	linux,keycode = <KEY_POWER>;
+ 	status = "okay";
+ };
+ 
+diff --git a/arch/arm64/boot/dts/freescale/imx8mp-edm-g-wizard.dts b/arch/arm64/boot/dts/freescale/imx8mp-edm-g-wizard.dts
+index 368940c8919b..df9104e67585 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mp-edm-g-wizard.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mp-edm-g-wizard.dts
+@@ -171,7 +171,7 @@ &gpio4 {
+ };
+ 
+ &snvs_pwrkey {
+-	linux,keycode = <KEY_SUSPEND>;
++	linux,keycode = <KEY_POWER>;
+ 	status = "okay";
+ };
+ 
+-- 
+2.34.1
+
