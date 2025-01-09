@@ -17,6 +17,7 @@ tn_bsp_services:
 	 ln -sf /usr/lib/systemd/system/resize_rfs.service $(DESTDIR)/etc/systemd/system/multi-user.target.wants/resize_rfs.service && \
 	 echo -e "[tn_bsp] install disable_auto_suspend..." && \
 	 install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/disable_auto_suspend.sh $(DESTDIR)/usr/sbin && \
+	 install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/setup_console_wakup_source.sh $(DESTDIR)/usr/sbin && \
 	 install -m 0644 $(FBDIR)/src/apps/utils/tn_bsp_services/disable_auto_suspend.service $(DESTDIR)/usr/lib/systemd/system && \
 	 ln -sf /usr/lib/systemd/system/disable_auto_suspend.service $(DESTDIR)/etc/systemd/system/graphical.target.wants/disable_auto_suspend.service && \
 	 $(call fbprint_d,"tn_bsp_services")

@@ -4,6 +4,7 @@ Description=Disable Gnome Desktop auto suspend service
 After=dbus.service graphical.target gdm3.service
 
 [Service]
+ExecStartPre=/bin/bash /usr/sbin/setup_console_wakup_source.sh
 ExecStart=/usr/bin/sudo -u debian /usr/sbin/disable_auto_suspend.sh
 ExecStartPost=/bin/systemctl disable disable_auto_suspend.service
 EnvironmentFile=-/etc/default/locale
