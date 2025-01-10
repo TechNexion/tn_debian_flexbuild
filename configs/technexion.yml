@@ -59,7 +59,7 @@ DEFAULT_PKGDIR: $FBDIR/components_${DISTRIB_VERSION}
 # default kernel config list
 KERNEL_CONFIG:
   ARM64_LS:  "defconfig lsdk.config"
-  ARM64_IMX: "defconfig imx.config imx_v8_defconfig"
+  ARM64_IMX: "defconfig imx.config imx_v8_defconfig  tn_imx8_defconfig"
   ARM32_LS:  "multi_v7_defconfig multi_v7_lpae.config lsdk.config"
   ARM32_IMX: "imx_v7_defconfig"
 
@@ -77,7 +77,8 @@ repo:
     url:  https://github.com/nxp-imx/imx-atf.git
 
   uboot:
-    url:  https://github.com/nxp-imx/uboot-imx.git
+    url:  https://github.com/TechNexion/u-boot-tn-imx.git
+    tag:  tn-scarthgap_6.6.52_2.2.0_20241230
 
   rcw:
     url:  https://github.com/nxp-qoriq/rcw.git
@@ -139,8 +140,8 @@ repo:
 
 # kernel and modules git repositories
   linux:
-    url:  https://github.com/nxp-imx/linux-imx.git
-    tag:  lf-6.6.36-2.1.0
+    url:  https://github.com/TechNexion/linux-tn-imx.git
+    tag:  tn-scarthgap_6.6.52_2.2.0_20241230
 
   cryptodev_linux:
     url:  https://github.com/cryptodev-linux/cryptodev-linux.git
