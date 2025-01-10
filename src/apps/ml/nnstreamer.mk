@@ -34,6 +34,11 @@ nnstreamer:
 	     bld tvm -r $(DISTROTYPE):$(DISTROVARIANT) -a $(DESTARCH); \
 	 fi && \
 	 \
+	 cd $(MLDIR)/tflite && \
+	 protoc --cpp_out=. tensorflow/lite/toco/model_flags.proto && \
+	 protoc --cpp_out=. tensorflow/lite/toco/types.proto && \
+	 protoc --cpp_out=. third_party/xla/third_party/tsl/tsl/protobuf/error_codes.proto && \
+	 cd $(MLDIR)/nnstreamer && \
 	 export CC="$(CROSS_COMPILE)gcc --sysroot=$(RFSDIR) -march=armv8-a+crc+crypto" && \
 	 export CXX="$(CROSS_COMPILE)g++ --sysroot=$(RFSDIR) -march=armv8-a+crc+crypto" && \
 	 export CXXFLAGS="-O2 -pipe -g -fPIC -feliminate-unused-debug-types -fcanon-prefix-map" && \
@@ -44,6 +49,12 @@ nnstreamer:
 		-Dc_args="-I$(DESTDIR)/usr/include -I$(RFSDIR)/usr/include" \
 		-Dcpp_args="-I$(DESTDIR)/usr/include -I$(RFSDIR)/usr/include -I$(MLDIR)/tvm/3rdparty/dmlc-core/include \
 			    -I$(MLDIR)/tflite/build_debian_arm64/abseil-cpp -I$(MLDIR)/tflite \
+				-I$(MLDIR)/tflite/third_party/xla/third_party/tsl  \
+				-I$(MLDIR)/tflite/build_debian_arm64/ml_dtypes \
+				-I$(MLDIR)/tflite/build_debian_arm64/eigen \
+				-I$(MLDIR)/tflite/build_debian_arm64/protobuf/src \
+				-I$(MLDIR)/tflite/build_debian_arm64/gemmlowp \
+				-Wno-error=ignored-qualifiers -Wno-error=redundant-decls \
 			    -Wno-error=comment -Wno-sign-compare -Wno-error=unused-parameter -Wno-error=redundant-decls" \
 		-Dc_link_args="-L$(DESTDIR)/usr/lib -L$(RFSDIR)/usr/lib/aarch64-linux-gnu" \
 		-Dcpp_link_args="-L$(DESTDIR)/usr/lib -L$(RFSDIR)/usr/lib/aarch64-linux-gnu" \
