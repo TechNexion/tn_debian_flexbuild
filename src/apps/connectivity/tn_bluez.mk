@@ -47,4 +47,5 @@ tn_bluez:
 	 make -C $(PKGDIR)/apps/connectivity/tn_bluez/bluez && \
 	 mkdir -p $(DESTDIR)/usr/bin && \
 	 install -m 0755 $(PKGDIR)/apps/connectivity/tn_bluez/bluez/tools/hciattach $(DESTDIR)/usr/bin/ && \
+	 install -m 0755 $(PKGDIR)/apps/connectivity/tn_bluez/bluez/tools/btgatt-client $(DESTDIR)/usr/bin/ && \
 	 $(call fbprint_d,"tn_bluez")
