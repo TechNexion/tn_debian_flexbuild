@@ -1,4 +1,4 @@
-From ae3a9cffd31f84941ffdf5fb7748cb1a9314a976 Mon Sep 17 00:00:00 2001
+From e45ad63e0de241a6b1c8c2910f9a3f22557ece90 Mon Sep 17 00:00:00 2001
 From: "haidong.zheng" <haidong.zheng@nxp.com>
 Date: Fri, 19 Jul 2024 17:14:35 +0800
 Subject: [PATCH 3/4] imx: imx91_frdm: Add basic board support
@@ -40,10 +40,10 @@ Signed-off-by: haidong.zheng <haidong.zheng@nxp.com>
  create mode 100644 include/configs/imx91_frdm.h
 
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index f3c4c035efb..6d8f4ded996 100644
+index e23421f689f..6d4e8a636e6 100644
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -1188,6 +1188,7 @@ dtb-$(CONFIG_ARCH_IMX9) += \
+@@ -1203,6 +1203,7 @@ dtb-$(CONFIG_ARCH_IMX9) += \
  	imx95-19x19-evk.dtb \
  	imx95-19x19-verdin.dtb \
  	imx91-11x11-evk.dtb \
@@ -878,10 +878,10 @@ index 00000000000..1e48cbf00b6
 +	};
 +};
 diff --git a/arch/arm/mach-imx/imx9/Kconfig b/arch/arm/mach-imx/imx9/Kconfig
-index 27f6ab091a5..f033e8c98b9 100644
+index abad8d89bdf..a1327477a6d 100644
 --- a/arch/arm/mach-imx/imx9/Kconfig
 +++ b/arch/arm/mach-imx/imx9/Kconfig
-@@ -39,6 +39,11 @@ config TARGET_IMX91_11X11_EVK
+@@ -41,6 +41,11 @@ config TARGET_IMX91_11X11_EVK
  	select OF_BOARD_FIXUP
  	select IMX91
  
@@ -893,10 +893,10 @@ index 27f6ab091a5..f033e8c98b9 100644
  config TARGET_IMX91_9X9_QSB
  	bool "imx91_9x9_qsb"
  	select IMX91
-@@ -89,6 +94,7 @@ endchoice
- 
+@@ -115,6 +120,7 @@ endchoice
  source "board/freescale/imx91_evk/Kconfig"
  source "board/freescale/imx91_qsb/Kconfig"
+ source "board/technexion/axon-imx91/Kconfig"
 +source "board/freescale/imx91_frdm/Kconfig"
  source "board/freescale/imx93_evk/Kconfig"
  source "board/freescale/imx93_frdm/Kconfig"
@@ -10125,5 +10125,5 @@ index 00000000000..c2dc6cfe7cd
 +
 +#endif
 -- 
-2.25.1
+2.34.1
 

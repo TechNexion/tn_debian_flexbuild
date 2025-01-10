@@ -1,7 +1,7 @@
-From 19d631d26ac7e8b2e121b50186f41a194340b10b Mon Sep 17 00:00:00 2001
+From 0e799b7e794bf6fc215f55c02dd8432a2409804a Mon Sep 17 00:00:00 2001
 From: Joseph Guo <qijian.guo@nxp.com>
 Date: Wed, 19 Jun 2024 13:10:45 +0300
-Subject: [PATCH 05/19] Add CTP support for waveshare panel
+Subject: [PATCH 5/9] Add CTP support for waveshare panel
 
 Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
 ---
@@ -27,10 +27,10 @@ index 581bf8c02980..6ab11d8dc218 100644
 +	};
  };
 diff --git a/arch/arm64/configs/imx_v8_defconfig b/arch/arm64/configs/imx_v8_defconfig
-index 9c0ab8bf0848..bd1c81b9d8f4 100644
+index 11345f813be9..3df23d35c348 100644
 --- a/arch/arm64/configs/imx_v8_defconfig
 +++ b/arch/arm64/configs/imx_v8_defconfig
-@@ -393,7 +393,7 @@ CONFIG_KEYBOARD_CROS_EC=y
+@@ -389,7 +389,7 @@ CONFIG_KEYBOARD_CROS_EC=y
  CONFIG_INPUT_TOUCHSCREEN=y
  CONFIG_TOUCHSCREEN_ATMEL_MXT=m
  CONFIG_TOUCHSCREEN_EXC3000=y
@@ -38,7 +38,7 @@ index 9c0ab8bf0848..bd1c81b9d8f4 100644
 +CONFIG_TOUCHSCREEN_GOODIX=y
  CONFIG_TOUCHSCREEN_ILITEK=y
  CONFIG_TOUCHSCREEN_EDT_FT5X06=m
- CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_I2C=m
+ CONFIG_TOUCHSCREEN_FTS=m
 diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
 index 8033fa86ff5f..9022f5eb4025 100644
 --- a/drivers/input/touchscreen/goodix.c
@@ -346,5 +346,5 @@ index 87797cc88b32..132e49d66324 100644
  
  int goodix_i2c_read(struct i2c_client *client, u16 reg, u8 *buf, int len);
 -- 
-2.25.1
+2.34.1
 
