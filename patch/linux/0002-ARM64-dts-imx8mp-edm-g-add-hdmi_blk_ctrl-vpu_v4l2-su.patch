@@ -1,0 +1,39 @@
+From 87e7058422b9e3c7ae52028a485fb4f452028a80 Mon Sep 17 00:00:00 2001
+From: Joe Zhang <joe.zhang@technexion.com>
+Date: Tue, 14 Jan 2025 16:19:57 +0800
+Subject: [PATCH 2/3] ARM64: dts: imx8mp-edm-g: add hdmi_blk_ctrl vpu_v4l2
+ support
+
+---
+ arch/arm64/boot/dts/freescale/imx8mp-edm-g.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/freescale/imx8mp-edm-g.dtsi b/arch/arm64/boot/dts/freescale/imx8mp-edm-g.dtsi
+index 5f8ee97f3f31..eb9fd962f3b4 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mp-edm-g.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mp-edm-g.dtsi
+@@ -323,6 +323,10 @@ &irqsteer_hdmi {
+ 	status = "okay";
+ };
+ 
++&hdmi_blk_ctrl {
++	status = "okay";
++};
++
+ &flexcan1 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_flexcan1>;
+@@ -947,6 +951,10 @@ &vpu_vc8000e {
+ 	status = "okay";
+ };
+ 
++&vpu_v4l2 {
++	status = "okay";
++};
++
+ &gpu_3d {
+ 	status = "okay";
+ };
+-- 
+2.34.1
+
