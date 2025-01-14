@@ -1,0 +1,27 @@
+From 44d9baa652f88fcb17d1def2a64828a13b11051d Mon Sep 17 00:00:00 2001
+From: Joe Zhang <joe.zhang@technexion.com>
+Date: Tue, 14 Jan 2025 18:29:36 +0800
+Subject: [PATCH 3/3] ARM64: dts: imx8mm-edm-g: add vpu_v4l2 support
+
+---
+ arch/arm64/boot/dts/freescale/imx8mm-edm-g.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/freescale/imx8mm-edm-g.dtsi b/arch/arm64/boot/dts/freescale/imx8mm-edm-g.dtsi
+index 10079bf7b091..9b0cd16e7b41 100755
+--- a/arch/arm64/boot/dts/freescale/imx8mm-edm-g.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mm-edm-g.dtsi
+@@ -783,6 +783,10 @@ &vpu_h1 {
+ 	status = "okay";
+ };
+ 
++&vpu_v4l2 {
++	status = "okay";
++};
++
+ &gpu {
+ 	status = "okay";
+ };
+-- 
+2.34.1
+
