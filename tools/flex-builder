@@ -823,7 +823,7 @@ shift
 done
 
 
-[ -z "$CFGLISTYML" ] && CFGLISTYML=sdk.yml
+[ -z "$CFGLISTYML" ] && CFGLISTYML=technexion.yml
 
 . $FBDIR/tools/parse_yaml $FBDIR/configs/$CFGLISTYML > $FBDIR/configs/.sdk.cfg
 . $FBDIR/tools/parse_yaml $FBDIR/configs/ml.yml >> $FBDIR/configs/.sdk.cfg
