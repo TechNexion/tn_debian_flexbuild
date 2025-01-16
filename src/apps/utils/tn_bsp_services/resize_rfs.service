@@ -7,8 +7,10 @@ Before=shutdown.target
 [Service]
 Type=oneshot
 StandardOutput=journal+console
-ExecStart=-/usr/sbin/resize_rfs.sh
-ExecStartPost=/bin/systemctl disable resize_rfs.service
+ExecStartPre=-/usr/sbin/resize_rfs.sh
+ExecStart=/bin/systemctl disable resize_rfs.service
+ExecStart=/bin/sleep 5
+ExecStart=/usr/sbin/reboot
 
 [Install]
 WantedBy=multi-user.target
