@@ -35,18 +35,17 @@ device (SD/eMMC card or USB/SATA disk) on target board or on host machine.
 
 ## Supported platforms
 ----------------------
+- __TechNexion iMX platform__:  
+imx8mp-edm-g, imx8mm-edm-g
+
 - __iMX platform__:  
 imx6qpsabresd, imx6qsabresd, imx6sllevk, imx7ulpevk, imx8mmevk, imx8mnevk, imx8mpevk,  
 imx8mqevk, imx8qmmek, imx8qxpmek, imx8ulpevk, imx93evk, imx91frdm, imx93frdm, etc
 
-- __Layerscape platform__:  
-ls1012ardb, ls1012afrwy, ls1028ardb, ls1043ardb, ls1046ardb, ls1046afrwy,
-ls1088ardb, ls2088ardb, ls2160ardb, lx2162aqds, etc
-
 
 ## Flexbuild Usage
 ------------------
-
+#### Setup docker env of debian 12
 ```
 $ cd flexbuild
 $ . setup.env  (in host environment)
@@ -58,16 +57,32 @@ Usage: bld -m <machine>
    or  bld <target> [ <option> ]
 ```
 
-Most used example with automated build:
+#### Most used example with automated build:
 ```
- bld -m imx8mpevk                # automatically build BSP + kernel + NXP-specific components + Debian RootFS for imx8mpevk platform
- bld -m lx2160ardb               # same as above, for lx2160ardb platform
- bld auto -p IMX (or -p LS)      # same as above, for all arm64 iMX (or Layerscape) platforms
+ bld -m imx8mp-edm-g                # automatically build BSP + kernel + NXP-specific components + Debian RootFS for TechNexion edm-g-imx8mp
+ bld -m imx8mm-edm-g                # same as above, for TechNexion edm-g-imx8mp
+ bld auto -p IMX                    # same as above, for all arm64 iMX platforms
 ```
 
-Most used example with separate command:
+#### Most used example with step-by-step build( Same result as using `$ bld auto -p IMX` ):
+(To build one platform only, you can swap `-p IMX` to `-m <machine>`)
 ```
- bld bsp -m imx93frdm            # generate BSP composite firmware (including atf/u-boot/kernel/dtb/peripheral-firmware/initramfs) for single machine
+# create general rootfs with NXP-specific components all IMX platforms
+ bld rfs -p IMX               # create rootfs with debian desktop, for other rootfs: [-r debian:server | -r debian:base | -r poky:tiny ]
+ bld apps -p IMX              # create NXP-specific components(apps) for all IMX platforms, depends on rootfs created above
+ bld merge-apps -p IMX        # merge NXP-specific components(apps) to rootfs.
+ bld packrfs -p IMX           # pack rootfs to 'build_lsdk2412>/images/'
+
+# create all boot image for all IMX platforms
+ bld boot -p IMX              # create boot partitions for all IMX pltforms to 'build_lsdk2412>/images/'
+
+# create all firmware image for all IMX platforms
+ bld fwall -p IMX             # create all fw for all IMX platforms to 'build_lsdk2412>/images/'
+```
+
+#### Most used example with separate command:
+```
+ bld bsp -m imx8mpevk            # generate BSP composite firmware (including atf/u-boot/kernel/dtb/peripheral-firmware/initramfs) for single machine
  bld bspall [ -p IMX|LS ]        # generate BSP composite firmware for all i.MX or LS machines
  bld rfs [ -r debian:desktop ]   # generate Debian-based Desktop rootfs  (with more graphics/multimedia packages for Desktop)
  bld rfs -r debian:server        # generate Debian-based Server rootfs   (with more server related packages, no GUI Desktop)
@@ -95,10 +110,39 @@ Most used example with separate command:
  bld host-dep                    # automatically install the depended deb packages on host
 ```
 
+## Deploy (flex-installer) usage example:
+( `flex-installer` is in `PATH` when running `$ . setenv`. If you don't, need to swap `flex-installer` to `./flex-installer` )
+### Go to build image folder
+```
+$ cd build_lsdk2412/images/
+```
+### Flash directly to block device(/dev/sd<X>):
+#### Format block device
+```
+$ flex-installer -i pf -d /dev/sd<x>
+```
+#### == For EDM-G-IMX8MP ==
+```
+$ flex-installer -m imx8mp-edm-g -d /dev/sd<X> -b boot_IMX_arm64_imx8mp-edm-g_lts_6.6.52 -f firmware_imx8mp-edm-g_sdboot.img -r rootfs_lsdk2412_debian_desktop_arm64.tar.zst
+```
+#### == For EDM-G-IMX8MM ==
+```
+$ flex-installer -m imx8mm-edm-g -d /dev/sd<X> -b boot_IMX_arm64_imx8mm-edm-g_lts_6.6.52 -f firmware_imx8mm-edm-g_sdboot.img -r rootfs_l2412_debian_desktop_arm64.tar.zst
+```
+### Create sdcard image (8GB size image named `sdcard.wic`):
+#### == For EDM-G-IMX8MP ==
+```
+$ flex-installer -m imx8mp-edm-g -i mkwic -b boot_IMX_arm64_imx8mp-edm-g_lts_6.6.52 -f firmware_imx8mp-edm-g_sdboot.img -r rootfs_lsdk2412_debian_desktop_arm64.tar.zst
+```
+#### == For EDM-G-IMX8MM ==
+```
+$ flex-installer -m imx8mm-edm-g -i mkwic -b boot_IMX_arm64_imx8mm-edm-g_lts_6.6.52 -f firmware_imx8mm-edm-g_sdboot.img -r rootfs_lsdk2412_debian_desktop_arm64.tar.zst
+```
+
 ## More info
 ------------
 Please refer to https://nxp.com/nxpdebian for more information about NXP Debian Linux SDK Distribution for i.MX and Layerscape.
 [i.MX Debian Linux SDK User's Guide](https://nxp.com/docs/en/user-guide/UG10155.pdf).
 [Layerscape Debian Linux SDK User's Guide](https://nxp.com/docs/en/user-guide/UG10143.pdf).
 
-[flexbuild_usage](docs/flexbuild_usage.md), [build_and_deploy_distro](docs/build_and_deploy_distro.md), [nxp_linux_sdk](docs/nxp_linux_sdk.md) for detailed information.
+[flexbuild_usage](docs/flexbuild_usage.md), [build_and_deploy_distro](docs/build_and_deploy_distro.md), [nxp_linux_](docs/nxp_linux_.md) for detailed information.
