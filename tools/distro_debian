@@ -44,7 +44,7 @@ build_distro_rfs_debian() {
 
     # tweak: Let gdm3 depends on dbus and add more delay
     GDM3_SERVICE=$PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/lib/systemd/system/gdm3.service
-    if (! grep -q "dbus" ${GDM3_SERVICE});then
+    if [[ ! $(grep -q "dbus" ${GDM3_SERVICE}) && "${DISTROVARIANT}" == "desktop" ]];then
         sed -i '23i ExecStartPre=/bin/sleep\ 5' ${GDM3_SERVICE}
         sed -i '4i After=dbus.service' ${GDM3_SERVICE}
     fi
