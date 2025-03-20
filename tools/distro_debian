@@ -87,12 +87,12 @@ build_distro_rfs_debian() {
 
     # add packages.technexion.gpg to rootfs
     KEYRINGS=$NEWRFSDIR/etc/apt/keyrings
-    SOURCES_LIST=$NEWRFSDIR/etc/apt/sources.list.d
-    if [[ ! -f ${SOURCES_LIST}/vizionsdk.list ]];then
+    SOURCES_LIST=$NEWRFSDIR/etc/apt/sources.list.d/vizionsdk.list
+    if [[ ! -f ${SOURCES_LIST} ]];then
         wget -qO- https://download.technexion.com/apt/technexion.asc | gpg --dearmor > packages.technexion.gpg
-        sudo install -D -o root -g root -m 644 packages.technexion.gpg $KEYRINGS/packages.technexion.gpg
-        sudo echo "deb [arch=arm64 signed-by=/etc/apt/keyrings/packages.technexion.gpg] https://download.technexion.com/apt/vizionsdk/ stable main" > $SOURCES_LIST/vizionsdk.list
-        sudo echo "deb [arch=arm64 signed-by=/etc/apt/keyrings/packages.technexion.gpg] https://download.technexion.com/apt/vizionviewer/ stable main" >> $SOURCES_LIST/vizionsdk.list
+        $sudopt install -D -o root -g root -m 644 packages.technexion.gpg $KEYRINGS/packages.technexion.gpg
+        echo "deb [arch=arm64 signed-by=/etc/apt/keyrings/packages.technexion.gpg] https://download.technexion.com/apt/vizionsdk/ stable main" | $sudopt tee $SOURCES_LIST
+        echo "deb [arch=arm64 signed-by=/etc/apt/keyrings/packages.technexion.gpg] https://download.technexion.com/apt/vizionviewer/ stable main" | $sudopt tee -a $SOURCES_LIST
         rm packages.technexion.gpg
         rfs_mount $NEWRFSDIR
         log_mute $sudopt chroot $NEWRFSDIR /bin/bash -c "apt-get update && apt-get install -y ${tn_pkgs[*]}"
