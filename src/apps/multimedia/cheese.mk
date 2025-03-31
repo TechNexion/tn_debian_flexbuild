@@ -12,7 +12,7 @@
 
 
 cheese: clutter_gst gst_plugins_bad
-	@[ $(DISTROVARIANT) != desktop -o $(SOCFAMILY) != IMX ] && exit || \
+	@[ $(DISTROVARIANT) != desktop -o $(SOCFAMILY) != IMX -o $(CFGLISTYML) == tn_container.yml ] && exit || \
 	 $(call repo-mngr,fetch,cheese,apps/multimedia) && \
 	 cd $(MMDIR)/cheese && \
 	 if [ ! -f .patchdone ]; then \
