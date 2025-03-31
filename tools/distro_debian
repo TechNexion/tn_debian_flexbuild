@@ -30,8 +30,10 @@ build_distro_rfs_debian() {
 
     if [ ! -f $PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/etc/buildinfo ]; then
 	[ -f /usr/bin/bdebstrap ] || $sudopt apt-get install -y bdebstrap
+    DISTROVAR=${DISTROVARIANT}
+    [ "${CFGLISTYML}" == tn_container.yml ] && DISTROVAR=container
 	[ -f $PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH ] || \
-	$sudopt bdebstrap -c $FBDIR/configs/debian/${DISTROTYPE}_${DISTROVARIANT}_${DESTARCH}.yaml --name \
+	$sudopt bdebstrap -c $FBDIR/configs/debian/${DISTROTYPE}_${DISTROVAR}_${DESTARCH}.yaml --name \
 	     $PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH $mirroropt -f
     fi
 
@@ -43,10 +45,12 @@ build_distro_rfs_debian() {
     sed -i '7i \ \ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"' ${PROFILE}
 
     # tweak: Let gdm3 depends on dbus and add more delay
-    GDM3_SERVICE=$PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/lib/systemd/system/gdm3.service
-    if [[ ! $(grep -q "dbus" ${GDM3_SERVICE}) && "${DISTROVARIANT}" == "desktop" ]];then
-        sed -i '23i ExecStartPre=/bin/sleep\ 5' ${GDM3_SERVICE}
-        sed -i '4i After=dbus.service' ${GDM3_SERVICE}
+    if [ "${CFGLISTYML}" != tn_container.yml ]; then
+        GDM3_SERVICE=$PKGDIR/${DEBIAN_CODENAME}_${DISTROVARIANT}_$DESTARCH/rootfs/lib/systemd/system/gdm3.service
+        if [[ ! $(grep -q "dbus" ${GDM3_SERVICE}) && "${DISTROVARIANT}" == "desktop" ]];then
+            sed -i '23i ExecStartPre=/bin/sleep\ 5' ${GDM3_SERVICE}
+            sed -i '4i After=dbus.service' ${GDM3_SERVICE}
+        fi
     fi
 
     # add packages.technexion.gpg to rootfs
