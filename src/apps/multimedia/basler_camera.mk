@@ -7,7 +7,7 @@
 
 
 basler_camera:
-	@[ $(DISTROVARIANT) != desktop -o $(SOCFAMILY) != IMX ] && exit || \
+	@[ $(DISTROVARIANT) != desktop -o $(SOCFAMILY) != IMX -o $(CFGLISTYML) == tn_container.yml ] && exit || \
 	 $(call fbprint_b,"basler_camera") && \
 	 cd $(MMDIR) && \
 	 if [ ! -d $(MMDIR)/basler_camera ]; then \

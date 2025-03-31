@@ -12,7 +12,7 @@
 
 
 cheese:
-	@[ $(DISTROVARIANT) != desktop -o $(SOCFAMILY) != IMX ] && exit || \
+	@[ $(DISTROVARIANT) != desktop -o $(SOCFAMILY) != IMX -o $(CFGLISTYML) == tn_container.yml ] && exit || \
 	 $(call fbprint_b,"cheese") && \
 	 $(call repo-mngr,fetch,cheese,apps/multimedia) && \
 	 cd $(MMDIR)/cheese && \
