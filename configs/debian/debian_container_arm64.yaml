@@ -1,0 +1,99 @@
+# Copyright 2025 TechNexion
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+# Ray Chang <ray.chang@technexion.com>
+#
+# Customized Debian container rootfs for TechNexion i.MX platforms
+
+
+---
+mmdebstrap:
+  architectures:
+    - arm64
+  mode: auto
+  keyrings:
+    - /usr/share/keyrings/debian-archive-keyring.gpg
+  mirrors:
+    - http://ftp.cn.debian.org/debian
+    - http://ftp.de.debian.org/debian
+  suite: bookworm
+  target: rootfs
+  hostname: localhost
+  variant: standard
+  components:
+    - main
+    - contrib
+  packages:
+    - init
+    - udev
+    - sudo
+    - apt
+    - file
+    - iputils-ping
+    - ca-certificates
+    - psmisc   # for fuser, killall, etc
+    - patchelf
+    - util-linux
+    - keyutils
+    - ntpdate
+    - pciutils
+    - usbutils # for lsusb
+    - libhugetlbfs0
+    - fbset
+    - linuxptp
+    - xterm
+    - pipewire
+    - pipewire-audio
+    - pipewire-pulse
+    - wireplumber
+    - libinput-tools
+    - libqt6core6
+    - qt6-base-dev
+    - qt6-wayland
+    - qt6-declarative-dev # for Qt application
+    - qml6-module-qtquick
+    - qml6-module-qtquick-controls
+    - qml6-module-qtquick-window
+    - qml6-module-qtquick-templates
+    - qml6-module-qtquick-layouts
+    - qml6-module-qtqml-workerscript
+    - qml6-module-qt5compat-graphicaleffects
+    - glmark2-es2-wayland
+    - libgles2-mesa
+    - clinfo
+    - v4l-utils
+    - mesa-utils
+    - alsa-utils
+  setup-hooks:
+      # Setup NXP board-specific configurations for various platforms
+    - 'mkdir -p $1/usr/local/bin $1/etc/udev/rules.d $1/etc/modprobe.d'
+  essential-hooks:
+    - 'sleep 10'
+  customize-hooks:
+    - 'chroot "$1" apt purge -y xserver-xorg xserver-xorg-core xserver-xorg-legacy gnome-games gnome-chess apache2-bin'
+    - 'chroot "$1" useradd -m -d /home/debian -s /bin/bash debian'
+    - 'chroot "$1" gpasswd -a debian sudo'
+    - 'chroot "$1" usermod -aG sudo debian'
+    - 'chroot "$1" passwd --delete root'
+    - 'chroot "$1" passwd --delete debian'
+    - 'chroot "$1" apt-get update'
+    - 'chroot "$1" cp /etc/skel/.bashrc ~/.bashrc'
+    - 'chroot "$1" echo "PermitRootLogin yes" >> $1/etc/ssh/sshd_config'
+    - 'chroot "$1" echo "PermitEmptyPasswords yes" >> $1/etc/ssh/sshd_config'
+    - 'cp tools/flex-installer $1/usr/bin/'
+    - 'cp tools/resizerfs $1/usr/bin/'
+    - 'cp src/system/udev/udev-rules-*/*.rules $1/etc/udev/rules.d/'
+    - 'cp src/system/distroplatcfg $1/usr/bin/'
+    - 'cp src/system/blacklist.conf $1/etc/modprobe.d/'
+    - 'cp src/system/ts.conf $1/etc/'
+    - 'chroot "$1" ln -s /boot/tools/perf /usr/local/bin/perf'
+    - 'chroot "$1" ln -s /sbin/init /init'
+    - 'chroot "$1" rm -rf /lib/firmware'
+    - 'cp src/system/gpuconfig $1/etc/'
+    - 'printf "COGL_DRIVER=gles2\nCLUTTER_DRIVER=gles2\nQT_QPA_PLATFORM=wayland\nGDK_GL=gles" >> $1/etc/environment'
+    - 'printf "/usr/lib\n" >> $1/etc/ld.so.conf.d/01-sdk.conf'
+    - 'printf " * Support:   https://www.nxp.com/support\n" >> $1/etc/update-motd.d/20-help-text'
+    - 'printf " * Licensing: https://lsdk.github.io/eula\n" >> $1/etc/update-motd.d/20-help-text'
+    - 'printf "NXP Linux SDK 2412 Debian Desktop (optimized with NXP-specific hardware acceleration)\n" >> $1/etc/issue'
+    - 'printf "Build: `date --rfc-3339 seconds`\n" >> $1/etc/buildinfo'
