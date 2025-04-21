@@ -114,6 +114,7 @@ mmdebstrap:
     - mesa-utils
     - alsa-utils
     - dmz-cursor-theme
+    - zram-tools
   setup-hooks:
       # Setup NXP board-specific configurations for various platforms
     - 'mkdir -p $1/usr/local/bin $1/etc/udev/rules.d $1/etc/modprobe.d'
@@ -152,6 +153,7 @@ mmdebstrap:
     - 'cp src/system/gpuconfig.service $1/lib/systemd/system/'
     - 'chroot "$1" ln -s /lib/systemd/system/gpuconfig.service /etc/systemd/system/graphical.target.wants/gpuconfig.service'
     - 'chroot "$1" ln -s /usr/lib/systemd/system/graphical.target /etc/systemd/system/default.target'
+    - 'chroot "$1" echo -e "ALGO=zstd\nPERCENT=60" >> $1/etc/default/zramswap'
     - 'printf "COGL_DRIVER=gles2\nCLUTTER_DRIVER=gles2\nQT_QPA_PLATFORM=wayland\nGDK_GL=gles" >> $1/etc/environment'
     - 'printf "/usr/lib\n" >> $1/etc/ld.so.conf.d/01-sdk.conf'
     - 'printf " * Support:   https://www.nxp.com/support\n" >> $1/etc/update-motd.d/20-help-text'
