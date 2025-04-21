@@ -115,6 +115,7 @@ mmdebstrap:
     - alsa-utils
     - locales
     - dmz-cursor-theme
+    - zram-tools
   setup-hooks:
       # Setup NXP board-specific configurations for various platforms
     - 'mkdir -p $1/usr/local/bin $1/etc/udev/rules.d $1/etc/modprobe.d'
@@ -157,6 +158,7 @@ mmdebstrap:
     - 'chroot "$1" sed -i -e "s/.*zh_CN.UTF-8.*/zh_CN.UTF-8 UTF-8/" -e "s/.*en_US.UTF-8.*/en_US.UTF-8 UTF-8/"  /etc/locale.gen'
     - 'chroot "$1" /usr/sbin/locale-gen'
     - 'chroot "$1" /usr/sbin/update-locale LANG=en_US.UTF-8'
+    - 'chroot "$1" echo -e "ALGO=zstd\nPERCENT=60" >> $1/etc/default/zramswap'
     - 'printf "COGL_DRIVER=gles2\nCLUTTER_DRIVER=gles2\nQT_QPA_PLATFORM=wayland\nGDK_GL=gles\n" >> $1/etc/environment'
     - 'printf "QT_QUICK_BACKEND=software\n" >> $1/etc/environment'
     - 'printf "\nexport DISPLAY=:0\nexport WAYLAND_DISPLAY=wayland-1" >> $1/root/.bashrc'
