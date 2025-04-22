@@ -114,6 +114,7 @@ mmdebstrap:
     - mesa-utils
     - alsa-utils
     - dmz-cursor-theme
+    - modemmanager
     - zram-tools
   setup-hooks:
       # Setup NXP board-specific configurations for various platforms
