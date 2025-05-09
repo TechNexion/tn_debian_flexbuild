@@ -1,7 +1,7 @@
-From 022e614e977d0f7d16cc0d0abca2287b3130dea1 Mon Sep 17 00:00:00 2001
+From 583bd0ad6ccf2f7723e0fbae6e8623d574b3ace3 Mon Sep 17 00:00:00 2001
 From: "haidong.zheng" <haidong.zheng@nxp.com>
 Date: Fri, 31 May 2024 17:02:11 +0800
-Subject: [PATCH 1/4] net: phy: motorcomm: Add support for YT8521 PHY
+Subject: [PATCH 1/5] net: phy: motorcomm: Add support for YT8521 PHY
 
 Signed-off-by: haidong.zheng <haidong.zheng@nxp.com>
 ---
@@ -200,5 +200,5 @@ index a2c763c8791..ffcbda8053c 100644
 +	.shutdown	   = &genphy_shutdown,
  };
 -- 
-2.34.1
+2.25.1
 

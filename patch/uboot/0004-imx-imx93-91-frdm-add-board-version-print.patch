@@ -1,7 +1,7 @@
-From 4265fa8285d5a0d8b129371cae0fbfcc8ddb1dec Mon Sep 17 00:00:00 2001
+From a40b1f50b26f8b8aa27e9e3605b46d041bd53d39 Mon Sep 17 00:00:00 2001
 From: "haidong.zheng" <haidong.zheng@nxp.com>
 Date: Tue, 24 Sep 2024 16:31:17 +0800
-Subject: [PATCH 4/4] imx: imx93/91 frdm add board version print
+Subject: [PATCH 4/5] imx: imx93/91 frdm add board version print
 
 Signed-off-by: haidong.zheng <haidong.zheng@nxp.com>
 ---
@@ -148,5 +148,5 @@ index 37667d0c06b..1f514faf625 100644
  	if (IS_ENABLED(CONFIG_FEC_MXC))
  		setup_fec();
 -- 
-2.34.1
+2.25.1
 

@@ -1,7 +1,7 @@
-From c485bb323272775798f552c235ea717626978424 Mon Sep 17 00:00:00 2001
+From efa2361d1e305ee50cc2bf3180945ecfe829c0de Mon Sep 17 00:00:00 2001
 From: Joe Zhang <joe.zhang@technexion.com>
 Date: Fri, 11 Oct 2024 17:51:49 +0800
-Subject: [PATCH] fix issue failed to boot kernel itb image
+Subject: [PATCH 5/5] fix issue failed to boot kernel itb image
 
 CONFIG_SYS_BOOTM_LEN: from 0x2000000 to 0x4000000
 
@@ -894,5 +894,5 @@ index 36a55a382d7..275302f8b4d 100644
  # CONFIG_CMD_IMPORTENV is not set
  CONFIG_CMD_ERASEENV=y
 -- 
-2.34.1
+2.25.1
 
