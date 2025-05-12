@@ -34,7 +34,7 @@ device (SD/eMMC card or USB/SATA disk) on target board or on host machine.
 ## Supported platforms
 ----------------------
 - __TechNexion iMX platform__:
-imx8mp-edm-g, imx8mm-edm-g
+imx8mp-edm-g, imx8mm-edm-g, imx8mp-axon, pico-imx8mm, imx93-axon, imx93-edm
 
 - __iMX platform__:
 imx8mmevk, imx8mpevk, imx8mpfrdm, imx93evk, imx93frdm, imx91evk, imx91frdm, imx91sfrdm, imx95evk, imx95frdm
