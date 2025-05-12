@@ -78,7 +78,7 @@ repo:
 
   uboot:
     url:  https://github.com/TechNexion/u-boot-tn-imx.git
-    tag:  tn-scarthgap_6.6.52_2.2.0_20250402
+    tag:  tn-scarthgap_6.6.52_2.2.0_20250512
 
   rcw:
     url:  https://github.com/nxp-qoriq/rcw.git
@@ -141,16 +141,16 @@ repo:
 # kernel and modules git repositories
   linux:
     url:  https://github.com/TechNexion/linux-tn-imx.git
-    tag:  tn-scarthgap_6.6.52_2.2.0_20250402
+    tag:  tn-scarthgap_6.6.52_2.2.0_20250512
 
   cryptodev_linux:
     url:  https://github.com/cryptodev-linux/cryptodev-linux.git
     commit: bb8bc7cf60d
-    
+
   lttng_modules:
     url:  https://git.lttng.org/lttng-modules.git
     tag:  v2.13.9
-     
+
   mdio_proxy_module:
     url:  https://github.com/nxp-qoriq/mdio-proxy-module.git
 
@@ -187,7 +187,7 @@ repo:
   mtcp_dpdk:
     url:  https://github.com/nxpmicro/mtcp.git
 
-  aiopsl: 
+  aiopsl:
     url:  https://github.com/nxp-qoriq/aiopsl.git
 
   ceetm:
