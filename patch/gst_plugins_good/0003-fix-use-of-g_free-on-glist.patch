@@ -1,0 +1,35 @@
+From f7a0e8ad7593979254d0cb9727a98e6d96f2c53f Mon Sep 17 00:00:00 2001
+From: Ray Chang <root@abb312b6d4c2.com>
+Date: Tue, 17 Jun 2025 03:48:57 +0000
+Subject: [PATCH 3/3] fix use of g_free on glist
+
+---
+ sys/v4l2/gstv4l2object.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
+index 09afb7cb3..7a1df014c 100644
+--- a/sys/v4l2/gstv4l2object.c
++++ b/sys/v4l2/gstv4l2object.c
+@@ -622,8 +622,7 @@ gst_v4l2_object_destroy (GstV4l2Object * v4l2object)
+   g_free (v4l2object->videodev);
+   g_free (v4l2object->par);
+   g_free (v4l2object->channel);
+-  g_free (v4l2object->drop_frames);
+-
++  g_list_free (v4l2object->drop_frames);
+   gst_poll_free (v4l2object->poll);
+ 
+   if (v4l2object->formats) {
+@@ -1023,7 +1022,7 @@ gst_v4l2_object_close (GstV4l2Object * v4l2object)
+     gst_poll_remove_fd (v4l2object->poll, &v4l2object->pollfd);
+ 
+   if (v4l2object->drop_frames) {
+-    g_free (v4l2object->drop_frames);
++    g_list_free (v4l2object->drop_frames);
+     v4l2object->drop_frames = NULL;
+   }
+ 
+-- 
+2.39.5
+
