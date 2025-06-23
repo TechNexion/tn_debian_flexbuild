@@ -39,6 +39,9 @@ generate_bootpartition_tarball() {
     modversion=$(ls $KERNEL_OUTPUT_PATH/$KERNEL_BRANCH/tmp/lib/modules|xargs echo|cut -d' ' -f1)
     rm -f $bootpartdir/modules/$modversion/{build,source}
 
+    # install splash image
+    cp -f src/bsp/splash.bmp $bootpartdir
+
     # install distro boot script
     fbprint_n "Installing distro boot script "
     if [ $DESTARCH = arm64 -a $SOCFAMILY = LS ]; then
