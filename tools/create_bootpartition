@@ -55,6 +55,9 @@ generate_bootpartition_tarball() {
 	cp -Prf $FBOUTDIR/bsp/imx_firmware/lib/firmware/* $bootpartdir/firmware
     fi
 
+    # install splash image
+    cp -f src/bsp/splash.bmp $bootpartdir
+
     # install distro boot script
     fbprint_n "Installing distro boot script ..."
     if [ $DESTARCH = arm64 -a $SOCFAMILY = LS ]; then
