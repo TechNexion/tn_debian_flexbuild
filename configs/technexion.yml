@@ -78,7 +78,7 @@ repo:
 
   uboot:
     url:  https://github.com/TechNexion/u-boot-tn-imx.git
-    tag:  tn-scarthgap_6.6.52_2.2.0_20250512
+    commit: 1e5a40b88e4
 
   rcw:
     url:  https://github.com/nxp-qoriq/rcw.git
