@@ -18,7 +18,7 @@ tn_qca9377:
 	 fi && \
 	 \
 	 cp -f $(KERNEL_PATH)/include/linux/stdarg.h CORE/VOSS/inc/ && \
-	 $(MAKE) KERNEL_SRC=$(KERNEL_PATH) KBUILD_OUTPUT=$$kerneloutdir CONFIG_CLD_HL_SDIO_CORE=y CONFIG_P2P_INTERFACE=y -j$(JOBS) $(LOG_MUTE) && \
+	 $(MAKE) KERNEL_SRC=$(KERNEL_PATH) KBUILD_OUTPUT=$$kerneloutdir CONFIG_CLD_HL_SDIO_CORE=y -j$(JOBS) $(LOG_MUTE) && \
 	 kernelrelease=`cat $(KERNEL_OUTPUT_PATH)/$$curbrch/include/config/kernel.release` && \
 	 mkdir -p $(RFSDIR)/usr/share/nxp_wireless && \
 	 install -d $$kerneloutdir/tmp/lib/modules/$$kernelrelease/kernel/drivers/net/wireless/nxp && \
