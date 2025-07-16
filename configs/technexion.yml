@@ -77,7 +77,7 @@ repo:
 
   uboot:
     url:  https://github.com/TechNexion/u-boot-tn-imx.git
-    tag:  tn-scarthgap_6.6.52_2.2.0_20250512
+    commit:  efad3c78d4f04ac09039ec69b5e582b321ed5e74
 
   rcw:
     url:  https://github.com/nxp-qoriq/rcw.git
@@ -141,7 +141,7 @@ repo:
 # kernel and modules git repositories
   linux:
     url:  https://github.com/TechNexion/linux-tn-imx.git
-    tag:  tn-scarthgap_6.6.52_2.2.0_20250512
+    commit:  c0b953fcc6d283a312f5f55e456360fcd078b6cc
 
   cryptodev_linux:
     url:  https://github.com/cryptodev-linux/cryptodev-linux.git
