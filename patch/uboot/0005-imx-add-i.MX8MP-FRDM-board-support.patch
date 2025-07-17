@@ -36,11 +36,11 @@ Signed-off-by: Xiaofeng Wei <xiaofeng.wei@nxp.com>
  create mode 100644 include/configs/imx8mp_frdm.h
 
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 85b0a0377ec..1c5b78a22b5 100644
+index 32954e13592..3bb96d4505b 100644
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -1168,6 +1168,7 @@ dtb-$(CONFIG_ARCH_IMX8M) += \
- 	imx8mp-dhcom-pdk3-overlay-rev100.dtbo \
+@@ -1182,6 +1182,7 @@ dtb-$(CONFIG_ARCH_IMX8M) += \
+ 	imx8mp-tep.dtb \
  	imx8mp-ddr4-evk.dtb \
  	imx8mp-evk.dtb \
 +	imx8mp-frdm.dtb \
@@ -1199,10 +1199,10 @@ index 00000000000..95ca15dfbf6
 +	};
 +};
 diff --git a/arch/arm/mach-imx/imx8m/Kconfig b/arch/arm/mach-imx/imx8m/Kconfig
-index 473cfa8e5e3..1f9f1eafb0b 100644
+index 072c95c3be3..03e13aa41c8 100644
 --- a/arch/arm/mach-imx/imx8m/Kconfig
 +++ b/arch/arm/mach-imx/imx8m/Kconfig
-@@ -315,6 +315,16 @@ config TARGET_IMX8MP_EVK
+@@ -375,6 +375,16 @@ config TARGET_IMX8MP_EVK
  	select ARCH_MISC_INIT
  	select SPL_CRYPTO if SPL
  
@@ -1219,14 +1219,14 @@ index 473cfa8e5e3..1f9f1eafb0b 100644
  config TARGET_IMX8MP_VENICE
  	bool "Support Gateworks Venice iMX8M Plus module"
  	select IMX8MP
-@@ -465,6 +475,7 @@ source "board/freescale/imx8mm_ab2/Kconfig"
- source "board/freescale/imx8mm_evk/Kconfig"
- source "board/freescale/imx8mn_evk/Kconfig"
+@@ -548,6 +558,7 @@ source "board/freescale/imx8mn_evk/Kconfig"
+ source "board/technexion/axon-imx8mp/Kconfig"
+ source "board/technexion/edm-g-imx8mn/Kconfig"
  source "board/freescale/imx8mp_evk/Kconfig"
 +source "board/freescale/imx8mp_frdm/Kconfig"
- source "board/gateworks/venice/Kconfig"
- source "board/google/imx8mq_phanbell/Kconfig"
- source "board/kontron/pitx_imx8m/Kconfig"
+ source "board/technexion/edm-g-imx8mp/Kconfig"
+ source "board/technexion/sc-imx8mp/Kconfig"
+ source "board/technexion/tek-imx8mp/Kconfig"
 diff --git a/board/freescale/imx8mp_frdm/Kconfig b/board/freescale/imx8mp_frdm/Kconfig
 new file mode 100644
 index 00000000000..aa6ed5d294c

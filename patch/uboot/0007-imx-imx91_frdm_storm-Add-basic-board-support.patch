@@ -42,10 +42,10 @@ Signed-off-by: Xiaofeng Wei <xiaofeng.wei@nxp.com>
  create mode 100644 include/configs/imx91_frdm_storm.h
 
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 5eb21f9b08d..99d32543a51 100644
+index 3bb96d4505b..723bd7f9bf9 100644
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -1190,6 +1190,7 @@ dtb-$(CONFIG_ARCH_IMX9) += \
+@@ -1205,6 +1205,7 @@ dtb-$(CONFIG_ARCH_IMX9) += \
  	imx95-19x19-verdin.dtb \
  	imx91-11x11-evk.dtb \
  	imx91-11x11-frdm.dtb \
@@ -946,10 +946,10 @@ index 00000000000..55bf3a90b60
 +	};
 +};
 diff --git a/arch/arm/mach-imx/imx9/Kconfig b/arch/arm/mach-imx/imx9/Kconfig
-index f033e8c98b9..fe5b02e440a 100644
+index e85335a5382..83d3891ef4a 100644
 --- a/arch/arm/mach-imx/imx9/Kconfig
 +++ b/arch/arm/mach-imx/imx9/Kconfig
-@@ -44,6 +44,11 @@ config TARGET_IMX91_11X11_FRDM
+@@ -46,6 +46,11 @@ config TARGET_IMX91_11X11_FRDM
  	select OF_BOARD_FIXUP
  	select IMX91
  
@@ -961,14 +961,14 @@ index f033e8c98b9..fe5b02e440a 100644
  config TARGET_IMX91_9X9_QSB
  	bool "imx91_9x9_qsb"
  	select IMX91
-@@ -95,6 +100,7 @@ endchoice
+@@ -125,6 +130,7 @@ endchoice
  source "board/freescale/imx91_evk/Kconfig"
  source "board/freescale/imx91_qsb/Kconfig"
  source "board/freescale/imx91_frdm/Kconfig"
 +source "board/freescale/imx91_frdm_storm/Kconfig"
+ source "board/technexion/axon-imx91/Kconfig"
+ source "board/technexion/edm-imx91/Kconfig"
  source "board/freescale/imx93_evk/Kconfig"
- source "board/freescale/imx93_frdm/Kconfig"
- source "board/phytec/phycore_imx93/Kconfig"
 diff --git a/board/freescale/imx91_frdm_storm/Kconfig b/board/freescale/imx91_frdm_storm/Kconfig
 new file mode 100644
 index 00000000000..4371145f0fe

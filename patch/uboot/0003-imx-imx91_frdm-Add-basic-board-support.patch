@@ -40,10 +40,10 @@ Signed-off-by: haidong.zheng <haidong.zheng@nxp.com>
  create mode 100644 include/configs/imx91_frdm.h
 
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 365772ab421..85b0a0377ec 100644
+index 696d3b05f6c..32954e13592 100644
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -1188,6 +1188,7 @@ dtb-$(CONFIG_ARCH_IMX9) += \
+@@ -1203,6 +1203,7 @@ dtb-$(CONFIG_ARCH_IMX9) += \
  	imx95-19x19-evk.dtb \
  	imx95-19x19-verdin.dtb \
  	imx91-11x11-evk.dtb \
@@ -878,7 +878,7 @@ index 00000000000..1e48cbf00b6
 +	};
 +};
 diff --git a/arch/arm/mach-imx/imx9/Kconfig b/arch/arm/mach-imx/imx9/Kconfig
-index 6ae83a5d294..4510b11a4ad 100644
+index 44a4a9a36ba..e85335a5382 100644
 --- a/arch/arm/mach-imx/imx9/Kconfig
 +++ b/arch/arm/mach-imx/imx9/Kconfig
 @@ -41,6 +41,11 @@ config TARGET_IMX91_11X11_EVK
@@ -893,14 +893,14 @@ index 6ae83a5d294..4510b11a4ad 100644
  config TARGET_IMX91_9X9_QSB
  	bool "imx91_9x9_qsb"
  	select IMX91
-@@ -91,6 +96,7 @@ endchoice
+@@ -119,6 +124,7 @@ endchoice
  
  source "board/freescale/imx91_evk/Kconfig"
  source "board/freescale/imx91_qsb/Kconfig"
 +source "board/freescale/imx91_frdm/Kconfig"
+ source "board/technexion/axon-imx91/Kconfig"
+ source "board/technexion/edm-imx91/Kconfig"
  source "board/freescale/imx93_evk/Kconfig"
- source "board/freescale/imx93_frdm/Kconfig"
- source "board/phytec/phycore_imx93/Kconfig"
 diff --git a/board/freescale/imx91_frdm/Kconfig b/board/freescale/imx91_frdm/Kconfig
 new file mode 100644
 index 00000000000..f861c3e4da7

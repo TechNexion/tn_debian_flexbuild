@@ -40,11 +40,11 @@ Signed-off-by: haidong.zheng <haidong.zheng@nxp.com>
  create mode 100644 include/configs/imx93_frdm.h
 
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 737e959a6b5..365772ab421 100644
+index 87440ce2aea..696d3b05f6c 100644
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -1193,6 +1193,7 @@ dtb-$(CONFIG_ARCH_IMX9) += \
- 	imx91-11x11-evk-tianma-wvga-panel.dtb \
+@@ -1210,6 +1210,7 @@ dtb-$(CONFIG_ARCH_IMX9) += \
+ 	imx91-edm.dtb \
  	imx93-11x11-evk.dtb \
  	imx93-11x11-evk-pmic-pf0900.dtb \
 +	imx93-11x11-frdm.dtb \
@@ -880,10 +880,10 @@ index 00000000000..57817bb312b
 +	};
 +};
 diff --git a/arch/arm/mach-imx/imx9/Kconfig b/arch/arm/mach-imx/imx9/Kconfig
-index 6e82501499e..6ae83a5d294 100644
+index 5f7cf865a53..44a4a9a36ba 100644
 --- a/arch/arm/mach-imx/imx9/Kconfig
 +++ b/arch/arm/mach-imx/imx9/Kconfig
-@@ -55,6 +55,11 @@ config TARGET_IMX93_11X11_EVK
+@@ -65,6 +65,11 @@ config TARGET_IMX93_11X11_EVK
  	select OF_BOARD_FIXUP
  	select IMX93
  
@@ -895,14 +895,14 @@ index 6e82501499e..6ae83a5d294 100644
  config TARGET_IMX93_VAR_SOM
  	bool "imx93_var_som"
  	select IMX93
-@@ -87,6 +92,7 @@ endchoice
- source "board/freescale/imx91_evk/Kconfig"
- source "board/freescale/imx91_qsb/Kconfig"
+@@ -117,6 +122,7 @@ source "board/freescale/imx91_qsb/Kconfig"
+ source "board/technexion/axon-imx91/Kconfig"
+ source "board/technexion/edm-imx91/Kconfig"
  source "board/freescale/imx93_evk/Kconfig"
 +source "board/freescale/imx93_frdm/Kconfig"
  source "board/phytec/phycore_imx93/Kconfig"
- source "board/variscite/imx93_var_som/Kconfig"
- source "board/freescale/imx93_qsb/Kconfig"
+ source "board/technexion/axon-imx93/Kconfig"
+ source "board/technexion/pico-imx93/Kconfig"
 diff --git a/board/freescale/imx93_frdm/Kconfig b/board/freescale/imx93_frdm/Kconfig
 new file mode 100644
 index 00000000000..639cb61047f

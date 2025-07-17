@@ -1,0 +1,39 @@
+From df51b7011583c406a58ee6a1435809bbda889402 Mon Sep 17 00:00:00 2001
+From: Ray Chang <ray.chang@technexion.com>
+Date: Thu, 17 Jul 2025 10:41:51 +0800
+Subject: [PATCH] ARM64: axon-imx91/edm-imx91: correct the IOMUX name for eqos
+
+---
+ arch/arm64/boot/dts/freescale/imx91-axon.dtsi | 2 +-
+ arch/arm64/boot/dts/freescale/imx91-edm.dtsi  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/freescale/imx91-axon.dtsi b/arch/arm64/boot/dts/freescale/imx91-axon.dtsi
+index 0c7f2f6aa0ff..5aec17414369 100644
+--- a/arch/arm64/boot/dts/freescale/imx91-axon.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx91-axon.dtsi
+@@ -442,7 +442,7 @@ MX91_PAD_ENET1_RX_CTL__GPIO4_IO8			0x31e
+ 			MX91_PAD_ENET1_TD0__GPIO4_IO5                          0x31e
+ 			MX91_PAD_ENET1_TD1__GPIO4_IO4                          0x31e
+ 			MX91_PAD_ENET1_TD2__GPIO4_IO3				0x31e
+-			MX91_PAD_ENET1_TD3__GPIO4_IO3				0x31e
++			MX91_PAD_ENET1_TD3__GPIO4_IO2				0x31e
+ 			MX91_PAD_ENET1_TXC__GPIO4_IO7                          0x31e
+ 			MX91_PAD_ENET1_TX_CTL__GPIO4_IO6                       0x31e
+ 		>;
+diff --git a/arch/arm64/boot/dts/freescale/imx91-edm.dtsi b/arch/arm64/boot/dts/freescale/imx91-edm.dtsi
+index 31ec09bd040d..3e674fafc214 100644
+--- a/arch/arm64/boot/dts/freescale/imx91-edm.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx91-edm.dtsi
+@@ -408,7 +408,7 @@ MX91_PAD_ENET1_RX_CTL__GPIO4_IO8			0x31e
+ 			MX91_PAD_ENET1_TD0__GPIO4_IO5                          0x31e
+ 			MX91_PAD_ENET1_TD1__GPIO4_IO4                          0x31e
+ 			MX91_PAD_ENET1_TD2__GPIO4_IO3				0x31e
+-			MX91_PAD_ENET1_TD3__GPIO4_IO3				0x31e
++			MX91_PAD_ENET1_TD3__GPIO4_IO2				0x31e
+ 			MX91_PAD_ENET1_TXC__GPIO4_IO7                          0x31e
+ 			MX91_PAD_ENET1_TX_CTL__GPIO4_IO6                       0x31e
+ 		>;
+-- 
+2.50.1
+
