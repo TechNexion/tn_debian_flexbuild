@@ -37,7 +37,7 @@ board_id=$(get_board_id)
 log "Detected board: $board_id"
 
 case "${board_id}" in
-    imx8mm*)
+    *imx8mm*)
         safe_run sed -i "s/.*pam_nologin.*/auth    requisite       pam_nologin.so nullok/" /etc/pam.d/gdm-password
         safe_run sed -e  's/.*AutomaticLoginEnable.*/AutomaticLoginEnable = true/'  -e '0,/user1/s/.*user1.*/AutomaticLogin = debian/'  -i /etc/gdm3/daemon.conf
         safe_run grep -q 'WantedBy=graphical.target' /lib/systemd/system/gdm.service || \
@@ -53,7 +53,7 @@ case "${board_id}" in
             /usr/share/applications/chromium.desktop
         /usr/bin/update-desktop-database
         ;;
-    imx8mp*)
+    *imx8mp*)
         safe_run sed -i "s/.*pam_nologin.*/auth    requisite       pam_nologin.so nullok/" /etc/pam.d/gdm-password
         safe_run sed -e  's/.*AutomaticLoginEnable.*/AutomaticLoginEnable = true/'  -e '0,/user1/s/.*user1.*/AutomaticLogin = debian/'  -i /etc/gdm3/daemon.conf
         safe_run grep -q 'WantedBy=graphical.target' /lib/systemd/system/gdm.service || \
@@ -73,7 +73,7 @@ case "${board_id}" in
             /usr/share/applications/chromium.desktop
         /usr/bin/update-desktop-database
         ;;
-    imx8qm*)
+    *imx8qm*)
         safe_run sed -i "s/.*pam_nologin.*/auth    requisite       pam_nologin.so nullok/" /etc/pam.d/gdm-password
         safe_run sed -e  's/.*AutomaticLoginEnable.*/AutomaticLoginEnable = true/'  -e '0,/user1/s/.*user1.*/AutomaticLogin = debian/'  -i /etc/gdm3/daemon.conf
         safe_run grep -q 'WantedBy=graphical.target' /lib/systemd/system/gdm.service || \
@@ -91,12 +91,12 @@ case "${board_id}" in
             /usr/share/applications/chromium.desktop
         /usr/bin/update-desktop-database
         ;;
-    imx91*)
+    *imx91*)
         safe_run rm -rf /etc/systemd/system/display-manager.service
         safe_run ln -sf weston.ini.imx91 /etc/xdg/weston/weston.ini
         safe_run systemctl enable weston
         ;;
-    imx93*)
+    *imx93*)
         safe_run ln -sf libg2d-pxp.so.2.4.0 /usr/lib/libg2d.so.2
         if [ -f /usr/lib/libg2d-pxp.so.2.4.0 ]; then
             safe_run rm -f /usr/lib/libg2d-viv.so.2.4.0
@@ -105,7 +105,7 @@ case "${board_id}" in
         safe_run ln -sf weston.ini.imx93 /etc/xdg/weston/weston.ini
         safe_run systemctl enable weston
         ;;
-    imx95*)
+    *imx95*)
         safe_run sed -i "s/.*pam_nologin.*/auth    requisite       pam_nologin.so nullok/" /etc/pam.d/gdm-password
         safe_run sed -e  's/.*AutomaticLoginEnable.*/AutomaticLoginEnable = true/'  -e '0,/user1/s/.*user1.*/AutomaticLogin = debian/'  -i /etc/gdm3/daemon.conf
         safe_run grep -q 'WantedBy=graphical.target' /lib/systemd/system/gdm.service || \

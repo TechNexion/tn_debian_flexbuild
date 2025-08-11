@@ -53,8 +53,8 @@ get_board_id() {
 	    
 	    # Default processing rules (smart conversion)
 	    *)
-		    local normalized=$(echo "$machine_content" | tr '[:upper:]' '[:lower:]' | tr -d ' .-')
-		    if [[ "$normalized" =~ nxp(i\.mx[0-9a-z]+) ]]; then
+		    local normalized=$(echo "$machine_content" | tr '[:upper:]' '[:lower:]')
+		    if [[ "$normalized" =~ ([a-zA-Z0-9_-]+-imx[0-9a-z]+) ]]; then
 			local soc_part="${BASH_REMATCH[1]}"
 			if [[ "$normalized" =~ (evk|frdm|mek) ]]; then
 			    board_id="${soc_part}${BASH_REMATCH[1]}"
