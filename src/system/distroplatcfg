@@ -39,39 +39,39 @@ if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == imx8mp* ]]; then
 fi
 
 # vpu hantro daemon
-if [[ "$board_id" == imx8mp* ]]; then
+if [[ "$board_id" == *imx8mp* ]]; then
     ln -sf vsidaemon-IMX8MP /usr/bin/vsidaemon
 #    rm -rf /etc/systemd/system/multi-user.target.wants/firmwared.service
-elif [[ "$board_id" == imx8mq* ]]; then
+elif [[ "$board_id" == *imx8mq* ]]; then
     ln -sf vsidaemon-IMX8MQ /usr/bin/vsidaemon
-elif [[ "$board_id" == imx8mm* ]]; then
+elif [[ "$board_id" == *imx8mm* ]]; then
     ln -sf vsidaemon-IMX8MM /usr/bin/vsidaemon
     ln -sf libg2d-viv-mx8mm.so.2.2.0 /usr/lib/libg2d.so.2
     [ -f /usr/lib/libg2d-viv.so.2.2.0 ] && rm -f /usr/lib/libg2d-viv.so.2.2.0
-elif [[ "$board_id" == imx93* ]]; then
+elif [[ "$board_id" == *imx93* ]]; then
     ln -sf libg2d-pxp.so.2.2.0 /usr/lib/libg2d.so.2
     [ -f /usr/lib/libg2d-viv.so.2.2.0 ] && rm -f /usr/lib/libg2d-viv.so.2.2.0
 fi
 
-if [[ "$board_id" == imx8qm* || "$board_id" == imx8qxp* ]] && [[ ! -L /lib/firmware/vpu ]]; then
+if [[ "$board_id" == *imx8qm* || "$board_id" == *imx8qxp* ]] && [[ ! -L /lib/firmware/vpu ]]; then
     ln -sf imx/vpu /lib/firmware/vpu
 fi
 
 # imx91 don't have g2d
-if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == imx91* ]]; then
+if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == *imx91* ]]; then
     /usr/bin/sed -i '/^use-g2d=true/s/^/# /' /etc/xdg/weston/weston.ini
     /usr/bin/sed -i '/^gbm-format=argb8888/s/^/# /' /etc/xdg/weston/weston.ini
     /usr/bin/sed -i '/gopoint/d' /etc/xdg/weston/weston.ini
 fi
 
 # for imx8mm
-if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == imx8mm* ]]; then
+if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == *imx8mm* ]]; then
     /usr/bin/sed -i '/^gbm-format=argb8888/s/^/# /' /etc/xdg/weston/weston.ini
     /usr/bin/sed -i '/^xwayland=true$/a modules=screen-share.so' /etc/xdg/weston/weston.ini
 fi
 
 # for imx93
-if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == imx93* ]]; then
+if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == *imx93* ]]; then
     /usr/bin/sed -i '/^xwayland=true$/a modules=screen-share.so' /etc/xdg/weston/weston.ini
 fi
 
@@ -89,11 +89,11 @@ fi
 /usr/sbin/depmod -a
 /usr/sbin/update-initramfs -u
 
-if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == imx8* || "$board_id" == ls1028* ]]; then
+if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == *imx8* || "$board_id" == ls1028* ]]; then
     systemctl enable gdm.service
 fi
 
-if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == imx91* || "$board_id" == imx93* ]]; then
+if [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == *imx91* || "$board_id" == *imx93* ]]; then
     rm -rf /usr/lib/{libGLESv2.so*,libEGL.so*,libcogl.so*,libgstallocators-1.0.so,libvulkan.so}
     rm -rf /usr/lib/{libdrm.so*,libgbm.so*,libgbm_viv.so}
     rm -rf /usr/lib/libclutter-gst-3.0.so*
@@ -110,7 +110,7 @@ if [[ "$board_id" == ls1043a* || "$board_id" == ls1046a* ]]; then
 fi
 
 # for server and imx93/imx91, wifi will use 3 ports
-if [[ "$board_id" == imx9* ]] || ( [[ "$distro_type" == server ]] && ! ([[ "$board_id" == ls* ]] || [[ "$board_id" == lx* ]] )); then
+if [[ "$board_id" == *imx9* ]] || ( [[ "$distro_type" == server ]] && ! ([[ "$board_id" == ls* ]] || [[ "$board_id" == lx* ]] )); then
     /usr/bin/sed -i '/drv_mode=1/d' /boot/firmware/nxp/wifi_mod_para.conf
 fi
 
@@ -118,6 +118,6 @@ systemctl disable platcfg.service
 
 systemctl daemon-reload
 
-if [[ $PPID -eq 1 ]] && [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == imx91* || "$board_id" == imx93* ]]; then
+if [[ $PPID -eq 1 ]] && [[ "$distro_type" == "desktop" ]] && [[ "$board_id" == *imx91* || "$board_id" == *imx93* ]]; then
     systemctl start weston
 fi
