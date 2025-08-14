@@ -18,11 +18,6 @@ nxp_wlan_bt:
 	 cd $(PKGDIR)/linux/nxp_wlan_bt && \
 	 $(call patch_apply,nxp_wlan_bt,linux) && \
 	 \
-	 mkdir -p $(DESTDIR)/lib && \
-	 mkdir -p $(DESTDIR)/lib/modprobe.d && \
-	 mkdir -p $(DESTDIR)/lib/modules-load.d && \
-	 echo "options moal mod_para=nxp/wifi_mod_para.conf" > $(DESTDIR)/lib/modprobe.d/moal.conf && \
-	 echo "moal" > $(DESTDIR)/lib/modules-load.d/moal.conf && \
 	 $(MAKE) build KERNELDIR=$(KERNEL_PATH) O=$$kerneloutdir -j$(JOBS) $(LOG_MUTE) && \
 	 kernelrelease=`cat $(KERNEL_OUTPUT_PATH)/$(KERNEL_BRANCH)/include/config/kernel.release` && \
 	 mkdir -p $(DESTDIR)/usr/share/nxp_wireless && \
