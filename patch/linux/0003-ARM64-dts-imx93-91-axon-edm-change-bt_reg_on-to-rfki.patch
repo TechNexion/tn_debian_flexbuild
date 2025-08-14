@@ -1,0 +1,136 @@
+From b506be886e9a91fee2237fee577bc34a5e1d73c1 Mon Sep 17 00:00:00 2001
+From: Ray Chang <ray.chang@technexion.com>
+Date: Thu, 14 Aug 2025 16:19:25 +0800
+Subject: [PATCH 3/3] ARM64: dts: imx93/91: axon/edm: change bt_reg_on to
+ rfkill-gpio
+
+---
+ arch/arm64/boot/dts/freescale/imx91-axon.dtsi | 12 +++++-------
+ arch/arm64/boot/dts/freescale/imx91-edm.dtsi  | 12 +++++-------
+ arch/arm64/boot/dts/freescale/imx93-axon.dtsi | 12 +++++-------
+ arch/arm64/boot/dts/freescale/imx93-edm.dtsi  | 12 +++++-------
+ 4 files changed, 20 insertions(+), 28 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/freescale/imx91-axon.dtsi b/arch/arm64/boot/dts/freescale/imx91-axon.dtsi
+index 0c7f2f6aa0ff..6c26f165a4b7 100644
+--- a/arch/arm64/boot/dts/freescale/imx91-axon.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx91-axon.dtsi
+@@ -87,12 +87,11 @@ wl_reg_on: wlreg_on {
+ 		enable-active-high;
+ 	};
+ 
+-	bt_reg_on: btreg_on {
+-		compatible = "gpio-reset";
+-		reset-gpios = <&pcal6524 2 GPIO_ACTIVE_LOW>;
+-		reset-delay-us = <2000>;
+-		reset-post-delay-ms = <200>;
+-		#reset-cells = <0>;
++	rfkill {
++		compatible = "rfkill-gpio";
++		label = "bt_rfkill";
++		radio-type = "bluetooth";
++		shutdown-gpios = <&pcal6524 2 GPIO_ACTIVE_HIGH>;
+ 	};
+ };
+ 
+@@ -333,7 +332,6 @@ &lpuart5 {
+ 	assigned-clocks = <&clk IMX91_CLK_LPUART5>;
+ 	assigned-clock-parents = <&clk IMX91_CLK_24M>;
+ 	fsl,uart-has-rtscts;
+-	resets = <&bt_reg_on>;
+ 	status = "okay";
+ };
+ 
+diff --git a/arch/arm64/boot/dts/freescale/imx91-edm.dtsi b/arch/arm64/boot/dts/freescale/imx91-edm.dtsi
+index 31ec09bd040d..e70e12060331 100644
+--- a/arch/arm64/boot/dts/freescale/imx91-edm.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx91-edm.dtsi
+@@ -87,12 +87,11 @@ wl_reg_on: wlreg_on {
+ 		enable-active-high;
+ 	};
+ 
+-	bt_reg_on: btreg_on {
+-		compatible = "gpio-reset";
+-		reset-gpios = <&tca9554pwr 2 GPIO_ACTIVE_LOW>;
+-		reset-delay-us = <2000>;
+-		reset-post-delay-ms = <200>;
+-		#reset-cells = <0>;
++	rfkill {
++		compatible = "rfkill-gpio";
++		label = "bt_rfkill";
++		radio-type = "bluetooth";
++		shutdown-gpios = <&tca9554pwr 2 GPIO_ACTIVE_HIGH>;
+ 	};
+ };
+ 
+@@ -299,7 +298,6 @@ &lpuart5 {
+ 	assigned-clocks = <&clk IMX91_CLK_LPUART5>;
+ 	assigned-clock-parents = <&clk IMX91_CLK_24M>;
+ 	fsl,uart-has-rtscts;
+-	resets = <&bt_reg_on>;
+ 	status = "okay";
+ };
+ 
+diff --git a/arch/arm64/boot/dts/freescale/imx93-axon.dtsi b/arch/arm64/boot/dts/freescale/imx93-axon.dtsi
+index 87b6622b59e0..4d1d7712d15a 100644
+--- a/arch/arm64/boot/dts/freescale/imx93-axon.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx93-axon.dtsi
+@@ -144,12 +144,11 @@ wl_reg_on: wlreg_on {
+ 		enable-active-high;
+ 	};
+ 
+-	bt_reg_on: btreg_on {
+-		compatible = "gpio-reset";
+-		reset-gpios = <&pcal6524 2 GPIO_ACTIVE_LOW>;
+-		reset-delay-us = <2000>;
+-		reset-post-delay-ms = <200>;
+-		#reset-cells = <0>;
++	rfkill {
++		compatible = "rfkill-gpio";
++		label = "bt_rfkill";
++		radio-type = "bluetooth";
++		shutdown-gpios = <&pcal6524 2 GPIO_ACTIVE_HIGH>;
+ 	};
+ };
+ 
+@@ -411,7 +410,6 @@ &lpuart5 {
+ 	assigned-clocks = <&clk IMX93_CLK_LPUART5>;
+ 	assigned-clock-parents = <&clk IMX93_CLK_24M>;
+ 	fsl,uart-has-rtscts;
+-	resets = <&bt_reg_on>;
+ 	status = "okay";
+ };
+ 
+diff --git a/arch/arm64/boot/dts/freescale/imx93-edm.dtsi b/arch/arm64/boot/dts/freescale/imx93-edm.dtsi
+index 3f0975e8fdb8..c3ff031dcbac 100644
+--- a/arch/arm64/boot/dts/freescale/imx93-edm.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx93-edm.dtsi
+@@ -147,12 +147,11 @@ wl_reg_on: wlreg_on {
+ 		enable-active-high;
+ 	};
+ 
+-	bt_reg_on: btreg_on {
+-		compatible = "gpio-reset";
+-		reset-gpios = <&pcal6524 2 GPIO_ACTIVE_LOW>;
+-		reset-delay-us = <2000>;
+-		reset-post-delay-ms = <200>;
+-		#reset-cells = <0>;
++	rfkill {
++		compatible = "rfkill-gpio";
++		label = "bt_rfkill";
++		radio-type = "bluetooth";
++		shutdown-gpios = <&pcal6524 2 GPIO_ACTIVE_HIGH>;
+ 	};
+ };
+ 
+@@ -414,7 +413,6 @@ &lpuart5 {
+ 	assigned-clocks = <&clk IMX93_CLK_LPUART5>;
+ 	assigned-clock-parents = <&clk IMX93_CLK_24M>;
+ 	fsl,uart-has-rtscts;
+-	resets = <&bt_reg_on>;
+ 	status = "okay";
+ };
+ 
+-- 
+2.50.1
+
