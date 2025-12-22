@@ -17,4 +17,24 @@ imx_firmware:
 	 echo Installing Murata WIFI/BT firmware && \
 	 cp -f $(UTILSDIR)/imx_firmware/cyw-wifi-bt/*/{*.bin,*.clm_blob,*.txt} $(DESTDIR)/lib/firmware/brcm/ && \
 	 cp -f $(UTILSDIR)/imx_firmware/cyw-wifi-bt/*/*.hcd $(DESTDIR)/lib/firmware/ && \
+	 \
+	 echo Installing bt/wifi firmware qca9377 && \
+	 cd $(UTILSDIR) && \
+	 if [ ! -d $(UTILSDIR)/QCA9377_FIRMWARE ]; then \
+	     cd $(UTILSDIR) && \
+	     git clone https://oauth2:SbtQ_mC4fvJRA88_9jB7@gitlab.com/technexion-imx/qca_firmware.git QCA9377_FIRMWARE ; \
+	 fi && \
+	 cp -Prf $(UTILSDIR)/QCA9377_FIRMWARE/* $(DESTDIR)/lib/firmware/ && \
+	 \
+	 echo Installing bt/wifi firmware qca9377 of pcie card && \
+	 if [ ! -d $(UTILSDIR)/ATH10K_FIRMWARE ]; then \
+	     cd $(UTILSDIR) && \
+	     git clone  https://git.codelinaro.org/clo/ath-firmware/ath10k-firmware.git ATH10K_FIRMWARE ; \
+	 fi && \
+	 mkdir -p $(DESTDIR)/lib/firmware/ath10k && \
+	 mkdir -p $(DESTDIR)/lib/firmware/ath10k/QCA9377 && \
+	 mkdir -p $(DESTDIR)/lib/firmware/ath10k/QCA9377/hw1.0 && \
+	 cp -Prf $(UTILSDIR)/ATH10K_FIRMWARE/QCA9377/hw1.0/*.bin $(DESTDIR)/lib/firmware/ath10k/QCA9377/hw1.0/ && \
+	 cp -Prf $(UTILSDIR)/ATH10K_FIRMWARE/LICENSE.qca_firmware $(DESTDIR)/lib/firmware/ath10k/QCA9377/hw1.0/ && \
+	 cp -Prf $(UTILSDIR)/ATH10K_FIRMWARE/QCA9377/hw1.0/CNSS.TF.1.0/firmware-5.bin_CNSS.TF.1.0-00267-QCATFSWPZ-1 $(DESTDIR)/lib/firmware/ath10k/QCA9377/hw1.0/firmware-5.bin && \
 	 $(call fbprint_d,"imx_firmware")
