@@ -15,7 +15,7 @@ DEFAULT_PACKAGES=(
   libhugetlbfs0 strongswan-charon dmidecode flex systemd-timesyncd initramfs-tools fbset
   mmc-utils i2c-tools lm-sensors rt-tests linuxptp mosquitto xterm bluez pipewire pipewire-audio
   pipewire-pulse wireplumber libwireplumber-0.4 gir1.2-wp-0.4 locales libspa-0.2-bluetooth net-tools
-  zram-tools
+  modemmanager zram-tools
 )
 
 PACKAGES=("${DEFAULT_PACKAGES[@]}")
