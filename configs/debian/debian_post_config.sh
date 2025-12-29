@@ -87,6 +87,9 @@ sed -i -e "s/.*en_US.UTF-8.*/en_US.UTF-8 UTF-8/" /etc/locale.gen
 echo "localhost" > /etc/hostname
 /usr/sbin/update-locale LANG=en_US.UTF-8 || true
 
+# zram setup
+echo -e "ALGO=zstd\nPERCENT=60" >> /etc/default/zramswap || true
+
 # Root user bashrc
 cat >> /etc/environment <<'EOT'
 COGL_DRIVER=gles2
