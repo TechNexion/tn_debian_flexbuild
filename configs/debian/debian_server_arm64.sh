@@ -14,7 +14,7 @@ DEFAULT_PACKAGES=(
   tcpdump mtd-utils pciutils hdparm libssl-dev usbutils sysstat lsb-release kexec-tools iptables
   libhugetlbfs0 strongswan-charon dmidecode flex systemd-timesyncd initramfs-tools fbset
   mmc-utils i2c-tools lm-sensors rt-tests linuxptp mosquitto xterm bluez pipewire pipewire-audio
-  pipewire-pulse wireplumber libwireplumber-0.4 gir1.2-wp-0.4 locales libspa-0.2-bluetooth net-tools
+  pipewire-pulse wireplumber libwireplumber-0.5-0 gir1.2-wp-0.5 locales libspa-0.2-bluetooth net-tools
   modemmanager zram-tools
 )
 
