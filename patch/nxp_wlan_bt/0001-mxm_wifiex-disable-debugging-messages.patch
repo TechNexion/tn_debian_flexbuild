@@ -10,10 +10,10 @@ Upstream-Status: Pending
  2 files changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/Makefile b/Makefile
-index f4e155b..c73c2e6 100644
+index 30511d0..d9b2f63 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -62,7 +62,7 @@ CONFIG_PCIEAW693=n
+@@ -64,7 +64,7 @@ CONFIG_PCIEAW693=y
  # n: NO DEBUG
  # 1: Only PRINTM(MMSG,...), PRINTM(MFATAL,...), ...
  # 2: All PRINTM()
@@ -23,10 +23,10 @@ index f4e155b..c73c2e6 100644
  # Enable STA mode support
  CONFIG_STA_SUPPORT=y
 diff --git a/mlinux/moal_shim.c b/mlinux/moal_shim.c
-index 3d3de9c..a6be8ca 100644
+index d830d89..6cd4358 100644
 --- a/mlinux/moal_shim.c
 +++ b/mlinux/moal_shim.c
-@@ -1178,6 +1178,7 @@ mlan_status moal_send_packet_complete(t_void *pmoal, pmlan_buffer pmbuf,
+@@ -1254,6 +1254,7 @@ mlan_status moal_send_packet_complete(t_void *pmoal, pmlan_buffer pmbuf,
  				if (status == MLAN_STATUS_SUCCESS) {
  					priv->stats.tx_packets++;
  					priv->stats.tx_bytes += skb->len;
@@ -34,7 +34,7 @@ index 3d3de9c..a6be8ca 100644
  #if defined(STA_CFG80211) || defined(UAP_CFG80211)
  #if CFG80211_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
  					if (drvdbg & MDAT_D)
-@@ -1188,9 +1189,11 @@ mlan_status moal_send_packet_complete(t_void *pmoal, pmlan_buffer pmbuf,
+@@ -1264,9 +1265,11 @@ mlan_status moal_send_packet_complete(t_void *pmoal, pmlan_buffer pmbuf,
  							0, 0, skb->data,
  							skb->data_len);
  #endif
@@ -46,7 +46,7 @@ index 3d3de9c..a6be8ca 100644
  #if defined(STA_CFG80211) || defined(UAP_CFG80211)
  #if CFG80211_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
  					if (drvdbg & MDAT_D)
-@@ -1201,6 +1204,7 @@ mlan_status moal_send_packet_complete(t_void *pmoal, pmlan_buffer pmbuf,
+@@ -1277,6 +1280,7 @@ mlan_status moal_send_packet_complete(t_void *pmoal, pmlan_buffer pmbuf,
  							0, 0, skb->data,
  							skb->data_len);
  #endif
@@ -54,7 +54,7 @@ index 3d3de9c..a6be8ca 100644
  #endif
  				}
  #if LINUX_VERSION_CODE > KERNEL_VERSION(2, 6, 29)
-@@ -2262,6 +2266,7 @@ mlan_status moal_recv_packet(t_void *pmoal, pmlan_buffer pmbuf)
+@@ -2497,6 +2501,7 @@ mlan_status moal_recv_packet(t_void *pmoal, pmlan_buffer pmbuf)
  					       __func__);
  					status = MLAN_STATUS_FAILURE;
  					priv->stats.rx_dropped++;
@@ -62,7 +62,7 @@ index 3d3de9c..a6be8ca 100644
  #if defined(STA_CFG80211) || defined(UAP_CFG80211)
  #if CFG80211_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
  					if (drvdbg & MDAT_D)
-@@ -2274,6 +2279,7 @@ mlan_status moal_recv_packet(t_void *pmoal, pmlan_buffer pmbuf)
+@@ -2509,6 +2514,7 @@ mlan_status moal_recv_packet(t_void *pmoal, pmlan_buffer pmbuf)
  								 pmbuf->data_offset),
  							pmbuf->data_len);
  #endif
@@ -70,7 +70,7 @@ index 3d3de9c..a6be8ca 100644
  #endif
  					goto done;
  				}
-@@ -2387,12 +2393,14 @@ mlan_status moal_recv_packet(t_void *pmoal, pmlan_buffer pmbuf)
+@@ -2645,12 +2651,14 @@ mlan_status moal_recv_packet(t_void *pmoal, pmlan_buffer pmbuf)
  				       priv->netdev->name);
  				status = MLAN_STATUS_FAILURE;
  				priv->stats.rx_dropped++;
@@ -82,18 +82,18 @@ index 3d3de9c..a6be8ca 100644
  						FRAME_TYPE_ETHERNET_II, 0, 0,
  						skb->data, skb->len);
 +#endif
- 				dev_kfree_skb(skb);
  				goto done;
  			}
-@@ -2400,6 +2408,7 @@ mlan_status moal_recv_packet(t_void *pmoal, pmlan_buffer pmbuf)
  #endif
- 			priv->stats.rx_bytes += skb->len;
+@@ -2659,6 +2667,7 @@ mlan_status moal_recv_packet(t_void *pmoal, pmlan_buffer pmbuf)
  			priv->stats.rx_packets++;
+ 			priv->rx_pkt_ac[moal_user_priority_to_qos(
+ 				pmbuf->priority)]++;
 +#ifdef DEBUG_LEVEL1
  #if defined(STA_CFG80211) || defined(UAP_CFG80211)
  #if CFG80211_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
  			if (drvdbg & MDAT_D)
-@@ -2410,6 +2419,7 @@ mlan_status moal_recv_packet(t_void *pmoal, pmlan_buffer pmbuf)
+@@ -2669,6 +2678,7 @@ mlan_status moal_recv_packet(t_void *pmoal, pmlan_buffer pmbuf)
  							 skb->len);
  #endif
  #endif
@@ -101,7 +101,7 @@ index 3d3de9c..a6be8ca 100644
  #ifdef ANDROID_KERNEL
  			if (handle->params.wakelock_timeout) {
  #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 5, 0)
-@@ -2836,6 +2846,7 @@ static t_void woal_process_event_tx_status(moal_private *priv,
+@@ -3122,6 +3132,7 @@ static t_void woal_process_event_tx_status(moal_private *priv,
  #endif
  #endif
  		}
@@ -109,7 +109,7 @@ index 3d3de9c..a6be8ca 100644
  #if defined(STA_CFG80211) || defined(UAP_CFG80211)
  #if CFG80211_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
  		if (drvdbg & MDAT_D)
-@@ -2846,6 +2857,7 @@ static t_void woal_process_event_tx_status(moal_private *priv,
+@@ -3132,6 +3143,7 @@ static t_void woal_process_event_tx_status(moal_private *priv,
  						 skb->data, skb->len);
  #endif
  #endif
@@ -117,7 +117,7 @@ index 3d3de9c..a6be8ca 100644
  #endif
  		dev_kfree_skb_any(skb);
  		kfree(tx_info);
-@@ -4701,6 +4713,7 @@ mlan_status moal_recv_event(t_void *pmoal, pmlan_event pmevent)
+@@ -5080,6 +5092,7 @@ mlan_status moal_recv_event(t_void *pmoal, pmlan_event pmevent)
  #endif
  #endif
  			}
@@ -125,7 +125,7 @@ index 3d3de9c..a6be8ca 100644
  #if defined(STA_CFG80211) || defined(UAP_CFG80211)
  #if CFG80211_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
  			if (drvdbg & MDAT_D)
-@@ -4712,6 +4725,7 @@ mlan_status moal_recv_event(t_void *pmoal, pmlan_event pmevent)
+@@ -5091,6 +5104,7 @@ mlan_status moal_recv_event(t_void *pmoal, pmlan_event pmevent)
  					skb->len);
  #endif
  #endif
@@ -133,3 +133,6 @@ index 3d3de9c..a6be8ca 100644
  #endif
  			dev_kfree_skb_any(skb);
  			kfree(tx_info);
+-- 
+2.47.3
+
