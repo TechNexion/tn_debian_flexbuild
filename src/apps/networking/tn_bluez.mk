@@ -8,7 +8,7 @@
 
 tn_bluez:
 	@[ $(DESTARCH) != arm64 -o $(SOCFAMILY) != IMX ] && exit || \
-	 $(call repo-mngr,fetch,tn_bluez,apps/networking) && \
+	 $(call download_repo,tn_bluez,apps/networking) && \
 	 mkdir -p $(DESTDIR)/usr/lib/systemd/system $(DESTDIR)/etc/systemd/system/multi-user.target.wants $(DESTDIR)/opt/btattach $(DESTDIR)/usr/sbin && \
 	 install -m 0755 $(PKGDIR)/apps/networking/tn_bluez/recipes-connectivity/bluez5/files/btattach.sh $(DESTDIR)/opt/btattach/ && \
 	 install -m 0644 $(PKGDIR)/apps/networking/tn_bluez/recipes-connectivity/bluez5/files/serial-btattach@.service $(DESTDIR)/usr/lib/systemd/system/ && \
@@ -22,7 +22,7 @@ tn_bluez:
 	 fi && \
 	 $(call fbprint_b,"tn_bluez") && \
 	 cd $(PKGDIR)/apps/networking/tn_bluez/bluez && \
-	 git reset --hard 5.66 $(LOG_MUTE) && \
+	 git reset --hard 5.76 $(LOG_MUTE) && \
 	 git am  \
 		$(PKGDIR)/apps/networking/tn_bluez/recipes-connectivity/bluez5/files/0001-bluetooth-Add-bluetooth-support-for-QCA6174-chip.patch \
 		$(PKGDIR)/apps/networking/tn_bluez/recipes-connectivity/bluez5/files/0002-hciattach-set-flag-to-enable-HCI-reset-on-init.patch \
@@ -33,7 +33,8 @@ tn_bluez:
 		$(PKGDIR)/apps/networking/tn_bluez/recipes-connectivity/bluez5/files/0002-hciattach_rome-set-IBS-to-disable-and-PCM-to-slave-b.patch \
 		$(PKGDIR)/apps/networking/tn_bluez/recipes-connectivity/bluez5/files/0003-hciattach_rome-load-3.2-version-of-firmware-by-defau.patch \
 		$(PKGDIR)/apps/networking/tn_bluez/recipes-connectivity/bluez5/files/0004-hciattach_rome-fix-baud-rate-synchronization-issue.patch \
-		$(PKGDIR)/apps/networking/tn_bluez/recipes-connectivity/bluez5/files/0001-hciattach_rome-use-the-same-firmware-path.patch $(LOG_MUTE) && \
+		$(PKGDIR)/apps/networking/tn_bluez/recipes-connectivity/bluez5/files/0001-hciattach_rome-use-the-same-firmware-path.patch \
+		$(PKGDIR)/apps/networking/tn_bluez/recipes-connectivity/bluez5/files/0001-hciattach_rome-fix-implicit-declaration-error-on-sty.patch $(LOG_MUTE) && \
 	 \
 	 export CC="$(CROSS_COMPILE)gcc --sysroot=$(RFSDIR)" && \
 	 export CXX="$(CROSS_COMPILE)g++ --sysroot=$(RFSDIR)" && \
@@ -43,7 +44,11 @@ tn_bluez:
 	 export CFLAGS="-Wno-write-strings -I$(RFSDIR)/usr/include/aarch64-linux-gnu \
 		-I$(PKGDIR)/apps/networking/tn_bluez/bluez/android/" && \
 	 ./bootstrap && \
-	 ./configure --prefix=/usr --host=aarch64-linux-gnu --disable-obex --enable-tools --enable-deprecated $(LOG_MUTE) && \
+	 ./configure --prefix=/usr --host=aarch64-linux-gnu --disable-obex --enable-tools --enable-deprecated \
+		--with-udevdir=/usr/lib/udev \
+		--with-systemdsystemunitdir=/usr/lib/systemd/system \
+		--with-systemduserunitdir=/usr/lib/systemd/user \
+		$(LOG_MUTE) && \
 	 $(MAKE) -C $(PKGDIR)/apps/networking/tn_bluez/bluez -j$(JOBS) $(LOG_MUTE) && \
 	 mkdir -p $(DESTDIR)/usr/bin && \
 	 install -m 0755 $(PKGDIR)/apps/networking/tn_bluez/bluez/tools/hciattach $(DESTDIR)/usr/bin/ && \
