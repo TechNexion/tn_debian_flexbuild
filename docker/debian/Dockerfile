@@ -31,6 +31,6 @@ RUN apt-get update && apt-get install -y \
         python3-h5py python3-yaml kpartx bmap-tools python3-cryptography python3-paramiko python3-pyelftools \
 	zstd fdisk systemtap-sdt-dev libslang2-dev libcap-dev meson libglib2.0-dev gettext \
 	liborc-0.4-dev gtk-doc-tools valac pbzip2 libgnutls28-dev libcanberra-gtk3-dev \
-	libical-dev libreadline-dev python3-docutils
+	libical-dev libreadline-dev python3-docutils e2fsprogs
 RUN git config --global user.email  "debian@nxp.com"
 RUN git config --global user.name "NXP debian"
