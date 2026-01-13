@@ -1,0 +1,107 @@
+From 4d6886c209e76cd471fe30b920526081202a1cda Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Tue, 13 Jan 2026 11:58:49 +0800
+Subject: [PATCH] imx8m/imx9: Enable bootflow advanced feature on Technexion
+ board
+
+Debian 13 use boot.scr to boot into kernel. Enable bootstd for
+bootflow cmd.
+---
+ arch/arm/mach-imx/imx8m/Kconfig |  8 ++++++++
+ arch/arm/mach-imx/imx9/Kconfig  | 12 ++++++++++++
+ 2 files changed, 20 insertions(+)
+
+diff --git a/arch/arm/mach-imx/imx8m/Kconfig b/arch/arm/mach-imx/imx8m/Kconfig
+index 1044b3503aa..cddc73235d2 100644
+--- a/arch/arm/mach-imx/imx8m/Kconfig
++++ b/arch/arm/mach-imx/imx8m/Kconfig
+@@ -89,6 +89,8 @@ config TARGET_AXON_IMX8MP
+ 	select FSL_BLOB
+ 	select MISC
+ 	select SPL_CRYPTO_SUPPORT if SPL
++	imply BOOTSTD_FULL
++	imply BOOTSTD_BOOTCOMMAND
+ 
+ config TARGET_EDM_G_IMX8MP
+ 	bool "TechNexion EDM-G-IMX8MP"
+@@ -99,6 +101,8 @@ config TARGET_EDM_G_IMX8MP
+ 	select FSL_BLOB
+ 	select MISC
+ 	select SPL_CRYPTO_SUPPORT if SPL
++	imply BOOTSTD_FULL
++	imply BOOTSTD_BOOTCOMMAND
+ 
+ config TARGET_SC_IMX8MP
+ 	bool "TechNexion AXON-IMX8MP"
+@@ -584,12 +588,16 @@ config TARGET_EDM_G_IMX8MM
+ 	select FSL_BLOB
+ 	select MISC
+ 	select SPL_CRYPTO_SUPPORT if SPL
++	imply BOOTSTD_FULL
++	imply BOOTSTD_BOOTCOMMAND
+ 
+ config TARGET_PICO_IMX8MM
+ 	bool "TechNexion PICO-IMX8MM"
+ 	select IMX8MM
+ 	select SUPPORT_SPL
+ 	select IMX8M_LPDDR4
++	imply BOOTSTD_FULL
++	imply BOOTSTD_BOOTCOMMAND
+ 
+ config TARGET_IMX8MM_CL_IOT_GATE
+ 	bool "CompuLab iot-gate-imx8"
+diff --git a/arch/arm/mach-imx/imx9/Kconfig b/arch/arm/mach-imx/imx9/Kconfig
+index 0f1914235ab..55194ac4bb3 100644
+--- a/arch/arm/mach-imx/imx9/Kconfig
++++ b/arch/arm/mach-imx/imx9/Kconfig
+@@ -128,16 +128,22 @@ config TARGET_AXON_IMX91
+ 	bool "axon_imx91"
+ 	select OF_BOARD_FIXUP
+ 	select IMX91
++	imply BOOTSTD_FULL
++	imply BOOTSTD_BOOTCOMMAND
+ 
+ config TARGET_EDM_IMX91
+ 	bool "edm_imx91"
+ 	select OF_BOARD_FIXUP
+ 	select IMX91
++	imply BOOTSTD_FULL
++	imply BOOTSTD_BOOTCOMMAND
+ 
+ config TARGET_PICO_IMX91
+ 	bool "pico_imx91"
+ 	select OF_BOARD_FIXUP
+ 	select IMX91
++	imply BOOTSTD_FULL
++	imply BOOTSTD_BOOTCOMMAND
+ 
+ config TARGET_IMX93_14X14_EVK
+ 	bool "imx93_14x14_evk"
+@@ -269,18 +275,24 @@ config TARGET_AXON_IMX93
+ 	select OF_BOARD_FIXUP
+ 	select IMX93
+ 	select IMX9_LPDDR4X
++	imply BOOTSTD_FULL
++	imply BOOTSTD_BOOTCOMMAND
+ 
+ config TARGET_PICO_IMX93
+ 	bool "pico_imx93"
+ 	select OF_BOARD_FIXUP
+ 	select IMX93
+ 	select IMX9_LPDDR4X
++	imply BOOTSTD_FULL
++	imply BOOTSTD_BOOTCOMMAND
+ 
+ config TARGET_EDM_IMX93
+ 	bool "edm-imx93"
+ 	select OF_BOARD_FIXUP
+ 	select IMX93
+ 	select IMX9_LPDDR4X
++	imply BOOTSTD_FULL
++	imply BOOTSTD_BOOTCOMMAND
+ 
+ endchoice
+ 
+-- 
+2.25.1
+
