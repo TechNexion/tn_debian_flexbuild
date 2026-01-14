@@ -102,8 +102,8 @@ generate_bootpartition_tarball() {
                 dtb=$(echo ${brd} | sed 's/\(.*\)\(evk\)/\1*\2*.dtb*/')
             elif ( echo $brd | grep -qE "mek" ); then
                 dtb=$(echo ${brd} | sed 's/\(.*\)\(mek\)/\1*\2*.dtb*/')
-            elif ( echo $brd | grep -qE "storm" ); then
-                dtb=$(echo ${brd} | sed 's/\(.*\)\(frdm\)\(storm\)/\1*\2*\3*.dtb*/')
+            elif ( echo $brd | grep -qE "sfrdm" ); then
+                dtb=$(echo ${brd} | sed 's/\(.*\)\(s\)\(frdm\)/\1*\3*\1\2*.dtb*/')
             elif ( echo $brd | grep -qE "frdm" ); then
                 dtb=$(echo ${brd} | sed 's/\(.*\)\(frdm\)/\1*\2*.dtb*/')
             elif ( echo $brd | grep -qE "sabresd" ); then
