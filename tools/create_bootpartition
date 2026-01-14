@@ -40,7 +40,7 @@ generate_bootpartition_tarball() {
     rm -f $bootpartdir/modules/$modversion/{build,source}
 
     # install splash image
-    cp -f src/bsp/splash.bmp $bootpartdir
+    cp -f $FBDIR/src/bsp/splash.bmp $bootpartdir
 
     # install distro boot script
     fbprint_n "Installing distro boot script "
