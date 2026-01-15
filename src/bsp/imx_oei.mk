@@ -17,6 +17,14 @@ imx_oei:
 	$(call fbprint_b,"imx_oei") && \
 	cd $(BSPDIR)/imx_oei && \
 	export PATH=/usr/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi/bin:$(PATH) && \
-	$(MAKE) board=mx95lp4x-15 oei=ddr clean $(LOG_MUTE) && \
-	$(MAKE) board=mx95lp4x-15 oei=ddr DEBUG=1 OEI_CROSS_COMPILE=arm-none-eabi- r=B0 $(LOG_MUTE) && \
+	case $(MACHINE) in \
+		imx95-edm) \
+			$(MAKE) board=edm-imx95 oei=ddr really-clean $(LOG_MUTE) && \
+			$(MAKE) board=edm-imx95 oei=ddr DEBUG=1 OEI_CROSS_COMPILE=arm-none-eabi- r=B0 $(LOG_MUTE); \
+			;;\
+		*)\
+			$(MAKE) board=mx95lp4x-15 oei=ddr clean $(LOG_MUTE) && \
+			$(MAKE) board=mx95lp4x-15 oei=ddr DEBUG=1 OEI_CROSS_COMPILE=arm-none-eabi- r=B0 $(LOG_MUTE); \
+			;;\
+	esac && \
 	$(call fbprint_d,"imx_oei")
