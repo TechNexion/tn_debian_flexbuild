@@ -148,7 +148,7 @@ safe_disable_service networking
 safe_run systemctl enable systemd-networkd --now
 
 # disable wpa_supplicant since it always print logs
-safe_mask_service wpa_supplicant
+#safe_mask_service wpa_supplicant
 
 # disable systemd-networkd-wait-online to speed up the boot
 safe_disable_service systemd-networkd-wait-online
