@@ -1,0 +1,25 @@
+From c2b3beb1d0354b237701ab084e84bd16a7265568 Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Wed, 21 Jan 2026 17:44:36 +0800
+Subject: [PATCH] dpu95: reduce error logs
+
+---
+ drivers/gpu/drm/imx/dpu95/dpu95-blit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/imx/dpu95/dpu95-blit.c b/drivers/gpu/drm/imx/dpu95/dpu95-blit.c
+index fcea7d2f4076..5c8ade6d344a 100644
+--- a/drivers/gpu/drm/imx/dpu95/dpu95-blit.c
++++ b/drivers/gpu/drm/imx/dpu95/dpu95-blit.c
+@@ -279,7 +279,7 @@ static int dpu95_be_fd_to_address(struct drm_device *drm_dev, int fd, unsigned l
+ 
+ 	dmabuf = dma_buf_get(fd);
+ 	if (IS_ERR(dmabuf)) {
+-		drm_err(drm_dev, "failed to get dmabuf\n");
++		drm_err_once(drm_dev, "failed to get dmabuf\n");
+ 		return PTR_ERR(dmabuf);
+ 	}
+ 	attachment = dma_buf_attach(dmabuf, drm_dev->dev);
+-- 
+2.25.1
+
