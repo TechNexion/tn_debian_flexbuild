@@ -1,0 +1,29 @@
+From a85f0ebe39339f114803c51c9594b2bac2f7151d Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Thu, 22 Jan 2026 16:34:40 +0800
+Subject: [PATCH] ARM64: configs: tn_imx_v8_defconfig: change maxim serdes
+ driver as build in
+
+For VLS GMSL2 camera feature.
+---
+ arch/arm64/configs/tn_imx_v8_defconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/configs/tn_imx_v8_defconfig b/arch/arm64/configs/tn_imx_v8_defconfig
+index 6a0c07ad9ab8..71df79fb50c0 100644
+--- a/arch/arm64/configs/tn_imx_v8_defconfig
++++ b/arch/arm64/configs/tn_imx_v8_defconfig
+@@ -594,8 +594,8 @@ CONFIG_VIDEO_OX03C10_DRV=m
+ CONFIG_VIDEO_RDACM20=y
+ CONFIG_VIDEO_OX05B1S=m
+ CONFIG_VIDEO_MAX9286=y
+-CONFIG_VIDEO_MAX96724=m
+-CONFIG_VIDEO_MAX96717=m
++CONFIG_VIDEO_MAX96724=y
++CONFIG_VIDEO_MAX96717=y
+ CONFIG_VIDEO_MX95MBCAM=m
+ CONFIG_VIDEO_TC358743=y
+ CONFIG_SERDES_VIZIONLINK=y
+-- 
+2.25.1
+
