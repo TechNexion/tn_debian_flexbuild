@@ -20,4 +20,8 @@ tn_bsp_services:
 	 install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/setup_console_wakup_source.sh $(DESTDIR)/usr/sbin && \
 	 install -m 0644 $(FBDIR)/src/apps/utils/tn_bsp_services/disable_auto_suspend.service $(DESTDIR)/usr/lib/systemd/system && \
 	 ln -sf /usr/lib/systemd/system/disable_auto_suspend.service $(DESTDIR)/etc/systemd/system/graphical.target.wants/disable_auto_suspend.service && \
+	 echo -e "[tn_bsp] install media_setup..." && \
+	 install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/media_setup.sh $(DESTDIR)/usr/sbin && \
+	 install -m 0644 $(FBDIR)/src/apps/utils/tn_bsp_services/media_setup.service $(DESTDIR)/usr/lib/systemd/system && \
+	 ln -sf /usr/lib/systemd/system/media_setup.service $(DESTDIR)/etc/systemd/system/multi-user.target.wants/media_setup.service && \
 	 $(call fbprint_d,"tn_bsp_services")

@@ -1,0 +1,14 @@
+[Unit]
+Description=Setup Media Pipeline for Camera
+#After=systemd-modules-load.service local-fs.target
+After=systemd-remount-fs.service
+
+[Service]
+Type=oneshot
+StandardOutput=journal+console
+StandardError=journal+console
+ExecStart=/bin/bash /usr/sbin/media_setup.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
