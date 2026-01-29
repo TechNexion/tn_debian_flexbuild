@@ -64,7 +64,7 @@ repo:
 
   uboot:
     url:  https://github.com/TechNexion/u-boot-tn-imx.git
-    branch: tn-imx_v2025.04_6.12.49_2.2.0-next
+    commit: 497604e6ac6945e6fc43b935b70c351f5d5eea4c
 
   rcw:
     url:  https://github.com/nxp-qoriq/rcw.git
@@ -105,9 +105,11 @@ repo:
 
   imx_sm:
     url:  https://github.com/nxp-imx/imx-sm.git
+    tag:  lf-6.12.49-2.2.0
 
   imx_oei:
     url:  https://github.com/TechNexion/imx-oei.git
+    commit: 8593c67893ad06160ec22d67e078b6ad12bf5ea1
 
 # i.MX SECO firmware for i.MX 8QuadMax, 8QuadXPlus, and 8DXL reference boards
   seco_bin:
@@ -166,7 +168,7 @@ repo:
 # --------------------------------------------------------------------------------------
   linux:
     url:  https://github.com/TechNexion/linux-tn-imx.git
-    branch: tn-imx_6.12.49_2.2.0-next
+    commit: 8e5007d5e65d5012406a4b44dd34247cbe39facb
 
   cryptodev_linux:
     url:  https://github.com/cryptodev-linux/cryptodev-linux.git
