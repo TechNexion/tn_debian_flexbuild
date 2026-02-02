@@ -1,0 +1,25 @@
+From 268d6edb7c7ab438e72dc3d1ac33094fc4f009aa Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Mon, 2 Feb 2026 18:25:51 +0800
+Subject: [PATCH] ARM64: imx8mm-pico-wizard: correct mipi_csi port
+
+---
+ .../boot/dts/freescale/overlays/imx8mm-pico-wizard-tevs.dtso    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/freescale/overlays/imx8mm-pico-wizard-tevs.dtso b/arch/arm64/boot/dts/freescale/overlays/imx8mm-pico-wizard-tevs.dtso
+index 9b6acbb14d0f..f9609fe4306f 100644
+--- a/arch/arm64/boot/dts/freescale/overlays/imx8mm-pico-wizard-tevs.dtso
++++ b/arch/arm64/boot/dts/freescale/overlays/imx8mm-pico-wizard-tevs.dtso
+@@ -19,7 +19,7 @@ &mipi_csi {
+ 	ports {
+ 		port@0 {
+ 			imx8mm_mipi_csi_in: endpoint {
+-				remote-endpoint = <&tevs_1_ep>;
++				remote-endpoint = <&tevs_0_ep>;
+ 				data-lanes = <1 2>;
+ 			};
+ 		};
+-- 
+2.25.1
+
