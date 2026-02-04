@@ -47,7 +47,7 @@ mkdir -p /usr/local/bin \
 # User and group setup
 id -u debian &>/dev/null || useradd -m -d /home/debian -s /bin/bash debian
 getent group wayland &>/dev/null || groupadd wayland
-usermod -aG sudo,input,video,wayland,render debian || true
+usermod -aG sudo,input,video,wayland,render,i2c debian || true
 passwd --delete root >/dev/null || true
 passwd --delete debian >/dev/null || true
 
