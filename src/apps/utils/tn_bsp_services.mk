@@ -24,4 +24,10 @@ tn_bsp_services:
 	 install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/media_setup.sh $(DESTDIR)/usr/sbin && \
 	 install -m 0644 $(FBDIR)/src/apps/utils/tn_bsp_services/media_setup.service $(DESTDIR)/usr/lib/systemd/system && \
 	 ln -sf /usr/lib/systemd/system/media_setup.service $(DESTDIR)/etc/systemd/system/multi-user.target.wants/media_setup.service && \
+	 if [ "$${MACHINE:0:5}" != "imx91" ] && [ "$${MACHINE:0:5}" != "imx93" ]; then \
+		echo -e "[tn_bsp] install wayland_init..." && \
+		install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/wayland_init.sh $(DESTDIR)/usr/sbin && \
+		install -m 0644 $(FBDIR)/src/apps/utils/tn_bsp_services/wayland_init.service $(DESTDIR)/usr/lib/systemd/system && \
+		ln -sf /usr/lib/systemd/system/wayland_init.service $(DESTDIR)/etc/systemd/system/multi-user.target.wants/wayland_init.service; \
+	 fi && \
 	 $(call fbprint_d,"tn_bsp_services")
