@@ -768,7 +768,7 @@ DESTARCH=arm64
 LS_MACHINE_LIST="ls1043ardb ls1046ardb ls1028ardb lx2160ardb"
 #IMX_MACHINE_LIST=`grep -r 'machine=' $FBDIR/configs/board | grep -E '=imx' | cut -d= -f2 | xargs echo`
 IMX_MACHINE_LIST="imx8mpfrdm imx8mpevk imx8mmevk imx8qmmek imx91frdm imx91evk imx91sfrdm imx93evk imx93frdm imx95frdm imx95evk"
-IMX_MACHINE_LIST+=" imx8mp-edm-g imx8mp-axon imx8mm-edm-g imx8mm-pico imx91-edm imx91-axon imx93-edm imx93-axon imx95-edm"
+IMX_MACHINE_LIST+=" imx8mp-edm-g imx8mp-axon imx8mm-edm-g imx8mm-pico imx91-edm imx91-axon imx91-pico imx93-edm imx93-axon imx93-pico imx95-edm"
 
 
 ARGS=$(getopt -a -o m:j:a:b:c:f:r:i:p:k:B:T:soetvhF \
