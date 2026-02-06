@@ -167,6 +167,13 @@ systemctl disable platcfg.service &>/dev/null || true
 safe_run dpkg --configure -a
 safe_run systemctl daemon-reload
 
+# setup vizionviwer launcher
+if [[ -e /usr/bin/vizionviewer ]] && (! grep -q "vizionviewer" /etc/xdg/weston/weston.ini); then
+    log "Install VizionViewer launcher"
+    sed -i --follow-symlinks '$a \\n[launcher]\nicon=/opt/vizionviewer/icons/icon_24x24.png\npath=/usr/bin/vizionviewer' /etc/xdg/weston/weston.ini
+    #safe_run systemctl restart weston
+fi
+
 if [[ $PPID -eq 1 ]] && [[ -f /etc/systemd/system/graphical.target.wants/weston.service ]]; then
     safe_run systemctl start weston
 fi
