@@ -5,21 +5,33 @@
 
 # iMX multimedia VPU wrapper
 
+VPU_WRAP_DEPS := imx_vpu_hantro
+ifneq (,$(findstring 8mp,$(MACHINE)))
+VPU_WRAP_DEPS += imx_vpu_hantro_vc
+endif
 
-imx_vpuwrap: imx_vpu_hantro imx_vpu_hantro_vc
+imx_vpuwrap: $(VPU_WRAP_DEPS)
 	@[ $(SOCFAMILY) != IMX ] && exit || \
 	 $(call download_repo,imx_vpuwrap,apps/multimedia) && \
 	 $(call patch_apply,imx_vpuwrap,apps/multimedia) && \
 	 $(call fbprint_b,"imx_vpuwrap") && \
 	 cd $(MMDIR)/imx_vpuwrap && \
+	 if [ -f Makefile ]; then $(MAKE) clean; fi && \
 	 export CFLAGS="-I$(DESTDIR)/usr/include -I$(DESTDIR)/usr/include/hantro_dec -I$(DESTDIR)/usr/include/hantro_enc" && \
 	 export LDFLAGS="-L$(DESTDIR)/usr/lib -Wl,-O2" && \
 	 if [ ! -f /usr/bin/libtool ]; then sudo ln -s libtoolize /usr/bin/libtool; fi && \
 	 ./autogen.sh --prefix=/usr --host=aarch64-linux-gnu --with-sysroot=$(RFSDIR) $(LOG_MUTE) && \
-	 sed -e 's/^am__append_3/#am__append_3/' -e 's/^am__append_5/#am__append_5/' \
-	     -e 's/^am__append_8/#am__append_8/' -e 's/^am__objects_3/#am__objects_3/' \
-	     -e 's/^am__DEPENDENCIES_2/#am__DEPENDENCIES_2/' -e 's/^am__append_5/#am__append_5/' \
-	     -e 's/^include /#include /' -i Makefile && \
+	 if [ "$${MACHINE:0:6}" == "imx8mp" ]; then \
+		sed -e 's/^am__append_3/#am__append_3/' -e 's/^am__append_5/#am__append_5/' \
+		    -e 's/^am__append_8/#am__append_8/' -e 's/^am__objects_3/#am__objects_3/' \
+		    -e 's/^am__DEPENDENCIES_2/#am__DEPENDENCIES_2/' \
+		    -e 's/^include /#include /' -i Makefile; \
+	 else \
+		sed -e 's/^am__append_4/#am__append_4/' -e 's/^am__append_6/#am__append_6/' \
+		    -e 's/^am__append_9/#am__append_9/' -e 's/^am__objects_4/#am__objects_4/' \
+		    -e 's/^am__DEPENDENCIES_2/#am__DEPENDENCIES_2/' \
+		    -e 's/^include /#include /' -i Makefile; \
+	 fi && \
 	 $(MAKE) DEST_DIR=$(DESTDIR) SDKTARGETSYSROOT=$(DESTDIR) CC=aarch64-linux-gnu-gcc $(LOG_MUTE) && \
 	 $(MAKE) DEST_DIR=$(DESTDIR) SDKTARGETSYSROOT=$(DESTDIR) install $(LOG_MUTE) && \
 	#echo installed examples in $(DESTDIR)/usr/share/imx-mm/video-codec/examples && \
