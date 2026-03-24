@@ -24,6 +24,9 @@ tn_bsp_services:
 	 install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/media_setup.sh $(DESTDIR)/usr/sbin && \
 	 install -m 0644 $(FBDIR)/src/apps/utils/tn_bsp_services/media_setup.service $(DESTDIR)/usr/lib/systemd/system && \
 	 ln -sf /usr/lib/systemd/system/media_setup.service $(DESTDIR)/etc/systemd/system/multi-user.target.wants/media_setup.service && \
+	 echo -e "[tn_bsp] install udev-retry..." && \
+	 install -m 0644 $(FBDIR)/src/apps/utils/tn_bsp_services/udev-retry.service $(DESTDIR)/usr/lib/systemd/system && \
+	 ln -sf /usr/lib/systemd/system/udev-retry.service $(DESTDIR)/etc/systemd/system/multi-user.target.wants/udev-retry.service && \
 	 if [ "$${MACHINE:0:5}" != "imx91" ] && [ "$${MACHINE:0:5}" != "imx93" ]; then \
 		echo -e "[tn_bsp] install wayland_init..." && \
 		install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/wayland_init.sh $(DESTDIR)/usr/sbin && \

@@ -1,0 +1,13 @@
+[Unit]
+Description=Retry udev trigger for missing modules
+After=multi-user.target
+
+[Service]
+Type=oneshot
+#ExecStartPre=/usr/bin/sleep 5
+ExecStart=/usr/bin/udevadm trigger --action=add --type=devices
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
