@@ -11,6 +11,7 @@ tn_bsp_services:
 	 mkdir -p $(DESTDIR)/usr/lib/systemd/system $(DESTDIR)/etc/systemd/system/multi-user.target.wants && \
 	 mkdir -p $(DESTDIR)/etc/systemd/system/graphical.target.wants && \
 	 mkdir -p $(DESTDIR)/usr/sbin && \
+	 mkdir -p $(DESTDIR)/etc/udev/rules.d && \
 	 echo -e "[tn_bsp] install resize_rfs..." && \
 	 install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/resize_rfs.sh $(DESTDIR)/usr/sbin && \
 	 install -m 0644 $(FBDIR)/src/apps/utils/tn_bsp_services/resize_rfs.service $(DESTDIR)/usr/lib/systemd/system && \
@@ -24,9 +25,10 @@ tn_bsp_services:
 	 install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/media_setup.sh $(DESTDIR)/usr/sbin && \
 	 install -m 0644 $(FBDIR)/src/apps/utils/tn_bsp_services/media_setup.service $(DESTDIR)/usr/lib/systemd/system && \
 	 ln -sf /usr/lib/systemd/system/media_setup.service $(DESTDIR)/etc/systemd/system/multi-user.target.wants/media_setup.service && \
-	 echo -e "[tn_bsp] install udev-retry..." && \
+	 echo -e "[tn_bsp] install udev..." && \
 	 install -m 0644 $(FBDIR)/src/apps/utils/tn_bsp_services/udev-retry.service $(DESTDIR)/usr/lib/systemd/system && \
 	 ln -sf /usr/lib/systemd/system/udev-retry.service $(DESTDIR)/etc/systemd/system/multi-user.target.wants/udev-retry.service && \
+	 install -m 0660 $(FBDIR)/src/apps/utils/tn_bsp_services/99-dma-heap.rules $(DESTDIR)/etc/udev/rules.d && \
 	 if [ "$${MACHINE:0:5}" != "imx91" ] && [ "$${MACHINE:0:5}" != "imx93" ]; then \
 		echo -e "[tn_bsp] install wayland_init..." && \
 		install -m 0755 $(FBDIR)/src/apps/utils/tn_bsp_services/wayland_init.sh $(DESTDIR)/usr/sbin && \
