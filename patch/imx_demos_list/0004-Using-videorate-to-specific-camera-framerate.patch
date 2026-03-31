@@ -1,0 +1,74 @@
+From 38595ce6d89cdaa479cba6cb39e7ce7e6b443349 Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Tue, 31 Mar 2026 17:14:56 +0800
+Subject: [PATCH] Using videorate to specific camera framerate
+
+Delete the set camera framerate to pipline and change to use video
+output a specific frame amount. Make it more flexible when using
+high-spec cameras.
+---
+ scripts/machine_learning/dms/dms_demo.py                  | 3 ++-
+ .../machine_learning/selfie_segmenter/selfie_segmenter.py | 8 +++++---
+ .../gstreamer/multi_cameras/imx8mp_camera_demo.py         | 4 ++--
+ 3 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/scripts/machine_learning/dms/dms_demo.py b/scripts/machine_learning/dms/dms_demo.py
+index fdb68a4..50c7218 100644
+--- a/scripts/machine_learning/dms/dms_demo.py
++++ b/scripts/machine_learning/dms/dms_demo.py
+@@ -174,8 +174,9 @@ class DMSDemo:
+         cam_pipeline = (
+             "v4l2src device="
+             + video_device
+-            + " ! video/x-raw,framerate=30/1,"
++            + " ! video/x-raw,"
+             + "height=480,width=640,format=YUY2 ! "
++            + "videorate ! video/x-raw,framerate=30/1 ! "
+             + videocrop
+             + "tee name=cam !  queue max-size-buffers=2 leaky=2 ! comp.sink_0  filesrc "
+             + "location="
+diff --git a/scripts/machine_learning/selfie_segmenter/selfie_segmenter.py b/scripts/machine_learning/selfie_segmenter/selfie_segmenter.py
+index 1a9af29..fa85fdc 100644
+--- a/scripts/machine_learning/selfie_segmenter/selfie_segmenter.py
++++ b/scripts/machine_learning/selfie_segmenter/selfie_segmenter.py
+@@ -584,7 +584,8 @@ class SelfieSegmenter:
+                 # Define camera source pipeline
+                 "v4l2src device="
+                 + device
+-                + " ! video/x-raw,width=640,height=480,framerate=30/1 ! "
++                + " ! video/x-raw,width=640,height=480! "
++                + "videorate ! video/x-raw,framerate=30/1 ! "
+                 + "aspectratiocrop aspect-ratio="
+                 + self.aspect_ratio
+                 + " ! "
+@@ -659,8 +660,9 @@ class SelfieSegmenter:
+                 # Define camera source pipeline
+                 + "v4l2src device="
+                 + device
+-                + " ! video/x-raw,width=640,height=480,framerate="
+-                + "30/1 ! aspectratiocrop aspect-ratio="
++                + " ! video/x-raw,width=640,height=480 ! "
++                + "videorate ! video/x-raw,framerate=30/1 ! "
++                + "aspectratiocrop aspect-ratio="
+                 + self.aspect_ratio
+                 + " ! "
+                 + self.nxp_converter
+diff --git a/scripts/multimedia/gstreamer/multi_cameras/imx8mp_camera_demo.py b/scripts/multimedia/gstreamer/multi_cameras/imx8mp_camera_demo.py
+index fbc2f0b..a3b1f82 100644
+--- a/scripts/multimedia/gstreamer/multi_cameras/imx8mp_camera_demo.py
++++ b/scripts/multimedia/gstreamer/multi_cameras/imx8mp_camera_demo.py
+@@ -30,9 +30,9 @@ MULTI_CAM_PIPELINE = (
+     "sink_1::xpos=0 sink_1::ypos=0 sink_1::width=640 "
+     "sink_1::height=480 sink_1::keep-ratio=true ! "
+     "waylandsink sync=false "
+-    "v4l2src device={} ! video/x-raw,width=1920,height=1080,framerate=30/1 ! "
++    "v4l2src device={} ! video/x-raw,width=1920,height=1080 ! videorate ! video/x-raw,framerate=30/1 ! "
+     "imxvideoconvert_g2d ! c.sink_0 "
+-    "v4l2src device={} ! video/x-raw,width=640,height=480,framerate=30/1 ! "
++    "v4l2src device={} ! video/x-raw,width=640,height=480 ! videorate ! video/x-raw,framerate=30/1 ! "
+     "imxvideoconvert_g2d ! c.sink_1"
+ )
+ 
+-- 
+2.25.1
+
