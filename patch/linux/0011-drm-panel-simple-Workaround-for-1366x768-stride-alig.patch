@@ -1,0 +1,29 @@
+From aa001a668b61366def3abd0510de3a252301c750 Mon Sep 17 00:00:00 2001
+From: Jimmy Yi <jimmy.yi@technexion.com>
+Date: Thu, 2 Apr 2026 08:00:06 +0000
+Subject: [PATCH] drm/panel: simple: Workaround for 1366x768 stride alignment
+ issue on panel VL15613676
+
+Under GDM desktop, 1366 horizontal active pixels result in a 5464-byte stride, which is not 16/32-byte aligned.
+This causes slanted display distortion on i.MX8MP/MM LCDIF.
+This patch forces hactive to 1360 (5440-byte stride) to satisfy hardware alignment requirements at the cost of a 6-pixel black border.
+---
+ drivers/gpu/drm/panel/panel-simple.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 97c3eb9cd84e..caaba8afd738 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -5591,7 +5591,7 @@ static const struct panel_desc_dsi dsi2lvds_panel = {
+ 
+ static const struct display_timing vxt_vl15613676_timing = {
+ 	.pixelclock = { 60000000, 76000000, 90000000 },
+-	.hactive = { 1366, 1366, 1368 },
++	.hactive = { 1360, 1360, 1360 },
+ 	.hfront_porch = { 35, 90, 250 },
+ 	.hback_porch = { 35, 90, 250 },
+ 	.hsync_len = { 10, 20, 70 },
+-- 
+2.43.0
+
