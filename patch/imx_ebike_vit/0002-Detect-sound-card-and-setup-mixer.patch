@@ -1,0 +1,103 @@
+From 801f1653216bc6ad5dbc176c0c90e4885cceec1a Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Fri, 10 Apr 2026 11:29:35 +0800
+Subject: [PATCH 2/4] Detect sound card and setup mixer
+
+---
+ misc/scripts/audio_conf.sh | 83 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
+ create mode 100755 misc/scripts/audio_conf.sh
+
+diff --git a/misc/scripts/audio_conf.sh b/misc/scripts/audio_conf.sh
+new file mode 100755
+index 0000000..8f2717d
+--- /dev/null
++++ b/misc/scripts/audio_conf.sh
+@@ -0,0 +1,83 @@
++#!/bin/bash
++
++SUPPORTED_CARDS=("wm8960audio" "tlv320aic3xaudi")
++SOM=$(uname -n)
++
++detect_card() {
++    for card in "${SUPPORTED_CARDS[@]}"; do
++        if grep -q "$card" /proc/asound/cards; then
++            echo "$card"
++            return 0
++        fi
++    done
++    return 1
++}
++
++apply_settings() {
++    local audiocard=$1
++    echo "Applying amixer settings for $audiocard..."
++
++    case "$audiocard" in
++        "wm8960audio")
++            amixer -c "$audiocard" sset 'Playback' 100%
++            amixer -c "$audiocard" sset 'Headphone' 80%
++            amixer -c "$audiocard" sset 'Left Output Mixer PCM' on
++            amixer -c "$audiocard" sset 'Right Output Mixer PCM' on
++            amixer -c "$audiocard" sset 'Capture' 100% on
++            amixer -c "$audiocard" sset 'ADC PCM' 100%
++            amixer -c "$audiocard" sset 'Left Input Mixer Boost' on
++            amixer -c "$audiocard" sset 'Left Boost Mixer LINPUT1' on
++            amixer -c "$audiocard" sset 'Left Input Boost Mixer LINPUT1' 3
++            amixer -c "$audiocard" sset 'Right Input Mixer Boost' on
++            amixer -c "$audiocard" sset 'Right Boost Mixer RINPUT1' on
++            amixer -c "$audiocard" sset 'Right Input Boost Mixer RINPUT1' 3
++            ;;
++        "tlv320aic3xaudi")
++            # tlv320aic31xx
++            amixer -c "$audiocard" sset 'Speaker Analog' 85%
++            amixer -c "$audiocard" sset 'Speaker Driver' 100% unmute
++            amixer -c "$audiocard" sset 'HP Analog' 80%
++            amixer -c "$audiocard" sset 'HP Driver' 4 unmute
++            amixer -c "$audiocard" sset 'DAC' 85%
++            amixer -c "$audiocard" sset 'Mic PGA' 85%
++            amixer -c "$audiocard" sset 'ADC' 85% unmute
++            amixer -c "$audiocard" sset 'MIC1RP P-Terminal' 'FFR 10 Ohm'
++            # tlv320aic3104
++            amixer -c "$audiocard" sset 'PCM' 100%
++            amixer -c "$audiocard" sset 'HP DAC' 100%
++            amixer -c "$audiocard" sset 'Left HP Mixer DACL1' on
++            amixer -c "$audiocard" sset 'Right HP Mixer DACR1' on
++            amixer -c "$audiocard" sset 'HP' 100% unmute
++            amixer -c "$audiocard" sset 'Line DAC' 100%
++            amixer -c "$audiocard" sset 'Left Line Mixer DACL1' on
++            amixer -c "$audiocard" sset 'Right Line Mixer DACR1' on
++            amixer -c "$audiocard" sset 'Line' 100% unmute
++            amixer -c "$audiocard" sset 'PGA' 80% unmute
++            amixer -c "$audiocard" sset 'Left PGA Mixer Mic2L' on
++            amixer -c "$audiocard" sset 'Right PGA Mixer Mic2R' on
++            amixer -c "$audiocard" sset 'Left PGA Mixer Line1L' on
++            amixer -c "$audiocard" sset 'Right PGA Mixer Line1R' on
++            ;;
++        *)
++            echo "Unknown audiocard: $audiocard"
++            return 1
++            ;;
++    esac
++}
++
++case "$1" in
++    "--detect")
++        detect_card
++        ;;
++    "--setup")
++        if [ -z "$2" ]; then
++            echo "Usage: $0 --setup <audiocard_name>"
++            exit 1
++        fi
++        apply_settings "$2"
++        ;;
++    *)
++        echo "Usage: $0 {--detect|--setup <cardname>}"
++        exit 1
++        ;;
++esac
+\ No newline at end of file
+-- 
+2.25.1
+

@@ -1,0 +1,75 @@
+From a4aa159788af40e346e748d6dc1e9a1acad947b0 Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Fri, 10 Apr 2026 11:33:20 +0800
+Subject: [PATCH 4/4] Enable ebike demo on TN board
+
+1. Audo detect sound card and setup mixer
+2. run voice_ui_app with correct type
+---
+ misc/scripts/run.sh | 30 +++++++++++++++++++++++-------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
+
+diff --git a/misc/scripts/run.sh b/misc/scripts/run.sh
+index 6eb27db..66242b9 100755
+--- a/misc/scripts/run.sh
++++ b/misc/scripts/run.sh
+@@ -5,6 +5,10 @@
+ 
+ mypath=$(dirname $0)
+ evk=$(uname -n)
++AUDIO_CONF_SCRIPT="$mypath/audio_conf.sh"
++if echo $evk | grep -q 'imx9'; then barch=a55
++elif echo $evk | grep -q 'imx8'; then barch=a53
++fi
+ 
+ # Remove old queue files
+ rm /dev/mqueue/wakeword_queue
+@@ -25,8 +29,16 @@ elif [[ $evk == "imx8mm-lpddr4-evk" || $evk == "imx8mmevk" ]]; then
+ 	audiocard="imxaudiomicfil"
+ 	cp -v $mypath/conf/asound.conf_imx8mm /etc/asound.conf
+ else
+-	echo "ebike vit demo is not supported in this board!!!"
+-	exit
++	#echo "Non-NXP EVK device detected ($evk), checking local audio config..."
++	detected=$( $AUDIO_CONF_SCRIPT --detect )
++
++	if [ ! -z "$detected" ]; then
++		audiocard="$detected"
++		cp -v "$mypath/conf/asound.conf_$audiocard" /etc/asound.conf
++	else
++		echo "ebike vit demo is not supported in this board!!!"
++		exit
++	fi
+ fi
+ 
+ cp $mypath/vit-notify/WakeWordNotify /usr/bin/
+@@ -40,17 +52,21 @@ killall afe
+ 
+ sleep 0.1s
+ 
+-amixer -c $audiocard sset 'MICFIL Quality Select' 'High'
++if [ -x "$AUDIO_CONF_SCRIPT" ]; then
++	$AUDIO_CONF_SCRIPT --setup "$audiocard" >/dev/null 2>&1
++else
++	amixer -c $audiocard sset 'MICFIL Quality Select' 'High'
+ 
+-for i in {1..8}; do
+-	amixer -c $audiocard cset numid=$i 85%
+-done
++	for i in {1..8}; do
++		amixer -c $audiocard cset numid=$i 85%
++	done
++fi
+ 
+ modprobe snd-aloop
+ sleep 0.1s
+ 
+ $mypath/ebike-vit-gui &
+ sleep 0.1s
+-$mypath/voice_ui_app -notify &
++$mypath/voice_ui_app.$barch -notify &
+ sleep 0.1s
+ $mypath/afe libvoiceseekerlight >/dev/null 2>&1
+-- 
+2.25.1
+
