@@ -24,6 +24,12 @@ imx_smart_kitchen:
 	 \
 	 export CC="$(CROSS_COMPILE)gcc --sysroot=$(RFSDIR)" && \
 	 export CXX="$(CROSS_COMPILE)g++ --sysroot=$(RFSDIR)" && \
+	 _PYTHON_HOST_PLATFORM=linux-aarch64 pip3 install posix_ipc==1.3.2 \
+		--prefix=$(DESTDIR)/usr \
+		--no-cache-dir \
+		--ignore-installed \
+		--no-deps $(LOG_MUTE) && \
+	 \
 	 $(call fbprint_b,"imx_smart_kitchen") && \
 	 cd $(GPDIR)/imx_smart_kitchen && \
 	 sed -i 's|/home/root/.nxp-demo-experience|/opt/gopoint-apps|g' \
@@ -36,6 +42,7 @@ imx_smart_kitchen:
 	 cd $(GPDIR)/imx_smart_kitchen && \
 	 if [ ! -f .patchdone ]; then \
 		 git am $(FBDIR)/patch/imx_smart_kitchen/0001-Update-lv_anim_set_exec_cb-with-correct-function-typ.patch $(LOG_MUTE); \
+		 git am $(FBDIR)/patch/imx_smart_kitchen/ext/*.patch $(LOG_MUTE); \
 		 touch .patchdone; \
 	 fi && \
 	 cp -r wayland-client/* lv_drivers/wayland/ && \
