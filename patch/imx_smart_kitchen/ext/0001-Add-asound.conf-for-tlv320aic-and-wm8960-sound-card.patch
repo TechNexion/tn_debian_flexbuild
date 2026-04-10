@@ -1,0 +1,260 @@
+From 537e64b86fbbf56baf192ada99e0b2bc3efd9415 Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Fri, 10 Apr 2026 15:10:31 +0800
+Subject: [PATCH 1/4] Add asound.conf for tlv320aic and wm8960 sound card
+
+These sound card only have one physical mic source. But afe handle
+4-8 audio streams as default. Duplicate channel 1 to other channels
+to fix the output with low volume after afe.
+---
+ misc/conf/asound.conf_tlv320aic3xaudi | 115 ++++++++++++++++++++++++++
+ misc/conf/asound.conf_wm8960audio     | 115 ++++++++++++++++++++++++++
+ 2 files changed, 230 insertions(+)
+ create mode 100755 misc/conf/asound.conf_tlv320aic3xaudi
+ create mode 100755 misc/conf/asound.conf_wm8960audio
+
+diff --git a/misc/conf/asound.conf_tlv320aic3xaudi b/misc/conf/asound.conf_tlv320aic3xaudi
+new file mode 100755
+index 0000000..d59d153
+--- /dev/null
++++ b/misc/conf/asound.conf_tlv320aic3xaudi
+@@ -0,0 +1,115 @@
++defaults.pcm.rate_converter "linear"
++
++# spk represents the physical sink (playback)
++pcm.spk
++{
++	type plug
++	slave {
++		pcm "plughw:tlv320aic3xaudi,0"
++		format S16_LE
++		rate 48000
++		channels 2
++	}
++}
++
++# mic represents the physical source (capture)
++pcm.mic
++{
++	type plug
++	slave {
++		pcm "plughw:tlv320aic3xaudi,0"
++		format S16_LE
++		rate 16000
++		channels 1
++	}
++	ttable.0.0 1
++	ttable.0.1 1
++	ttable.0.2 1
++	ttable.0.3 1
++	ttable.0.4 1
++	ttable.0.5 1
++	ttable.0.6 1
++	ttable.0.7 1
++}
++
++# Following two definitions define the Virtual Sink (playback) stream
++# pwloop stands for playback write loopback
++pcm.pwloop
++{
++	type hw
++	card Loopback
++	device 1
++	subdevice 0
++}
++
++# prloop stands for playback read loopback
++pcm.prloop
++{
++	type hw
++	card Loopback
++	device 0
++	subdevice 0
++}
++
++# Following two definitions define the Virtual Source (capture) stream
++# cwloop stands for capture write loopback
++pcm.cwloop
++{
++	type hw
++	card Loopback
++	device 1
++	subdevice 1
++}
++
++# crloop stands for capture read loopback
++pcm.crloop
++{
++	type hw
++	card Loopback
++	device 0
++	subdevice 1
++}
++
++# As multiple sources may play audio at the same time, we use the mix
++# plugin. Otherwise only a single playback source would be allowed.
++pcm.mix
++{
++	type dmix
++	ipc_key 1001
++	slave {
++		pcm "pwloop"
++		format S32_LE
++		rate 48000
++		channels 2
++		buffer_size 512
++		period_size 128
++	}
++}
++
++pcm.split
++{
++	type dsnoop
++	ipc_key 1002
++	slave {
++		pcm "crloop"
++		format S32_LE
++		rate 16000
++		channels 1
++		buffer_size 512
++		period_size 128
++	}
++}
++
++# Applications like Alexa read/write from/to default stream.
++# Unfortunately we can't have default capture stream and
++# default playback stream. ALSA offers the asym plugin, which
++# allows to define a default capture/playback stream as one device.
++# The plug plugin is introduced for automatic sample rate and format
++# conversion.
++pcm.!default
++{
++	type asym
++	playback.pcm "plug:mix"
++	capture.pcm "plug:split"
++}
++
+diff --git a/misc/conf/asound.conf_wm8960audio b/misc/conf/asound.conf_wm8960audio
+new file mode 100755
+index 0000000..364752e
+--- /dev/null
++++ b/misc/conf/asound.conf_wm8960audio
+@@ -0,0 +1,115 @@
++defaults.pcm.rate_converter "linear"
++
++# spk represents the physical sink (playback)
++pcm.spk
++{
++	type plug
++	slave {
++		pcm "plughw:wm8960audio,0"
++		format S16_LE
++		rate 48000
++		channels 2
++	}
++}
++
++# mic represents the physical source (capture)
++pcm.mic
++{
++	type plug
++	slave {
++		pcm "plughw:wm8960audio,0"
++		format S16_LE
++		rate 16000
++		channels 1
++	}
++	ttable.0.0 1
++	ttable.0.1 1
++	ttable.0.2 1
++	ttable.0.3 1
++	ttable.0.4 1
++	ttable.0.5 1
++	ttable.0.6 1
++	ttable.0.7 1
++}
++
++# Following two definitions define the Virtual Sink (playback) stream
++# pwloop stands for playback write loopback
++pcm.pwloop
++{
++	type hw
++	card Loopback
++	device 1
++	subdevice 0
++}
++
++# prloop stands for playback read loopback
++pcm.prloop
++{
++	type hw
++	card Loopback
++	device 0
++	subdevice 0
++}
++
++# Following two definitions define the Virtual Source (capture) stream
++# cwloop stands for capture write loopback
++pcm.cwloop
++{
++	type hw
++	card Loopback
++	device 1
++	subdevice 1
++}
++
++# crloop stands for capture read loopback
++pcm.crloop
++{
++	type hw
++	card Loopback
++	device 0
++	subdevice 1
++}
++
++# As multiple sources may play audio at the same time, we use the mix
++# plugin. Otherwise only a single playback source would be allowed.
++pcm.mix
++{
++	type dmix
++	ipc_key 1001
++	slave {
++		pcm "pwloop"
++		format S32_LE
++		rate 48000
++		channels 2
++		buffer_size 512
++		period_size 128
++	}
++}
++
++pcm.split
++{
++	type dsnoop
++	ipc_key 1002
++	slave {
++		pcm "crloop"
++		format S32_LE
++		rate 16000
++		channels 1
++		buffer_size 512
++		period_size 128
++	}
++}
++
++# Applications like Alexa read/write from/to default stream.
++# Unfortunately we can't have default capture stream and
++# default playback stream. ALSA offers the asym plugin, which
++# allows to define a default capture/playback stream as one device.
++# The plug plugin is introduced for automatic sample rate and format
++# conversion.
++pcm.!default
++{
++	type asym
++	playback.pcm "plug:mix"
++	capture.pcm "plug:split"
++}
++
+-- 
+2.25.1
+

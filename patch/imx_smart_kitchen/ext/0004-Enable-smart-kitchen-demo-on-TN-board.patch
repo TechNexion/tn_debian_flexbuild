@@ -1,0 +1,72 @@
+From e7f9571263ee3a44ff0fbb7a38c6d572eddd3830 Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Fri, 10 Apr 2026 15:18:49 +0800
+Subject: [PATCH 4/4] Enable smart kitchen demo on TN board
+
+---
+ misc/scripts/run.sh | 29 ++++++++++++++++++++++-------
+ 1 file changed, 22 insertions(+), 7 deletions(-)
+
+diff --git a/misc/scripts/run.sh b/misc/scripts/run.sh
+index f80c773..e2efb65 100755
+--- a/misc/scripts/run.sh
++++ b/misc/scripts/run.sh
+@@ -5,6 +5,10 @@
+ 
+ mypath=$(dirname $0)
+ evk=$(uname -n)
++AUDIO_CONF_SCRIPT="$mypath/audio_conf.sh"
++if echo $evk | grep -q 'imx9'; then barch=a55
++elif echo $evk | grep -q 'imx8'; then barch=a53
++fi
+ 
+ # Remove old queue files
+ rm /dev/mqueue/wakeword_queue
+@@ -25,8 +29,15 @@ elif [[ $evk == "imx8mm-lpddr4-evk" || $evk == "imx8mmevk" ]]; then
+ 	audiocard="imxaudiomicfil"
+ 	cp -v $mypath/conf/asound.conf_imx8mm /etc/asound.conf
+ else
+-	echo "Smart Kitchen demo is not supported in this board!!!"
+-	exit
++	#echo "Non-NXP EVK device detected ($evk), checking local audio config..."
++	detected=$( $AUDIO_CONF_SCRIPT --detect )
++	if [ ! -z "$detected" ]; then
++		audiocard="$detected"
++		cp -v "$mypath/conf/asound.conf_$audiocard" /etc/asound.conf
++	else
++		echo "Smart Kitchen demo is not supported in this board!!!"
++		exit
++	fi
+ fi
+ 
+ cp $mypath/vit-notify/WakeWordNotify /usr/bin/
+@@ -40,17 +51,21 @@ killall afe
+ 
+ sleep 0.1s
+ 
+-amixer -c $audiocard sset 'MICFIL Quality Select' 'High'
++if [ -x "$AUDIO_CONF_SCRIPT" ]; then
++	$AUDIO_CONF_SCRIPT --setup "$audiocard" >/dev/null 2>&1
++else
++	amixer -c $audiocard sset 'MICFIL Quality Select' 'High'
+ 
+-for i in {1..8}; do
+-	amixer -c $audiocard cset numid=$i 85%
+-done
++	for i in {1..8}; do
++		amixer -c $audiocard cset numid=$i 85%
++	done
++fi
+ 
+ modprobe snd-aloop
+ sleep 0.1s
+ 
+ $mypath/smart-kitchen-gui &
+ sleep 0.1s
+-$mypath/voice_ui_app -notify &
++$mypath/voice_ui_app.$barch -notify &
+ sleep 0.1s
+ $mypath/afe libvoiceseekerlight >/dev/null 2>&1
+-- 
+2.25.1
+

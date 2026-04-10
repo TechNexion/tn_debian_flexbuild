@@ -1,0 +1,32 @@
+From f014e5ef9ff74aa8f512b0b6a944513ea5e5be9a Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Fri, 10 Apr 2026 15:17:38 +0800
+Subject: [PATCH 3/4] Disable mic coordinates on non-evk board
+
+One mic on TN board that no need to setup mic coordinates.
+---
+ misc/conf/Config.ini | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/misc/conf/Config.ini b/misc/conf/Config.ini
+index e68a79d..7320f83 100755
+--- a/misc/conf/Config.ini
++++ b/misc/conf/Config.ini
+@@ -3,10 +3,10 @@ WWDectionDisable = 0
+ WakeWordEngine = VIT
+ DebugEnable = 0
+ RefSignalDelay = 3211
+-mic0 = 35.0, 15.15, 0.0
+-mic1 = 17.5, -15.15, 0.0
+-mic2 = -17.5, -15.15, 0.0
+-mic3 = -35.0, 15.15, 0.0
++#mic0 = 35.0, 15.15, 0.0
++#mic1 = 17.5, -15.15, 0.0
++#mic2 = -17.5, -15.15, 0.0
++#mic3 = -35.0, 15.15, 0.0
+ VoiceSpotModel = HeyNXP_en-US_1.bin
+ VoiceSpotParams = HeyNXP_1_params.bin
+ VITLanguage = English
+-- 
+2.25.1
+
