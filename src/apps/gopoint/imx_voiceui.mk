@@ -16,9 +16,9 @@ BARCH := $(shell \
 	elif echo $(MACHINE) | grep -q '^imx8'; then echo CortexA53; \
 	else echo ERROR; fi)
 
-imx_voiceui:
-ifeq ($(CONFIG_IMX_VOICEUI),y)
-#imx_voiceui: nxp_afe nxp_demo_experience_assets
+#imx_voiceui:
+imx_voiceui: nxp_afe nxp_demo_experience_assets
+ifeq ($(CONFIG_IMX_VOICEUI),"y")
 	@[ $(SOCFAMILY) != IMX ] && exit || \
 	 $(call download_repo,imx_voiceui,apps/gopoint) && \
 	 $(call patch_apply,imx_voiceui,apps/gopoint) && \
@@ -31,10 +31,11 @@ ifeq ($(CONFIG_IMX_VOICEUI),y)
 	 install -d $(DESTDIR)/usr/lib/nxp-afe && \
 	 install -d $(DESTDIR)/unit_tests/nxp-afe && \
 	 $(MAKE) clean && \
-	 exit 1 && \
+#	 exit 1 && \
 	 $(MAKE) -j$(JOBS) all enable-armv8=1 bindir=$(DESTDIR)/unit_tests/ libdir=$(DESTDIR)/usr/lib \
 		BUILD_ARCH=$(BARCH) $(LOG_MUTE) && \
 	 install -m 0644 release/libvoiceseekerlight.so.2.0 $(DESTDIR)/usr/lib/nxp-afe/ && \
+	 ln -sf -r $(DESTDIR)/usr/lib/nxp-afe/libvoiceseekerlight.so.2.0 $(DESTDIR)/usr/lib/nxp-afe/libvoiceseekerlight.so && \
 	 install -m 0755 release/voice_ui_app    $(DESTDIR)/unit_tests/nxp-afe/ && \
 	 install -m 0644 release/Config.ini    $(DESTDIR)/unit_tests/nxp-afe && \
 	 \
@@ -52,7 +53,7 @@ ifeq ($(CONFIG_IMX_VOICEUI),y)
 	 install -d $(DESTDIR)/$(GPNT_APPS_FOLDER)/bin && \
 	 install -m 0755 release/voice_ui_app $(DESTDIR)/$(GPNT_APPS_FOLDER)/bin/ && \
 	 \
-	 exit 1 && \
+#	 exit 1 && \
 # The following is for smart-kitchen &&\
 	 cp -f $(GPDIR)/nxp_demo_experience_assets/build/demo-experience-smart-kitchen/VIT_Model_en.h \
 		vit/platforms/iMX8M_CortexA53/lib/VIT_Model_en.h && \
@@ -60,7 +61,7 @@ ifeq ($(CONFIG_IMX_VOICEUI),y)
 		vit/platforms/iMX9_CortexA55/lib/VIT_Model_en.h && \
 	 $(MAKE) clean && \
 	 $(MAKE) VOICE_UI_APP enable-armv8=1 bindir=$(DESTDIR)/unit_tests/ libdir=$(DESTDIR)/usr/lib \
-	 	BUILD_ARCH=CortexA53 $(LOG_MUTE) && \
+		BUILD_ARCH=CortexA53 $(LOG_MUTE) && \
 	 install -d $(DESTDIR)/$(GPNT_APPS_FOLDER)/scripts/multimedia/smart-kitchen && \
 	 install -m 0755 release/voice_ui_app $(DESTDIR)/$(GPNT_APPS_FOLDER)/scripts/multimedia/smart-kitchen/voice_ui_app.a53 && \
 	 $(MAKE) clean && \
