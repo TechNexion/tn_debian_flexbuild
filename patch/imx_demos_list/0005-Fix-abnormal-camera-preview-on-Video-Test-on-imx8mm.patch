@@ -1,0 +1,50 @@
+From 00532be305047c101a45fa2d699f0ac14b1a1053 Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Mon, 13 Apr 2026 16:28:28 +0800
+Subject: [PATCH] Fix abnormal camera preview on Video Test on imx8mm
+
+Add 640x480 resolution in list.
+Specific camera format with UYVY on imx8mm platform.
+---
+ scripts/multimedia/gstreamer/video_test/video_test.py | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/multimedia/gstreamer/video_test/video_test.py b/scripts/multimedia/gstreamer/video_test/video_test.py
+index 3ea1d2d..2cd4b3e 100644
+--- a/scripts/multimedia/gstreamer/video_test/video_test.py
++++ b/scripts/multimedia/gstreamer/video_test/video_test.py
+@@ -69,6 +69,7 @@ class MainWindow(Gtk.Window):
+             "1280x720",
+             "800x600",
+             "720x480",
++            "640x480",
+         ]
+         self.resolution_select = Gtk.ComboBoxText()
+         for res in resolutions:
+@@ -103,6 +104,11 @@ class MainWindow(Gtk.Window):
+         self.scale_check.set_sensitive(False)
+         self.launch_button.set_sensitive(False)
+ 
++        # Get platform
++        self.platform = subprocess.check_output(
++            ["cat", "/sys/devices/soc0/soc_id"]
++        ).decode("utf-8")[:-1]
++
+         source = self.source_select.get_active_text()
+         if source == "Test Source":
+             source = "videotestsrc"
+@@ -111,7 +117,10 @@ class MainWindow(Gtk.Window):
+         resolution = self.resolution_select.get_active_text()
+         width = resolution[: resolution.find("x")]
+         height = resolution[resolution.find("x") + 1 :]
+-        video_format = "video/x-raw,width=" + width + ",height=" + height
++        if self.platform == "i.MX8MM":
++            video_format = "video/x-raw,format=UYVY,width=" + width + ",height=" + height
++        else:
++            video_format = "video/x-raw,width=" + width + ",height=" + height
+         if self.scale_check.get_active():
+             sink = "waylandsink"
+         else:
+-- 
+2.25.1
+
