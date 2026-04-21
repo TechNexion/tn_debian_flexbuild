@@ -1,0 +1,30 @@
+From 0cf2cfe0367d806d2c528773abe34608fb207b39 Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Tue, 21 Apr 2026 16:48:30 +0800
+Subject: [PATCH] Enable NNStreamer demo in gopoint for imx95
+
+---
+ common/cpp/src/gst_source_imx.cpp | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/common/cpp/src/gst_source_imx.cpp b/common/cpp/src/gst_source_imx.cpp
+index b003630..830094d 100644
+--- a/common/cpp/src/gst_source_imx.cpp
++++ b/common/cpp/src/gst_source_imx.cpp
+@@ -50,8 +50,12 @@ GstCameraImx::GstCameraImx(CameraOptions &options)
+ void GstCameraImx::addCameraToPipeline(GstPipelineImx &pipeline)
+ {
+   std::string cmd;
++  imx::Imx imx{};
+   cmd += "v4l2src name=" + gstName + " device=" + device.string();
+-  cmd += " num-buffers=-1 ! video/x-raw,width=";
++  if (imx.isIMX95())
++    cmd += " num-buffers=-1 ! video/x-raw,format=NV12,width=";
++  else
++    cmd += " num-buffers=-1 ! video/x-raw,width=";
+   cmd += std::to_string(width) + ",height=" + std::to_string(height);
+   cmd += " ! videorate ! video/x-raw,framerate=30/1 ! ";
+   pipeline.addToPipeline(cmd);
+-- 
+2.25.1
+
