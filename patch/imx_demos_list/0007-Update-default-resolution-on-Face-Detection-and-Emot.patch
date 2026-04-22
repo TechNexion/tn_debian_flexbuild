@@ -1,0 +1,40 @@
+From a94fe83955e69f7d52c9e4020c165591d95f4bed Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Wed, 22 Apr 2026 10:27:58 +0800
+Subject: [PATCH 2/2] Update default resolution on Face Detection and Emotion
+ Detecion.
+
+---
+ .../nnstreamer/emotion_detection/emotion_detection.py           | 2 +-
+ .../nnstreamer/face_detection/face_detection.py                 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/machine_learning/nnstreamer/emotion_detection/emotion_detection.py b/scripts/machine_learning/nnstreamer/emotion_detection/emotion_detection.py
+index ffb2462..eda2434 100644
+--- a/scripts/machine_learning/nnstreamer/emotion_detection/emotion_detection.py
++++ b/scripts/machine_learning/nnstreamer/emotion_detection/emotion_detection.py
+@@ -137,7 +137,7 @@ class NNStreamerLauncher:
+         resolutions = ["1920x1080", "640x480"]
+         for resolution in resolutions:
+             self.resolution_list.append_text(resolution)
+-        self.resolution_list.set_active(0)
++        self.resolution_list.set_active(1)
+ 
+         colors = ["white", "red", "green", "blue", "black"]
+         for color in colors:
+diff --git a/scripts/machine_learning/nnstreamer/face_detection/face_detection.py b/scripts/machine_learning/nnstreamer/face_detection/face_detection.py
+index f608d93..78394a5 100644
+--- a/scripts/machine_learning/nnstreamer/face_detection/face_detection.py
++++ b/scripts/machine_learning/nnstreamer/face_detection/face_detection.py
+@@ -130,7 +130,7 @@ class NNStreamerLauncher:
+         resolutions = ["1920x1080", "640x480"]
+         for resolution in resolutions:
+             self.resolution_list.append_text(resolution)
+-        self.resolution_list.set_active(0)
++        self.resolution_list.set_active(1)
+ 
+         colors = ["white", "red", "green", "blue", "black"]
+         for color in colors:
+-- 
+2.25.1
+

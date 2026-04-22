@@ -1,0 +1,29 @@
+From b1dc418050c300b24dd8ce67ba40c5b3c8bd0874 Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Wed, 22 Apr 2026 10:23:10 +0800
+Subject: [PATCH 1/2] Correct model download path for Semantic Segmantation
+ demo
+
+Fix CPU download model failure on Semantic Segmantation demo.
+---
+ downloads.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/downloads.json b/downloads.json
+index 1d5f97a..a1e0381 100644
+--- a/downloads.json
++++ b/downloads.json
+@@ -290,8 +290,8 @@
+   ],
+   "deeplabv3_mnv2_dm05_pascal.tflite": [
+     {
+-      "name": "ultraface_slim_uint8_float32.tflite",
+-      "url": "https://github.com/nxp-imx-support/nxp-demo-experience-assets/raw/lf-6.12.20_2.0.0/models/ultraface_slim_uint8_float32.tflite",
++      "name": "deeplabv3_mnv2_dm05_pascal.tflite",
++      "url": "https://github.com/nxp-imx-support/nxp-demo-experience-assets/raw/lf-6.12.20_2.0.0/models/deeplabv3_mnv2_dm05_pascal.tflite",
+       "alt_url": "",
+       "sha": "a5348f7410a4ad4e44ce8a10f678ec8d2f784720"
+     }
+-- 
+2.25.1
+
