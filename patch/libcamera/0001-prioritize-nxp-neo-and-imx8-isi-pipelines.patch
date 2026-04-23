@@ -1,0 +1,28 @@
+From 41cbd305d61534ff59e6cc0ccaae86b4e6fefe13 Mon Sep 17 00:00:00 2001
+From: Tifa Chen <tifa.chen@technexion.com>
+Date: Thu, 23 Apr 2026 16:29:37 +0800
+Subject: [PATCH] prioritize nxp/neo and imx8-isi pipelines
+
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 110a9d59..24587c9c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -215,10 +215,10 @@ wanted_pipelines = get_option('pipelines')
+ arch_arm = ['arm', 'aarch64']
+ arch_x86 = ['x86', 'x86_64']
+ pipelines_support = {
++    'nxp/neo':      arch_arm,
+     'imx8-isi':     arch_arm,
+     'ipu3':         arch_x86,
+     'mali-c55':     arch_arm,
+-    'nxp/neo':      arch_arm,
+     'rkisp1':       arch_arm,
+     'rpi/pisp':     arch_arm,
+     'rpi/vc4':      arch_arm,
+-- 
+2.25.1
+
