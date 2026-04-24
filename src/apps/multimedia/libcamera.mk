@@ -41,6 +41,7 @@ libcamera: gstreamer gst_plugins_base $(DEP_LIBCAM)
 	 meson setup build \
 		--prefix=/usr --buildtype=release \
 		--cross-file meson.cross \
+		--wrap-mode=forcefallback \
 		-Dpipelines=auto \
 		-Dv4l2=enabled \
 		-Dcam=enabled \
