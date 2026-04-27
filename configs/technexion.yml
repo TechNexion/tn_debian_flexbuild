@@ -471,7 +471,8 @@ repo:
     tag: lf-6.12.49-2.2.0
 
   neo_ipa_uguzzi:
-    url:  https://github.com/nxp-imx/neo-ipa-uguzzi.git
+    url: https://github.com/nxp-imx/neo-ipa-uguzzi.git
+    tag: lf-6.12.49-2.2.0
 
 
 # generic component repositories
