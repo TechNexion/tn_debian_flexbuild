@@ -19,12 +19,7 @@ build_distro_rfs_debian() {
     [ -n "$RFSDIR" ] && $sudopt rm -rf $RFSDIR/*
 
 
-    if [ -n "$DISTROVARIANT" -a "$DISTROVARIANT" = "base" ]; then
-        PKGS=''
-        NEWRFSDIR=$FBOUTDIR/rfs/rootfs_${DISTRIB_VERSION}_debian_base_arm64
-        RFSCMD=$FBDIR/configs/debian/debian_base_arm64.sh
-    elif [ "${CFGLISTYML}" == "tn_container.yml" ]; then
-        DISTROVARIANT=container
+    if [ -n "$DISTROVARIANT" -a "$DISTROVARIANT" != "server" ]; then
         PKGS=''
         NEWRFSDIR=$FBOUTDIR/rfs/rootfs_${DISTRIB_VERSION}_debian_${DISTROVARIANT}_arm64
         RFSCMD=$FBDIR/configs/debian/debian_${DISTROVARIANT}_arm64.sh
@@ -104,7 +99,11 @@ build_distro_rfs_debian() {
         rfs_umount $NEWRFSDIR
     fi
 
-    $sudopt bash $FBDIR/configs/debian/debian_post_config.sh "$NEWRFSDIR"
+    if [ "$DISTROVARIANT" = "container" ]; then
+        $sudopt bash $FBDIR/configs/debian/debian_container_post_config.sh "$NEWRFSDIR"
+    else
+        $sudopt bash $FBDIR/configs/debian/debian_post_config.sh "$NEWRFSDIR"
+    fi
 
     if [ -z "$DISTROVARIANT" ] || [ "$DISTROVARIANT" != "base" ]; then
         ln -sf /lib/systemd/system/platcfg.service "$NEWRFSDIR"/etc/systemd/system/multi-user.target.wants/platcfg.service

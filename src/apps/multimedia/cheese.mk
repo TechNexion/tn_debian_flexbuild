@@ -13,7 +13,7 @@
 
 #cheese:
 cheese: clutter_gst gst_plugins_bad
-	@[ $${MACHINE:0:4} != imx8 -a $${MACHINE:0:5} != imx95 -o $(CFGLISTYML) == tn_container.yml ] && exit || \
+	@[ $${MACHINE:0:4} != imx8 -a $${MACHINE:0:5} != imx95 ] && exit || \
 	 $(call download_repo,cheese,apps/multimedia,submod) && \
 	 $(call patch_apply,cheese,apps/multimedia) && \
 	 cd $(MMDIR)/cheese && \
