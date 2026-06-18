@@ -68,7 +68,7 @@ repo:
 
   uboot:
     url:  https://github.com/TechNexion/u-boot-tn-imx.git
-    commit: a2a7c33
+    commit: 39ab0ae
 
   rcw:
     url:  https://github.com/nxp-qoriq/rcw.git
@@ -172,7 +172,7 @@ repo:
 # --------------------------------------------------------------------------------------
   linux:
     url:  https://github.com/TechNexion/linux-tn-imx.git
-    commit: 6354a2f
+    commit: fedb86a
 
   cryptodev_linux:
     url:  https://github.com/cryptodev-linux/cryptodev-linux.git
