@@ -68,7 +68,7 @@ repo:
 
   uboot:
     url:  https://github.com/TechNexion/u-boot-tn-imx.git
-    commit: 39ab0ae
+    commit: 9b805d9
 
   rcw:
     url:  https://github.com/nxp-qoriq/rcw.git
